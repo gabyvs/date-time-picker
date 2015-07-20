@@ -68,6 +68,8 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-compress');
 
+    grunt.loadNpmTasks('grunt-contrib-less');
+
     grunt.loadNpmTasks('grunt-karma');
 
     grunt.registerTask('default', 'build');

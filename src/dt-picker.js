@@ -13,12 +13,12 @@
 
     function createModule (angular) {
         var module = angular.module('dt-picker', []);
-        module.factory('dt-picker', [
+        module.factory('dtPicker.service', [
             function () {
                 return { version: '0.1.0' };
             }
         ]);
-        module.directive('dt-picker', [directive]);
+        module.directive('dtPicker', [directive]);
         return module;
 
 //        angular.module('availability_board', []).factory('availability-service', function () { return createModule(angular); });
