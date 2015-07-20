@@ -1,13 +1,15 @@
 (function (angular) {
     'use strict';
 
-    angular.module('sample', ['ngRoute']).config([
+    var module = angular.module('sample', ['ngRoute']);
+
+    module.config([
         '$routeProvider',
         function ($routeProvider) {
             $routeProvider
                 .when('/', {
-                    controller:'index', // I name the main controller on each page as 'app' as a personal preference.
-                    templateUrl:'views/index.html'
+                    controller:'sample', // I name the main controller on each page as 'app' as a personal preference.
+                    templateUrl:'sample.html'
                 })
                 .otherwise({
                     redirectTo:'/'
@@ -16,8 +18,15 @@
     ]);
 
     // In case you want to define some stuff to be available globally, use this.
-    angular.module('sample').run([
+    module.run([
         function () {
+        }
+    ]);
+
+    module.controller('sample', [
+        '$scope',
+        function ($scope) {
+            //
         }
     ]);
 } (angular));
