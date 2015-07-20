@@ -1,0 +1,38 @@
+{
+  "name": "date-time-picker",
+  "version": "0.1.0",
+  "description": "Another angular directive for selecting date and time ranges",
+  "main": "src/dt-picker.js",
+  "scripts": {
+    "test": "grunt test",
+    "postinstall": "bower update",
+    "start": "http-server -a localhost -p 8000 -c-1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:gabyvs/date-time-picker.git"
+  },
+  "keywords": [
+    "Date Picker",
+    "Date Range Picker"
+  ],
+  "author": "Gabriela Vazquez <gabs.vz@gmail.com>",
+  "contributors": [
+    "Oscar Ponce <oponce@apigee.com>"
+  ],
+  "copyright": "Copyright © 2015 Gabriela Vazquez",
+  "devDependencies": {
+    "http-server": "^0.6.1",
+    "grunt": "^0.4.5",
+    "grunt-contrib-compress": "^0.13.0",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-karma": "^0.9.0",
+    "karma": "^0.12.0",
+    "karma-jasmine": "^0.3.5",
+    "karma-chrome-launcher": "^0.1.2",
+    "karma-phantomjs-launcher": "^0.1.2",
+    "karma-requirejs": "^0.2.2"
+  }
+}

@@ -1,0 +1,27 @@
+{
+    "name": "date-time-picker",
+    "version": "0.1.0",
+    "description": "Another angular directive for selecting date and time ranges",
+    "main": "src/dt-picker.js",
+    "scripts": {
+        "test": "test"
+    },
+    "devDependencies": {
+        "angular": "1.3.8",
+        "angular-route": "1.3.8",
+        "angular-mocks": "1.3.8"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:gabyvs/date-time-picker.git"
+    },
+    "keywords": [
+        "Date Picker",
+        "Date Range Picker"
+    ],
+    "author": "Gabriela Vazquez <gabs.vz@gmail.com>",
+    "contributors": [
+        "Oscar Ponce <oponce@apigee.com>"
+    ],
+    "copyright": "Copyright © 2015 Gabriela Vazquez"
+}
