@@ -44,6 +44,18 @@ module.exports = function (grunt) {
                 dest: '<%= dirs.dest %>/<%= pkg.name %>.min.js'
             }
         },
+        less: {
+            development: {
+                options: {
+                    compress: true,
+                    yuicompress: true,
+                    optimization: 2
+                },
+                files: {
+                    "<%= dirs.dest %>/dt-picker.css": "src/dt-picker.less" // destination file and source file
+                }
+            }
+        },
         karma: {
             options: {
                 configFile: 'karma.conf.js'
