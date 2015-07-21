@@ -16,12 +16,24 @@ module.exports = function (grunt) {
         dirs: {
             dest: 'dist'
         },
+        clean: {
+            templates: ['tmp']
+        },
+        html2js: {
+            options: {
+                module: 'partials'
+            },
+            main: {
+                src: ['src/**/*.html'],
+                dest: 'tmp/templates.js'
+            }
+        },
         concat: {
             options: {
                 banner: '<%= meta.banner %>'
             },
             dist: {
-                src: ['src/*.js'],
+                src: ['src/*.js', 'tmp/*.js'],
                 dest: '<%= dirs.dest %>/<%= pkg.name %>.js'
             }
         },
@@ -75,6 +87,8 @@ module.exports = function (grunt) {
             }
         }
     });
+    grunt.loadNpmTasks('grunt-contrib-clean');
+
     grunt.loadNpmTasks('grunt-contrib-jshint');
 
     grunt.loadNpmTasks('grunt-contrib-concat');
@@ -85,9 +99,11 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-less');
 
+    grunt.loadNpmTasks('grunt-html2js');
+
     grunt.loadNpmTasks('grunt-karma');
 
     grunt.registerTask('default', 'build');
-    grunt.registerTask('build', ['karma:build', 'concat', 'uglify', 'compress']);
+    grunt.registerTask('build', ['karma:build', 'html2js', 'concat', 'uglify', 'less', 'compress', 'clean']);
     grunt.registerTask('test', ['karma:test']);
 };
