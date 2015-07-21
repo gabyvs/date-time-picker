@@ -193,8 +193,7 @@
         return {
             restrict: 'E',
             replace: true,
-//            template: '<div></div>',
-            templateUrl: 'base/src/dt-picker.html',
+            templateUrl: 'dt-picker.html',
             scope: {
                 range: '=',
                 options: '=',
