@@ -18,7 +18,8 @@ require.config({
         'jQuery': '/base/bower_components/jquery/jquery',
         'lodash': '/base/bower_components/lodash/dist/lodash',
         'datepick': '/base/bower_components/datepick/jquery.datepick',
-        'moment': '/base/bower_components/moment/moment'
+        'moment': '/base/bower_components/moment/moment',
+        'partials':'/base/src/dt-picker.html'
     },
 
     shim: {
@@ -27,7 +28,11 @@ require.config({
         'moment': {'exports': 'moment'},
         'datepick': {deps: ['jQuery'], 'exports': 'datepick'},
         'angular': {'exports': 'angular'},
-        'angularMocks': {deps: ['angular'], 'exports': 'angular.mock'}
+        'angularMocks': {deps: ['angular'], 'exports': 'angular.mock'},
+        'partials': {
+            exports: 'partials',
+            deps: ['angular']
+        }
     },
     priority: ['jQuery', 'angular', 'datepick'],
 

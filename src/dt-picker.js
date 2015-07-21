@@ -194,7 +194,7 @@
             restrict: 'E',
             replace: true,
 //            template: '<div></div>',
-            templateUrl: '/dt-picker.html',
+            templateUrl: 'base/src/dt-picker.html',
             scope: {
                 range: '=',
                 options: '=',
@@ -542,7 +542,7 @@
 
     // Verify if define is present as a function.
     if (typeof define == 'function' && typeof define.amd == 'object' && define.amd) {
-        define(['angular', 'jQuery', 'datepick', 'lodash', 'moment'], function(angular, jQuery, datepick, lodash, moment) {
+        define(['angular', 'jQuery', 'datepick', 'lodash', 'moment', 'partials'], function(angular, jQuery, datepick, lodash, moment) {
             return createModule(angular, jQuery, _);
         });
     }

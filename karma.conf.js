@@ -12,8 +12,8 @@ module.exports = function(config) {
         // list of files / patterns to load in the browser
         files: [
             'tests/test-main.js',
-            'src/dt-picker.html',
             {pattern: 'src/**/*.js', included: false},
+            {pattern: 'src/**/*.html', included: false},
             {pattern: 'tests/**/*.js', included: false},
             {pattern: 'node_modules/**/*.js', included: false},
             {pattern: 'bower_components/**/*.js', included: false}
@@ -31,9 +31,12 @@ module.exports = function(config) {
         },
 
         ngHtml2JsPreprocessor: {
-            // setting this option will create only a single module that contains templates
+            prependPrefix: 'base/',
+//            stripPrefix: 'src/',
+            // setting this option
+            // will create only a single module that contains templates
             // from all the files, so you can load them all with module('foo')
-            moduleName: 'directiveTemplates'
+            moduleName: 'partials'
         },
 
 

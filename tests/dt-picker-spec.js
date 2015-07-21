@@ -1,12 +1,13 @@
 define([
     'angular',
     'angularMocks',
+    'partials',
     'base/src/dt-picker'
-], function (angular, mocks, availability) {
+], function (angular, mocks) {
     describe('toolbarDirectives', function () {
         var scope, $compile, $rootScope, service;
 
-        beforeEach(mocks.module('dt-picker', 'directiveTemplates'));
+        beforeEach(mocks.module('dt-picker', 'partials'));
 
         beforeEach(inject(([
             '$rootScope',
