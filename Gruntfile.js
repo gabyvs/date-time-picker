@@ -68,7 +68,10 @@ module.exports = function (grunt) {
             test: {
                 singleRun: false,
                 autoWatch: true,
-                browsers: ['Chrome']
+                browsers: ['Chrome'],
+                preprocessors: {
+                    'src/*.html': ['ng-html2js']
+                }
             }
         }
     });
@@ -80,7 +83,7 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-compress');
 
-    grunt.loadNpmTasks('grunt-contrib-less');
+//    grunt.loadNpmTasks('grunt-contrib-less');
 
     grunt.loadNpmTasks('grunt-karma');
 

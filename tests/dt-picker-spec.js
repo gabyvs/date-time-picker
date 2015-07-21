@@ -6,7 +6,7 @@ define([
     describe('toolbarDirectives', function () {
         var scope, $compile, $rootScope, service;
 
-        beforeEach(mocks.module('dt-picker'));
+        beforeEach(mocks.module('dt-picker', 'directiveTemplates'));
 
         beforeEach(inject(([
             '$rootScope',
@@ -22,7 +22,7 @@ define([
 
         it('Loading directive.', function () {
 
-            var element = $compile('<dt-picker></dt-picker>')(scope);
+            var element = $compile('<dt-picker range="range" options="options" range-dictionary="rangeDictionary"></dt-picker>')(scope);
             scope.$digest();
             expect(element.isolateScope()).toBeDefined();
         });

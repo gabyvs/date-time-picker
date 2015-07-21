@@ -12,6 +12,7 @@ module.exports = function(config) {
         // list of files / patterns to load in the browser
         files: [
             'tests/test-main.js',
+            'src/dt-picker.html',
             {pattern: 'src/**/*.js', included: false},
             {pattern: 'tests/**/*.js', included: false},
             {pattern: 'node_modules/**/*.js', included: false},
@@ -26,6 +27,13 @@ module.exports = function(config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
+            'src/dt-picker.html': 'ng-html2js'
+        },
+
+        ngHtml2JsPreprocessor: {
+            // setting this option will create only a single module that contains templates
+            // from all the files, so you can load them all with module('foo')
+            moduleName: 'directiveTemplates'
         },
 
 
