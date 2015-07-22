@@ -19,15 +19,6 @@ module.exports = function (grunt) {
         clean: {
             templates: ['tmp']
         },
-        html2js: {
-            options: {
-                module: 'partials'
-            },
-            main: {
-                src: ['src/**/*.html'],
-                dest: 'tmp/templates.js'
-            }
-        },
         concat: {
             options: {
                 banner: '<%= meta.banner %>'
@@ -85,8 +76,20 @@ module.exports = function (grunt) {
                     'src/*.html': ['ng-html2js']
                 }
             }
+        },
+        ngTemplates: {
+            options: {
+                archive: '<%= dirs.dest %>/date-time-picker.js'
+            },
+            'dt-picker': {
+                files: [
+                    {src: ['src/*.html'], filter: 'isFile'}
+                ]
+            }
         }
     });
+    grunt.task.loadTasks('grunt/ng-template');
+
     grunt.loadNpmTasks('grunt-contrib-clean');
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -99,11 +102,10 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-less');
 
-    grunt.loadNpmTasks('grunt-html2js');
-
     grunt.loadNpmTasks('grunt-karma');
 
     grunt.registerTask('default', 'build');
-    grunt.registerTask('build', ['karma:build', 'html2js', 'concat', 'uglify', 'less', 'compress', 'clean']);
+    grunt.registerTask('karma:build', 'build', ['concat', 'ngTemplates', 'uglify', 'less', 'compress', 'clean']);
+//    grunt.registerTask('build', ['karma:build', 'concat', 'ngTemplates', 'uglify', 'less', 'compress', 'clean']);
     grunt.registerTask('test', ['karma:test']);
 };

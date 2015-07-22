@@ -528,6 +528,7 @@
 
     function createModule (angular, jQuery, lodash) {
         var module = angular.module('dt-picker', []);
+        module.run( ['$templateCache', preCacheTemplates] );
         module.factory('jQuery', [function () { return jQuery; }]);
         module.factory('lodash', [function () { return lodash; }]);
         module.factory('dtPicker.service', [
@@ -542,11 +543,100 @@
 //        angular.module('availability_board').directive('availability-board', [directive]);
     }
 
+    function preCacheTemplates ($templateCache) {     $templateCache.put('dt-picker.html',
+        '<div class="date-time-picker">\n' +
+        '    <div class="picker-visible">\n' +
+        '        <div class="main-label-container left">\n' +
+        '            <a class="main-date-time-label" ng-class="configuring ? \'configuring\' : \'closed\'" ng-click="configure()">\n' +
+        '                <span class="dt-lighter">{{ range.from | date: \'EEE\' }}</span>\n' +
+        '                <span class="dt-bolder">{{ range.from | date: \'d MMM yyyy\' }}</span>\n' +
+        '                <span class="dt-lighter">{{ range.from | date: \'H:mm\' }}</span>\n' +
+        '                <span class="dt-bolder">&nbsp;&ndash;&nbsp;</span>\n' +
+        '                <span class="dt-lighter">{{ range.to | date: \'EEE\' }}</span>\n' +
+        '                <span class="dt-bolder">{{ range.to | date: \'d MMM yyyy\' }}</span>\n' +
+        '                <span class="dt-lighter">{{ range.to | date: \'H:mm\' }}</span>\n' +
+        '                <span class="dt-lighter">{{ threeLetterTimezoneLabel }}</span>\n' +
+        '            </a>\n' +
+        '        </div>\n' +
+        '        <div class="refresh-container right">\n' +
+        '            <button class="refresh-axdashboard btn btn-small" href="" ng-click="refresh()"\n' +
+        '                    analytics-on analytics-event="Analytics Dashboard Refresh"><i class="icon-apigeeStyle icon-refresh"></i></button>\n' +
+        '        </div>\n' +
+        '        <div class="clearfix"></div>\n' +
+        '    </div>\n' +
+        '    <div class="date-time-configure" ng-show="configuring">\n' +
+        '        <div class="sections">\n' +
+        '            <div class="date-range-selection" ng-hide="isTimeRange">\n' +
+        '                <div class="double-calendar-container"></div>\n' +
+        '            </div>\n' +
+        '            <div class="time-range-selection" ng-show="isTimeRange">\n' +
+        '                <div class="single-calendar-container"></div>\n' +
+        '                <div class="time-range-container">\n' +
+        '                    <div class="key-value-section">\n' +
+        '                        <span class="bold-label">From</span>\n' +
+        '                        <div class="btn-group">\n' +
+        '                            <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">{{ selectedFrom.label }}<span class="caret"></span></button>\n' +
+        '                            <ul class="dropdown-menu">\n' +
+        '                                <li ng-repeat="hour in hours" ng-click="selectFrom(hour)"><a>{{ hour.label }}</a></li>\n' +
+        '                            </ul>\n' +
+        '                        </div>\n' +
+        '                    </div>\n' +
+        '                    <div class="key-value-section">\n' +
+        '                        <span class="bold-label">Duration</span>\n' +
+        '                        <div class="btn-group">\n' +
+        '                            <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">{{ selectedDuration.label }}<span class="caret"></span></button>\n' +
+        '                            <ul class="dropdown-menu">\n' +
+        '                                <li ng-repeat="duration in durations" ng-click="selectDuration(duration)"><a>{{ duration.label }}</a></li>\n' +
+        '                            </ul>\n' +
+        '                        </div>\n' +
+        '                    </div>\n' +
+        '                    <div class="key-value-section">\n' +
+        '                        <span class="bold-label">To</span>\n' +
+        '                        <span class="label-text to-value">{{ internalRangeObject.suggestedRange().to | date: \'H:mm\' }}</span>\n' +
+        '                    </div>\n' +
+        '                </div>\n' +
+        '            </div>\n' +
+        '            <div class="section-configure">\n' +
+        '                <div class="key-value-section">\n' +
+        '                    <span class="bold-label">Range</span>\n' +
+        '                    <div class="btn-group">\n' +
+        '                        <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">{{ internalRangeObject.selectedRange.label }}<span class="caret"></span></button>\n' +
+        '                        <ul class="dropdown-menu">\n' +
+        '                            <li ng-repeat="range in dictionary"><a ng-click="selectRangeOption(range)">{{ range.label }}</a></li>\n' +
+        '                        </ul>\n' +
+        '                    </div>\n' +
+        '                </div>\n' +
+        '                <div class="key-value-section">\n' +
+        '                    <span class="bold-label">Time Unit</span>\n' +
+        '                    <span class="label-text" ng-hide="internalRangeObject.selectedRange.timeUnits.length > 1">{{ internalRangeObject.timeUnit }}</span>\n' +
+        '                    <div class="btn-group" ng-show="internalRangeObject.selectedRange.timeUnits.length > 1">\n' +
+        '                        <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">{{ internalRangeObject.timeUnit }}<span class="caret"></span>\n' +
+        '                        </button>\n' +
+        '                        <ul class="dropdown-menu">\n' +
+        '                            <li ng-repeat="unit in internalRangeObject.selectedRange.timeUnits" ng-click="selectTimeUnit(unit)"><a>{{ unit }}</a></li>\n' +
+        '                        </ul>\n' +
+        '                    </div>\n' +
+        '                </div>\n' +
+        '            </div>\n' +
+        '        </div>\n' +
+        '        <div class="bottom-section">\n' +
+        '            <div class="button-section">\n' +
+        '                <button class="btn btn-primary finish right" ng-click="save()">Apply</button>\n' +
+        '                <button class="btn finish right" ng-click="close()">Cancel</button>\n' +
+        '            </div>\n' +
+        '            <div class="selected-section">\n' +
+        '                <span class="bold-label">Selected</span>\n' +
+        '                <span class="label-text">{{ internalRangeObject.suggestedRange().from | date: \'EEE d MMM yyyy H:mm\' }} &nbsp;&ndash;&nbsp; {{ internalRangeObject.suggestedRange().to | date: \'EEE d MMM yyyy H:mm\' }} {{ threeLetterTimezoneLabel }}</span>\n' +
+        '            </div>\n' +
+        '        </div>\n' +
+        '    </div>\n' +
+        '</div>'); }
+
     /*--------------------------------------------------------------------------*/
 
     // Verify if define is present as a function.
     if (typeof define == 'function' && typeof define.amd == 'object' && define.amd) {
-        define(['angular', 'jQuery', 'datepick', 'lodash', 'moment', 'partials'], function(angular, jQuery, datepick, lodash, moment) {
+        define(['angular', 'jQuery', 'datepick', 'lodash', 'moment'], function(angular, jQuery, datepick, lodash, moment) {
             return createModule(angular, jQuery, _);
         });
     }
@@ -554,96 +644,3 @@
         createModule(angular, $, _);
     }
 }.call(this));
-
-angular.module('partials', ['dt-picker.html']);
-
-angular.module("dt-picker.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("dt-picker.html",
-    "<div class=\"date-time-picker\">\n" +
-    "    <div class=\"picker-visible\">\n" +
-    "        <div class=\"main-label-container left\">\n" +
-    "            <a class=\"main-date-time-label\" ng-class=\"configuring ? 'configuring' : 'closed'\" ng-click=\"configure()\">\n" +
-    "                <span class=\"dt-lighter\">{{ range.from | date: 'EEE' }}</span>\n" +
-    "                <span class=\"dt-bolder\">{{ range.from | date: 'd MMM yyyy' }}</span>\n" +
-    "                <span class=\"dt-lighter\">{{ range.from | date: 'H:mm' }}</span>\n" +
-    "                <span class=\"dt-bolder\">&nbsp;&ndash;&nbsp;</span>\n" +
-    "                <span class=\"dt-lighter\">{{ range.to | date: 'EEE' }}</span>\n" +
-    "                <span class=\"dt-bolder\">{{ range.to | date: 'd MMM yyyy' }}</span>\n" +
-    "                <span class=\"dt-lighter\">{{ range.to | date: 'H:mm' }}</span>\n" +
-    "                <span class=\"dt-lighter\">{{ threeLetterTimezoneLabel }}</span>\n" +
-    "            </a>\n" +
-    "        </div>\n" +
-    "        <div class=\"refresh-container right\">\n" +
-    "            <button class=\"refresh-axdashboard btn btn-small\" href=\"\" ng-click=\"refresh()\"\n" +
-    "                    analytics-on analytics-event=\"Analytics Dashboard Refresh\"><i class=\"icon-apigeeStyle icon-refresh\"></i></button>\n" +
-    "        </div>\n" +
-    "        <div class=\"clearfix\"></div>\n" +
-    "    </div>\n" +
-    "    <div class=\"date-time-configure\" ng-show=\"configuring\">\n" +
-    "        <div class=\"sections\">\n" +
-    "            <div class=\"date-range-selection\" ng-hide=\"isTimeRange\">\n" +
-    "                <div class=\"double-calendar-container\"></div>\n" +
-    "            </div>\n" +
-    "            <div class=\"time-range-selection\" ng-show=\"isTimeRange\">\n" +
-    "                <div class=\"single-calendar-container\"></div>\n" +
-    "                <div class=\"time-range-container\">\n" +
-    "                    <div class=\"key-value-section\">\n" +
-    "                        <span class=\"bold-label\">From</span>\n" +
-    "                        <div class=\"btn-group\">\n" +
-    "                            <button class=\"btn btn-small dropdown-toggle\" data-toggle=\"dropdown\">{{ selectedFrom.label }}<span class=\"caret\"></span></button>\n" +
-    "                            <ul class=\"dropdown-menu\">\n" +
-    "                                <li ng-repeat=\"hour in hours\" ng-click=\"selectFrom(hour)\"><a>{{ hour.label }}</a></li>\n" +
-    "                            </ul>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"key-value-section\">\n" +
-    "                        <span class=\"bold-label\">Duration</span>\n" +
-    "                        <div class=\"btn-group\">\n" +
-    "                            <button class=\"btn btn-small dropdown-toggle\" data-toggle=\"dropdown\">{{ selectedDuration.label }}<span class=\"caret\"></span></button>\n" +
-    "                            <ul class=\"dropdown-menu\">\n" +
-    "                                <li ng-repeat=\"duration in durations\" ng-click=\"selectDuration(duration)\"><a>{{ duration.label }}</a></li>\n" +
-    "                            </ul>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"key-value-section\">\n" +
-    "                        <span class=\"bold-label\">To</span>\n" +
-    "                        <span class=\"label-text to-value\">{{ internalRangeObject.suggestedRange().to | date: 'H:mm' }}</span>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "            <div class=\"section-configure\">\n" +
-    "                <div class=\"key-value-section\">\n" +
-    "                    <span class=\"bold-label\">Range</span>\n" +
-    "                    <div class=\"btn-group\">\n" +
-    "                        <button class=\"btn btn-small dropdown-toggle\" data-toggle=\"dropdown\">{{ internalRangeObject.selectedRange.label }}<span class=\"caret\"></span></button>\n" +
-    "                        <ul class=\"dropdown-menu\">\n" +
-    "                            <li ng-repeat=\"range in dictionary\"><a ng-click=\"selectRangeOption(range)\">{{ range.label }}</a></li>\n" +
-    "                        </ul>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "                <div class=\"key-value-section\">\n" +
-    "                    <span class=\"bold-label\">Time Unit</span>\n" +
-    "                    <span class=\"label-text\" ng-hide=\"internalRangeObject.selectedRange.timeUnits.length > 1\">{{ internalRangeObject.timeUnit }}</span>\n" +
-    "                    <div class=\"btn-group\" ng-show=\"internalRangeObject.selectedRange.timeUnits.length > 1\">\n" +
-    "                        <button class=\"btn btn-small dropdown-toggle\" data-toggle=\"dropdown\">{{ internalRangeObject.timeUnit }}<span class=\"caret\"></span>\n" +
-    "                        </button>\n" +
-    "                        <ul class=\"dropdown-menu\">\n" +
-    "                            <li ng-repeat=\"unit in internalRangeObject.selectedRange.timeUnits\" ng-click=\"selectTimeUnit(unit)\"><a>{{ unit }}</a></li>\n" +
-    "                        </ul>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "        </div>\n" +
-    "        <div class=\"bottom-section\">\n" +
-    "            <div class=\"button-section\">\n" +
-    "                <button class=\"btn btn-primary finish right\" ng-click=\"save()\">Apply</button>\n" +
-    "                <button class=\"btn finish right\" ng-click=\"close()\">Cancel</button>\n" +
-    "            </div>\n" +
-    "            <div class=\"selected-section\">\n" +
-    "                <span class=\"bold-label\">Selected</span>\n" +
-    "                <span class=\"label-text\">{{ internalRangeObject.suggestedRange().from | date: 'EEE d MMM yyyy H:mm' }} &nbsp;&ndash;&nbsp; {{ internalRangeObject.suggestedRange().to | date: 'EEE d MMM yyyy H:mm' }} {{ threeLetterTimezoneLabel }}</span>\n" +
-    "            </div>\n" +
-    "        </div>\n" +
-    "    </div>\n" +
-    "</div>");
-}]);

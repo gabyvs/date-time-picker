@@ -1,7 +1,7 @@
 (function (angular) {
     'use strict';
 
-    var module = angular.module('sample', ['ngRoute']);
+    var module = angular.module('sample', ['ngRoute', 'dt-picker']);
 
     module.config([
         '$routeProvider',
