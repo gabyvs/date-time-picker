@@ -3,148 +3,188 @@
     -moz-border-radius: @radius;
     border-radius: @radius;
 }
-
+.clearboth {
+    clear: both;
+}
 .date-time-picker {
     position: relative;
-.caret {
-    margin-left: 3px;
-}
-.btn-group {
-.btn {
-    font-weight: normal;
-}
-}
-.main-date-time-label {
-    border: 1px solid #DBDBDB;
-.border-radius(2px);
-&:hover{
-     text-decoration: none;
- }
-&.closed {
-&:hover {
-     background-color: #f7f7f7;
- }
-}
-color: #333333;
-padding: 4px 10px;
-height: 18px;
-display: inline-block;
-.dt-bolder {
-    font-size: 18px;
-}
-.dt-lighter {
-    color: #333333;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 13px;
-    font-weight: 300;
-}
-}
-.date-time-configure {
-    padding: 11px;
-.border-radius(3px);
-    position: absolute;
-    width: 612px;
-    border: 1px solid #DBDBDB;
-    background-color: #FFFFFF;
-    z-index: 100;
-    top: 34px;
-    box-shadow: 0 2px 6px rgba(0,0,0, .15);
-.bold-label {
-    font-weight: 500;
-    display: inline-block;
-    margin-right: 10px;
-    width: 65px;
-    text-align: right;
-    float: left;
-    line-height: 26px;
-}
-.label-text {
-    line-height: 26px;
-    display: inline-block;
-    padding-top: 1px;
-}
-.key-value-section {
-    margin-top: 10px;
-.btn-group  {
-    margin-left: 75px;
-.btn {
-    width: 111px;
-    text-align: left;
-.caret {
-    float: right;
-}
-}
-}
-}
-.sections {
-    height: 270px;
-    width: 100%;
-    margin-bottom: 10px;
-.date-range-selection,
-.time-range-selection {
-    float: left;
-    width: 405px;
-    height: 100%;
-}
-.double-calendar-container,
-.single-calendar-container {
-    float: left;
-    height: 267px;
-    border: 1px solid #E5EBED;
-    border-radius: 5px;
-.datepick {
-    border: none;
-    box-shadow: none;
-}
-}
-.single-calendar-container {
-    width: 205px;
-}
-.double-calendar-container {
-    width: 403px;
-}
-.time-range-container {
-    float: left;
-    width: 186px;
-    height: 267px;
-    border: 1px solid #E5EBED;
-    border-radius: 5px;
-    margin-left: 10px;
-.bold-label {
-    width: 57px;
-}
-.btn-group {
-    margin-left: 67px;
-}
-}
-.section-configure {
-    width: 195px;
-    float: left;
-    height: 267px;
-    border: 1px solid #E5EBED;
-    border-radius: 5px;
-    margin-left: 10px;
-}
-}
-.bottom-section {
-.button-section {
-    width: 150px;
-    float: right;
-.btn {
-    margin-left: 10px;
-}
-}
-.selected-section {
-    margin-top: 5px;
-    float: left;
-.bold-label {
     line-height: 18px;
-    width: auto;
-}
-.label-text {
-    line-height: 18px;
-    background-color: #E4F3FF;
-}
-}
-}
-}
+    .dt-button {
+        margin-left: 10px;
+        float: left;
+        padding: 5px 9px;
+        font-size: 11px;
+        line-height: 16px;
+        display: inline-block;
+        margin-bottom: 0;
+        font-weight: bold;
+        color: #686868;
+        text-align: center;
+        text-shadow: 0 1px 1px #ffffff;
+        vertical-align: middle;
+        background-color: #f9f9f9;
+        border: 1px solid #b7c0c4;
+        border-radius: 4px;
+        font-weight: normal;
+        .caret {
+            margin-left: 3px;
+            float: right;
+            margin-top: 6px;
+            display: inline-block;
+            width: 0;
+            height: 0;
+            vertical-align: top;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 4px solid #000000;
+            opacity: 0.7;
+            filter: alpha(opacity=30);
+            content: "";
+        }
+    }
+    .main-label-container {
+        float: left;
+        .main-date-time-label {
+            border: 1px solid #DBDBDB;
+            color: #333333;
+            padding: 4px 10px;
+            height: 18px;
+            display: inline-block;
+            cursor: pointer;
+            text-decoration: none;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 18px;
+            .border-radius(2px);
+            &:hover{
+                text-decoration: none;
+            }
+            &.closed {
+                &:hover {
+                    background-color: #f7f7f7;
+                }
+            }
+
+            .dt-bolder {
+                font-size: 18px;
+            }
+            .dt-lighter {
+                color: #333333;
+                font-size: 13px;
+                font-weight: 300;
+            }
+        }
+    }
+    .icon-refresh {
+        margin-right: 2px;
+        background-position: -196px -2px;
+        background-image: url("icons.png");
+        margin-top: -1px;
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        line-height: 14px;
+        vertical-align: text-top;
+        background-repeat: no-repeat;
+    }
+    .date-time-configure {
+        padding: 11px;
+        .border-radius(3px);
+        position: absolute;
+        width: 612px;
+        border: 1px solid #DBDBDB;
+        background-color: #FFFFFF;
+        z-index: 100;
+        top: 34px;
+        box-shadow: 0 2px 6px rgba(0,0,0, .15);
+        .bold-label {
+            font-weight: 500;
+            display: inline-block;
+            width: 65px;
+            text-align: right;
+            float: left;
+            line-height: 26px;
+        }
+        .label-text {
+            line-height: 26px;
+            display: inline-block;
+            padding-top: 1px;
+        }
+        .key-value-section {
+            margin-top: 10px;
+            .dt-button {
+                width: 111px;
+                text-align: left;
+            }
+        }
+        .sections {
+            height: 270px;
+            width: 100%;
+            margin-bottom: 10px;
+            .date-range-selection,
+            .time-range-selection {
+                float: left;
+                width: 405px;
+                height: 100%;
+            }
+            .double-calendar-container,
+            .single-calendar-container {
+                float: left;
+                height: 267px;
+                border: 1px solid #E5EBED;
+                border-radius: 5px;
+                .datepick {
+                    border: none;
+                    box-shadow: none;
+                }
+            }
+            .single-calendar-container {
+                width: 205px;
+            }
+            .double-calendar-container {
+                width: 403px;
+            }
+            .time-range-container {
+                float: left;
+                width: 186px;
+                height: 267px;
+                border: 1px solid #E5EBED;
+                border-radius: 5px;
+                margin-left: 10px;
+                .bold-label {
+                    width: 57px;
+                }
+            }
+            .section-configure {
+                width: 195px;
+                float: left;
+                height: 267px;
+                border: 1px solid #E5EBED;
+                border-radius: 5px;
+                margin-left: 10px;
+            }
+        }
+        .bottom-section {
+            .button-section {
+                width: 150px;
+                float: right;
+                .btn {
+                    margin-left: 10px;
+                }
+            }
+            .selected-section {
+                margin-top: 5px;
+                float: left;
+                .bold-label {
+                    line-height: 18px;
+                    width: auto;
+                }
+                .label-text {
+                    line-height: 18px;
+                    background-color: #E4F3FF;
+                }
+            }
+        }
+    }
 }

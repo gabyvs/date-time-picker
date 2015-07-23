@@ -1,6 +1,6 @@
 <div class="date-time-picker">
-    <div class="picker-visible">
-        <div class="main-label-container left">
+    <div>
+        <div class="main-label-container">
             <a class="main-date-time-label" ng-class="configuring ? 'configuring' : 'closed'" ng-click="configure()">
                 <span class="dt-lighter">{{ range.from | date: 'EEE' }}</span>
                 <span class="dt-bolder">{{ range.from | date: 'd MMM yyyy' }}</span>
@@ -12,11 +12,10 @@
                 <span class="dt-lighter">{{ threeLetterTimezoneLabel }}</span>
             </a>
         </div>
-        <div class="refresh-container right">
-            <button class="refresh-axdashboard btn btn-small" href="" ng-click="refresh()"
-                    analytics-on analytics-event="Analytics Dashboard Refresh"><i class="icon-apigeeStyle icon-refresh"></i></button>
-        </div>
-        <div class="clearfix"></div>
+        <button class="dt-button" href="" ng-click="refresh()">
+            <i class="icon-refresh"></i>
+        </button>
+        <div class="clearboth"></div>
     </div>
     <div class="date-time-configure" ng-show="configuring">
         <div class="sections">
@@ -28,17 +27,15 @@
                 <div class="time-range-container">
                     <div class="key-value-section">
                         <span class="bold-label">From</span>
-                        <div class="btn-group">
-                            <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">{{ selectedFrom.label }}<span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                <li ng-repeat="hour in hours" ng-click="selectFrom(hour)"><a>{{ hour.label }}</a></li>
-                            </ul>
-                        </div>
+                        <button class="dt-button">{{ selectedFrom.label }}<span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="hour in hours" ng-click="selectFrom(hour)"><a>{{ hour.label }}</a></li>
+                        </ul>
                     </div>
                     <div class="key-value-section">
                         <span class="bold-label">Duration</span>
                         <div class="btn-group">
-                            <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">{{ selectedDuration.label }}<span class="caret"></span></button>
+                            <button class="dt-button" data-toggle="dropdown">{{ selectedDuration.label }}<span class="caret"></span></button>
                             <ul class="dropdown-menu">
                                 <li ng-repeat="duration in durations" ng-click="selectDuration(duration)"><a>{{ duration.label }}</a></li>
                             </ul>
@@ -82,6 +79,7 @@
                 <span class="bold-label">Selected</span>
                 <span class="label-text">{{ internalRangeObject.suggestedRange().from | date: 'EEE d MMM yyyy H:mm' }} &nbsp;&ndash;&nbsp; {{ internalRangeObject.suggestedRange().to | date: 'EEE d MMM yyyy H:mm' }} {{ threeLetterTimezoneLabel }}</span>
             </div>
+            <div class="clearboth"></div>
         </div>
     </div>
 </div>

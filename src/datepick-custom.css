@@ -1,0 +1,125 @@
+/* For use with Redmond style sheet for jQuery Datepicker v4.1.0. */
+.datepick {
+    background-color: #fff;
+    color: #222;
+    border: 1px solid #b7c0c4;
+    padding: 4px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    font-family: "Helvetica Neue",Arial,Helvetica,Sans-serif;
+    font-size: 13px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.datepick a {
+    color: #333;
+}
+.datepick-nav, .datepick-ctrl {
+    font-size: 100%;
+    font-weight: 500;
+}
+a.datepick-cmd {
+    height: 2em;
+    text-transform: uppercase;
+    font-weight: 400;
+    line-height: 1.9em;
+    font-size: 13px;
+}
+.datepick-cmd-prev, .datepick-cmd-prevJump, .datepick-cmd-clear {
+    padding-left: 2px;
+}
+.datepick-cmd-current, .datepick-cmd-today {
+    width: 36%;
+}
+.datepick-cmd-next, .datepick-cmd-nextJump, .datepick-cmd-close {
+    padding-right: 2px;
+}
+.datepick-month {
+    border: 1px solid #fff;
+}
+.datepick-month-header, .datepick-month-header select, .datepick-month-header input {
+    height: 1.9em;
+    background-color: #e8e8e8;
+    color: #333;
+    font-weight: 400;
+    line-height: 1.9em;
+}
+.datepick-month thead {
+    border-bottom: 1px solid #F2F2F2;
+    background-color: #F2F2F2;
+}
+.datepick-month th {
+    border: 1px solid #fff;
+    border-bottom: 1px solid #ccc;
+}
+/* to target the tablehead cells to remove white border */
+.datepick-month th  {
+    border: 2px solid #F2F2F2;
+    color: #666;
+    font-weight: 500;
+}
+.datepick-month td {
+    border: 1px solid #fff;
+}
+.datepick-month a {
+    padding: 0.4em 0em;
+    background-color: #e4f3ff;
+}
+.datepick-month span {
+    padding: 0.35em 0em;
+}
+.datepick-month td span {
+    color: #818181;
+}
+.datepick-month td .datepick-today {
+    color: #7b5c28;
+}
+.datepick-month td .datepick-highlight {
+    color:#fff;
+}
+.datepick-month td .datepick-selected {
+    background-color: #1b97d1;
+}
+.datepick-ctrl {
+    display: none;
+}
+.datepickImagePrevious, .datepickImageNext {
+    background-repeat: no-repeat;
+    width: 6px;
+    height: 12px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.datepickImagePrevious {
+    background-image: url('/public/images/datepick/prev_arrow.png');
+    margin-right: 3px;
+}
+.datepickImageNext {
+    background-image: url('/public/images/datepick/next_arrow.png');
+    margin-left: 3px;
+}
+.datepickTextNextPrevious {
+    vertical-align: middle;
+}
+.datepickShowTriggerCalendar {
+    background-image: url('/public/images/datepick/calendar_13x14.png');
+    background-repeat: no-repeat;
+    width: 13px;
+    height: 14px;
+    display: inline-block;
+    margin-left: -23px;
+}
+
+#trafficCompositionToolbar .datepickShowTriggerCalendar {
+    vertical-align: middle;
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media (max-width : 1024px) {
+    .datepick {
+        font-size: 15px;
+    }
+    a.datepick-cmd {
+        font-size: 14px;
+    }
+}
