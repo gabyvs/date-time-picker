@@ -11,37 +11,15 @@
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 13px;
     line-height: 18px;
-    .dt-button {
-        margin-left: 10px;
-        float: left;
-        padding: 5px 9px;
-        font-size: 11px;
-        line-height: 16px;
-        display: inline-block;
-        margin-bottom: 0;
-        font-weight: bold;
-        color: #686868;
-        text-align: center;
-        text-shadow: 0 1px 1px #ffffff;
-        vertical-align: middle;
+    .btn {
         background-color: #f9f9f9;
         border: 1px solid #b7c0c4;
         border-radius: 4px;
         font-weight: normal;
         .caret {
-            margin-left: 3px;
             float: right;
-            margin-top: 6px;
-            display: inline-block;
-            width: 0;
-            height: 0;
-            vertical-align: top;
-            border-left: 4px solid transparent;
-            border-right: 4px solid transparent;
-            border-top: 4px solid #000000;
-            opacity: 0.7;
-            filter: alpha(opacity=30);
-            content: "";
+            margin: 6px 0 0 3px;
+
         }
     }
     .main-label-container {
@@ -65,7 +43,6 @@
                     background-color: #f7f7f7;
                 }
             }
-
             .dt-bolder {
                 font-size: 18px;
             }
@@ -75,6 +52,9 @@
                 font-weight: 300;
             }
         }
+    }
+    .btn-refresh {
+        margin-left: 10px;
     }
     .icon-refresh {
         margin-right: 2px;
@@ -99,6 +79,7 @@
         top: 34px;
         box-shadow: 0 2px 6px rgba(0,0,0, .15);
         .bold-label {
+            margin-right: 10px;
             font-weight: 500;
             display: inline-block;
             width: 65px;
@@ -113,7 +94,7 @@
         }
         .key-value-section {
             margin-top: 10px;
-            .dt-button {
+            .btn-group > .btn {
                 width: 111px;
                 text-align: left;
             }
@@ -171,6 +152,21 @@
                 float: right;
                 .btn {
                     margin-left: 10px;
+                    float: right;
+                    font-size: 13px;
+                    font-weight: bold;
+                    padding: 4px 10px;
+                    line-height: 18px;
+                }
+                .btn-save {
+                    background-color: #1b85d1;
+                    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#1b97d1), to(#1b6ad1));
+                    background-image: -webkit-linear-gradient(top, #1b97d1, #1b6ad1);
+                    background-image: -o-linear-gradient(top, #1b97d1, #1b6ad1);
+                    background-repeat: repeat-x;
+                    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+                    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+                    color: #ffffff;
                 }
             }
             .selected-section {

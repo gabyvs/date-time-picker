@@ -91,23 +91,15 @@ a.datepick-cmd {
     vertical-align: middle;
 }
 .datepickImagePrevious {
-    background-image: url('/public/images/datepick/prev_arrow.png');
+    background-image: url('prev_arrow.png');
     margin-right: 3px;
 }
 .datepickImageNext {
-    background-image: url('/public/images/datepick/next_arrow.png');
+    background-image: url('next_arrow.png');
     margin-left: 3px;
 }
 .datepickTextNextPrevious {
     vertical-align: middle;
-}
-.datepickShowTriggerCalendar {
-    background-image: url('/public/images/datepick/calendar_13x14.png');
-    background-repeat: no-repeat;
-    width: 13px;
-    height: 14px;
-    display: inline-block;
-    margin-left: -23px;
 }
 
 #trafficCompositionToolbar .datepickShowTriggerCalendar {

@@ -12,9 +12,7 @@
                 <span class="dt-lighter">{{ threeLetterTimezoneLabel }}</span>
             </a>
         </div>
-        <button class="dt-button" href="" ng-click="refresh()">
-            <i class="icon-refresh"></i>
-        </button>
+        <button class="btn-refresh btn btn-sm" href="" ng-click="refresh()"><i class="icon-refresh"></i></button>
         <div class="clearboth"></div>
     </div>
     <div class="date-time-configure" ng-show="configuring">
@@ -27,15 +25,17 @@
                 <div class="time-range-container">
                     <div class="key-value-section">
                         <span class="bold-label">From</span>
-                        <button class="dt-button">{{ selectedFrom.label }}<span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li ng-repeat="hour in hours" ng-click="selectFrom(hour)"><a>{{ hour.label }}</a></li>
-                        </ul>
+                        <div class="btn-group">
+                            <button class="btn btn-sm dropdown-toggle" data-toggle="dropdown">{{ selectedFrom.label }}<span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="hour in hours" ng-click="selectFrom(hour)"><a>{{ hour.label }}</a></li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="key-value-section">
                         <span class="bold-label">Duration</span>
                         <div class="btn-group">
-                            <button class="dt-button" data-toggle="dropdown">{{ selectedDuration.label }}<span class="caret"></span></button>
+                            <button class="btn btn-sm dropdown-toggle" data-toggle="dropdown">{{ selectedDuration.label }}<span class="caret"></span></button>
                             <ul class="dropdown-menu">
                                 <li ng-repeat="duration in durations" ng-click="selectDuration(duration)"><a>{{ duration.label }}</a></li>
                             </ul>
@@ -51,7 +51,7 @@
                 <div class="key-value-section">
                     <span class="bold-label">Range</span>
                     <div class="btn-group">
-                        <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">{{ internalRangeObject.selectedRange.label }}<span class="caret"></span></button>
+                        <button class="btn btn-sm dropdown-toggle" data-toggle="dropdown">{{ internalRangeObject.selectedRange.label }}<span class="caret"></span></button>
                         <ul class="dropdown-menu">
                             <li ng-repeat="range in dictionary"><a ng-click="selectRangeOption(range)">{{ range.label }}</a></li>
                         </ul>
@@ -61,7 +61,7 @@
                     <span class="bold-label">Time Unit</span>
                     <span class="label-text" ng-hide="internalRangeObject.selectedRange.timeUnits.length > 1">{{ internalRangeObject.timeUnit }}</span>
                     <div class="btn-group" ng-show="internalRangeObject.selectedRange.timeUnits.length > 1">
-                        <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">{{ internalRangeObject.timeUnit }}<span class="caret"></span>
+                        <button class="btn btn-sm dropdown-toggle" data-toggle="dropdown">{{ internalRangeObject.timeUnit }}<span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
                             <li ng-repeat="unit in internalRangeObject.selectedRange.timeUnits" ng-click="selectTimeUnit(unit)"><a>{{ unit }}</a></li>
@@ -72,8 +72,8 @@
         </div>
         <div class="bottom-section">
             <div class="button-section">
-                <button class="btn btn-primary finish right" ng-click="save()">Apply</button>
-                <button class="btn finish right" ng-click="close()">Cancel</button>
+                <button class="btn btn-sm btn-save" ng-click="save()">Apply</button>
+                <button class="btn btn-sm" ng-click="close()">Cancel</button>
             </div>
             <div class="selected-section">
                 <span class="bold-label">Selected</span>
