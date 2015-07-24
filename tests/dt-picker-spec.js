@@ -50,7 +50,7 @@ define([
             expect(scope.range).toBeDefined();
         });
 
-        xit('Shows and hides configuration panel', function () {
+        it('Shows and hides configuration panel', function () {
             expect(element.isolateScope().configuring).toBeUndefined();
             expect(element.find('.date-time-configure').hasClass('ng-hide')).toBe(true);
             element.isolateScope().configure();
@@ -63,7 +63,7 @@ define([
             expect(element.find('.date-time-configure').hasClass('ng-hide')).toBe(true);
         });
 
-        xit('Saves selection to controller scope', function () {
+        it('Saves selection to controller scope', function () {
             element.isolateScope().selectRangeOption(element.isolateScope().dictionary[2]);
             $rootScope.$digest();
             element.isolateScope().save();
@@ -73,7 +73,7 @@ define([
             expect(new moment(scope.range.to).diff(scope.range.from, 'days')).toBe(7);
         });
 
-        xit('Selects available ranges', function () {
+        it('Selects available ranges', function () {
             var selectedDates;
             // By default it selects last 24 hours
             expect(element.find('.date-range-selection').hasClass('ng-hide')).toBe(true);
@@ -133,7 +133,7 @@ define([
             expect(selectedDates[1]).toBeDefined();
         });
 
-        xit('Selects a single date', function () {
+        it('Selects a single date', function () {
             element.isolateScope().selectRangeOption(element.isolateScope().dictionary[4]);
             $rootScope.$digest();
             expect(element.isolateScope().internalRangeObject.selectedRange.label).toBe('Time Range');
@@ -147,7 +147,7 @@ define([
             expect(selectedDates[0]).toBeDefined();
         });
 
-        xit('Selects a different starting hour', function () {
+        it('Selects a different starting hour', function () {
             element.isolateScope().selectFrom({ value: 0, label: '0:00' });
             $rootScope.$digest();
             expect(element.isolateScope().internalRangeObject.selectedRange.label).toBe('Time Range');
@@ -173,7 +173,7 @@ define([
         // and the second time only the second date selected [date2, date2]
         // When the min and max date are not adjusted, it is send as [date1, date2] instead.
         // This test makes sure that a range is selected even with that problem.
-        xit('Selects a date range from calendar', function () {
+       it('Selects a date range from calendar', function () {
             element.isolateScope().selectRangeOption(element.isolateScope().dictionary[2]);
             $rootScope.$digest();
             var firstDayOfLastMonth = new Date(moment().subtract(1, 'month').date(1).valueOf());
@@ -220,7 +220,7 @@ define([
             expect(_.find(element.isolateScope().dictionary, { custom: 'date'})).toBeUndefined();
         });
 
-        xit('Selects last 10 minutes', function () {
+        it('Selects last 10 minutes', function () {
             scope.rangeDictionary = [
                 { label: 'Last 10 Minutes', duration: { unit: 'minutes', value: 10 }},
                 { label: 'Last Hour', duration: { unit: 'hour', value: 1 }},
