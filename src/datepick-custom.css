@@ -101,17 +101,3 @@ a.datepick-cmd {
 .datepickTextNextPrevious {
     vertical-align: middle;
 }
-
-#trafficCompositionToolbar .datepickShowTriggerCalendar {
-    vertical-align: middle;
-}
-
-/* iPads (portrait and landscape) ----------- */
-@media (max-width : 1024px) {
-    .datepick {
-        font-size: 15px;
-    }
-    a.datepick-cmd {
-        font-size: 14px;
-    }
-}
