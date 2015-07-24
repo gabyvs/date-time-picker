@@ -31,7 +31,7 @@ module.exports = function (grunt) {
         compress: {
             main: {
                 options: {
-                    archive: '<%= dirs.dest %>/dt-picker.zip'
+                    archive: '<%= dirs.dest %>/date-time-picker.zip'
                 },
                 files: [
                     {src: ['<%= dirs.dest %>/*.js'], filter: 'isFile'}
@@ -55,7 +55,7 @@ module.exports = function (grunt) {
                     optimization: 2
                 },
                 files: {
-                    "<%= dirs.dest %>/dt-picker.css": "src/dt-picker.less" // destination file and source file
+                    "<%= dirs.dest %>/date-time-picker.css": "src/date-time-picker.less" // destination file and source file
                 }
             }
         },
@@ -86,6 +86,14 @@ module.exports = function (grunt) {
                     {src: ['src/*.html'], filter: 'isFile'}
                 ]
             }
+        },
+        copy: {
+            main: {
+                files: [
+                    // includes files within path
+                    {expand: true, flatten: true, src: ['src/*.png'], dest: '<%= dirs.dest %>/', filter: 'isFile'}
+                ]
+            }
         }
     });
     grunt.task.loadTasks('grunt/ng-template');
@@ -100,12 +108,14 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-compress');
 
+    grunt.loadNpmTasks('grunt-contrib-copy');
+
     grunt.loadNpmTasks('grunt-contrib-less');
 
     grunt.loadNpmTasks('grunt-karma');
 
     grunt.registerTask('default', 'build');
-    grunt.registerTask('karma:build', 'build', ['concat', 'ngTemplates', 'uglify', 'less', 'compress', 'clean']);
+    grunt.registerTask('build', ['karma:build', 'copy', 'concat', 'ngTemplates', 'uglify', 'less', 'compress', 'clean']);
 //    grunt.registerTask('build', ['karma:build', 'concat', 'ngTemplates', 'uglify', 'less', 'compress', 'clean']);
     grunt.registerTask('test', ['karma:test']);
 };

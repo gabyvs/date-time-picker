@@ -1,6 +1,6 @@
 /**
  * Another angular directive for selecting date and time ranges
- * @version v0.1.0 - 2015-07-21
+ * @version v0.1.0 - 2015-07-24
  * @author Gabriela Vazquez <gabs.vz@gmail.com>
  **/
 ;(function () {
@@ -195,10 +195,11 @@
     }
 
     function directive ($, _) {
+        bootstrap($);
         return {
             restrict: 'E',
             replace: true,
-            templateUrl: 'dt-picker.html',
+            templateUrl: 'date-time-picker.html',
             scope: {
                 range: '=',
                 options: '=',
@@ -526,6 +527,382 @@
         }
     }
 
+    function bootstrap($) {
+        /*!
+         * Bootstrap v3.3.5 (http://getbootstrap.com)
+         * Copyright 2011-2015 Twitter, Inc.
+         * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+         */
+
+        /*!
+         * Generated using the Bootstrap Customizer (http://getbootstrap.com/customize/?id=fb2f2b498dc3ed0d6db1)
+         * Config saved to config.json and https://gist.github.com/fb2f2b498dc3ed0d6db1
+         */
+        if (typeof jQuery === 'undefined') {
+            throw new Error('Bootstrap\'s JavaScript requires jQuery')
+        }
+        (function ($) {
+            'use strict';
+            var version = $.fn.jquery.split(' ')[0].split('.')
+            if ((version[0] < 2 && version[1] < 9) || (version[0] == 1 && version[1] == 9 && version[2] < 1)) {
+                throw new Error('Bootstrap\'s JavaScript requires jQuery version 1.9.1 or higher')
+            }
+        })(jQuery);
+
+        /* ========================================================================
+         * Bootstrap: dropdown.js v3.3.5
+         * http://getbootstrap.com/javascript/#dropdowns
+         * ========================================================================
+         * Copyright 2011-2015 Twitter, Inc.
+         * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+         * ======================================================================== */
+
+
+        (function ($) {
+            'use strict';
+
+            // DROPDOWN CLASS DEFINITION
+            // =========================
+
+            var backdrop = '.dropdown-backdrop'
+            var toggle   = '[data-toggle="dt_dropdown"]'
+            var Dropdown = function (element) {
+                $(element).on('click.dt.dropdown', this.toggle)
+            }
+
+            Dropdown.VERSION = '3.3.5'
+
+            function getParent($this) {
+                var selector = $this.attr('data-target')
+
+                if (!selector) {
+                    selector = $this.attr('href')
+                    selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
+                }
+
+                var $parent = selector && $(selector)
+
+                return $parent && $parent.length ? $parent : $this.parent()
+            }
+
+            function clearMenus(e) {
+                if (e && e.which === 3) return
+                $(backdrop).remove()
+                $(toggle).each(function () {
+                    var $this         = $(this)
+                    var $parent       = getParent($this)
+                    var relatedTarget = { relatedTarget: this }
+
+                    if (!$parent.hasClass('open')) return
+
+                    if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
+
+                    $parent.trigger(e = $.Event('hide.dt.dropdown', relatedTarget))
+
+                    if (e.isDefaultPrevented()) return
+
+                    $this.attr('aria-expanded', 'false')
+                    $parent.removeClass('open').trigger('hidden.dt.dropdown', relatedTarget)
+                })
+            }
+
+            Dropdown.prototype.toggle = function (e) {
+                var $this = $(this)
+
+                if ($this.is('.disabled, :disabled')) return
+
+                var $parent  = getParent($this)
+                var isActive = $parent.hasClass('open')
+
+                clearMenus()
+
+                if (!isActive) {
+                    if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
+                        // if mobile we use a backdrop because click events don't delegate
+                        $(document.createElement('div'))
+                            .addClass('dropdown-backdrop')
+                            .insertAfter($(this))
+                            .on('click', clearMenus)
+                    }
+
+                    var relatedTarget = { relatedTarget: this }
+                    $parent.trigger(e = $.Event('show.dt.dropdown', relatedTarget))
+
+                    if (e.isDefaultPrevented()) return
+
+                    $this
+                        .trigger('focus')
+                        .attr('aria-expanded', 'true')
+
+                    $parent
+                        .toggleClass('open')
+                        .trigger('shown.dt.dropdown', relatedTarget)
+                }
+
+                return false
+            }
+
+            Dropdown.prototype.keydown = function (e) {
+                if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
+
+                var $this = $(this)
+
+                e.preventDefault()
+                e.stopPropagation()
+
+                if ($this.is('.disabled, :disabled')) return
+
+                var $parent  = getParent($this)
+                var isActive = $parent.hasClass('open')
+
+                if (!isActive && e.which != 27 || isActive && e.which == 27) {
+                    if (e.which == 27) $parent.find(toggle).trigger('focus')
+                    return $this.trigger('click')
+                }
+
+                var desc = ' li:not(.disabled):visible a'
+                var $items = $parent.find('.dropdown-menu' + desc)
+
+                if (!$items.length) return
+
+                var index = $items.index(e.target)
+
+                if (e.which == 38 && index > 0)                 index--         // up
+                if (e.which == 40 && index < $items.length - 1) index++         // down
+                if (!~index)                                    index = 0
+
+                $items.eq(index).trigger('focus')
+            }
+
+
+            // DROPDOWN PLUGIN DEFINITION
+            // ==========================
+
+            function Plugin(option) {
+                return this.each(function () {
+                    var $this = $(this)
+                    var data  = $this.data('dt.dropdown')
+
+                    if (!data) $this.data('dt.dropdown', (data = new Dropdown(this)))
+                    if (typeof option == 'string') data[option].call($this)
+                })
+            }
+
+            var old = $.fn.dt_dropdown;
+
+            $.fn.dt_dropdown             = Plugin
+            $.fn.dt_dropdown.Constructor = Dropdown
+
+
+            // DROPDOWN NO CONFLICT
+            // ====================
+
+            $.fn.dt_dropdown.noConflict = function () {
+                $.fn.dt_dropdown = old;
+                return this
+            }
+
+
+            // APPLY TO STANDARD DROPDOWN ELEMENTS
+            // ===================================
+
+            $(document)
+                .on('click.dt.dropdown.data-api', clearMenus)
+                .on('click.dt.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+                .on('click.dt.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+                .on('keydown.dt.dropdown.data-api', toggle, Dropdown.prototype.keydown)
+                .on('keydown.dt.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
+
+        })(jQuery);
+        /*!
+         * Bootstrap v3.3.5 (http://getbootstrap.com)
+         * Copyright 2011-2015 Twitter, Inc.
+         * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+         */
+
+        /*!
+         * Generated using the Bootstrap Customizer (http://getbootstrap.com/customize/?id=fb2f2b498dc3ed0d6db1)
+         * Config saved to config.json and https://gist.github.com/fb2f2b498dc3ed0d6db1
+         */
+        if (typeof jQuery === 'undefined') {
+            throw new Error('Bootstrap\'s JavaScript requires jQuery')
+        }
+        (function ($) {
+            'use strict';
+            var version = $.fn.jquery.split(' ')[0].split('.')
+            if ((version[0] < 2 && version[1] < 9) || (version[0] == 1 && version[1] == 9 && version[2] < 1)) {
+                throw new Error('Bootstrap\'s JavaScript requires jQuery version 1.9.1 or higher')
+            }
+        })(jQuery);
+
+        /* ========================================================================
+         * Bootstrap: dropdown.js v3.3.5
+         * http://getbootstrap.com/javascript/#dropdowns
+         * ========================================================================
+         * Copyright 2011-2015 Twitter, Inc.
+         * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+         * ======================================================================== */
+
+
+        (function ($) {
+            'use strict';
+
+            // DROPDOWN CLASS DEFINITION
+            // =========================
+
+            var backdrop = '.dropdown-backdrop'
+            var toggle   = '[data-toggle="dt_dropdown"]'
+            var Dropdown = function (element) {
+                $(element).on('click.dt.dropdown', this.toggle)
+            }
+
+            Dropdown.VERSION = '3.3.5'
+
+            function getParent($this) {
+                var selector = $this.attr('data-target')
+
+                if (!selector) {
+                    selector = $this.attr('href')
+                    selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
+                }
+
+                var $parent = selector && $(selector)
+
+                return $parent && $parent.length ? $parent : $this.parent()
+            }
+
+            function clearMenus(e) {
+                if (e && e.which === 3) return
+                $(backdrop).remove()
+                $(toggle).each(function () {
+                    var $this         = $(this)
+                    var $parent       = getParent($this)
+                    var relatedTarget = { relatedTarget: this }
+
+                    if (!$parent.hasClass('open')) return
+
+                    if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
+
+                    $parent.trigger(e = $.Event('hide.dt.dropdown', relatedTarget))
+
+                    if (e.isDefaultPrevented()) return
+
+                    $this.attr('aria-expanded', 'false')
+                    $parent.removeClass('open').trigger('hidden.dt.dropdown', relatedTarget)
+                })
+            }
+
+            Dropdown.prototype.toggle = function (e) {
+                var $this = $(this)
+
+                if ($this.is('.disabled, :disabled')) return
+
+                var $parent  = getParent($this)
+                var isActive = $parent.hasClass('open')
+
+                clearMenus()
+
+                if (!isActive) {
+                    if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
+                        // if mobile we use a backdrop because click events don't delegate
+                        $(document.createElement('div'))
+                            .addClass('dropdown-backdrop')
+                            .insertAfter($(this))
+                            .on('click', clearMenus)
+                    }
+
+                    var relatedTarget = { relatedTarget: this }
+                    $parent.trigger(e = $.Event('show.dt.dropdown', relatedTarget))
+
+                    if (e.isDefaultPrevented()) return
+
+                    $this
+                        .trigger('focus')
+                        .attr('aria-expanded', 'true')
+
+                    $parent
+                        .toggleClass('open')
+                        .trigger('shown.dt.dropdown', relatedTarget)
+                }
+
+                return false
+            }
+
+            Dropdown.prototype.keydown = function (e) {
+                if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
+
+                var $this = $(this)
+
+                e.preventDefault()
+                e.stopPropagation()
+
+                if ($this.is('.disabled, :disabled')) return
+
+                var $parent  = getParent($this)
+                var isActive = $parent.hasClass('open')
+
+                if (!isActive && e.which != 27 || isActive && e.which == 27) {
+                    if (e.which == 27) $parent.find(toggle).trigger('focus')
+                    return $this.trigger('click')
+                }
+
+                var desc = ' li:not(.disabled):visible a'
+                var $items = $parent.find('.dropdown-menu' + desc)
+
+                if (!$items.length) return
+
+                var index = $items.index(e.target)
+
+                if (e.which == 38 && index > 0)                 index--         // up
+                if (e.which == 40 && index < $items.length - 1) index++         // down
+                if (!~index)                                    index = 0
+
+                $items.eq(index).trigger('focus')
+            }
+
+
+            // DROPDOWN PLUGIN DEFINITION
+            // ==========================
+
+            function Plugin(option) {
+                return this.each(function () {
+                    var $this = $(this)
+                    var data  = $this.data('dt.dropdown')
+
+                    if (!data) $this.data('dt.dropdown', (data = new Dropdown(this)))
+                    if (typeof option == 'string') data[option].call($this)
+                })
+            }
+
+            var old = $.fn.dt_dropdown;
+
+            $.fn.dt_dropdown             = Plugin
+            $.fn.dt_dropdown.Constructor = Dropdown
+
+
+            // DROPDOWN NO CONFLICT
+            // ====================
+
+            $.fn.dt_dropdown.noConflict = function () {
+                $.fn.dt_dropdown = old;
+                return this
+            }
+
+
+            // APPLY TO STANDARD DROPDOWN ELEMENTS
+            // ===================================
+
+            $(document)
+                .on('click.dt.dropdown.data-api', clearMenus)
+                .on('click.dt.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+                .on('click.dt.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+                .on('keydown.dt.dropdown.data-api', toggle, Dropdown.prototype.keydown)
+                .on('keydown.dt.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
+
+        })(jQuery);
+
+    }
+
     function createModule (angular, jQuery, lodash) {
         var module = angular.module('dt-picker', []);
         module.run( ['$templateCache', preCacheTemplates] );
@@ -543,10 +920,10 @@
 //        angular.module('availability_board').directive('availability-board', [directive]);
     }
 
-    function preCacheTemplates ($templateCache) {     $templateCache.put('dt-picker.html',
+    function preCacheTemplates ($templateCache) {     $templateCache.put('date-time-picker.html',
         '<div class="date-time-picker">\n' +
-        '    <div class="picker-visible">\n' +
-        '        <div class="main-label-container left">\n' +
+        '    <div>\n' +
+        '        <div class="main-label-container">\n' +
         '            <a class="main-date-time-label" ng-class="configuring ? \'configuring\' : \'closed\'" ng-click="configure()">\n' +
         '                <span class="dt-lighter">{{ range.from | date: \'EEE\' }}</span>\n' +
         '                <span class="dt-bolder">{{ range.from | date: \'d MMM yyyy\' }}</span>\n' +
@@ -558,11 +935,8 @@
         '                <span class="dt-lighter">{{ threeLetterTimezoneLabel }}</span>\n' +
         '            </a>\n' +
         '        </div>\n' +
-        '        <div class="refresh-container right">\n' +
-        '            <button class="refresh-axdashboard btn btn-small" href="" ng-click="refresh()"\n' +
-        '                    analytics-on analytics-event="Analytics Dashboard Refresh"><i class="icon-apigeeStyle icon-refresh"></i></button>\n' +
-        '        </div>\n' +
-        '        <div class="clearfix"></div>\n' +
+        '        <button class="btn-refresh btn btn-sm" href="" ng-click="refresh()"><i class="icon-refresh"></i></button>\n' +
+        '        <div class="clearboth"></div>\n' +
         '    </div>\n' +
         '    <div class="date-time-configure" ng-show="configuring">\n' +
         '        <div class="sections">\n' +
@@ -575,7 +949,7 @@
         '                    <div class="key-value-section">\n' +
         '                        <span class="bold-label">From</span>\n' +
         '                        <div class="btn-group">\n' +
-        '                            <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">{{ selectedFrom.label }}<span class="caret"></span></button>\n' +
+        '                            <button class="btn btn-sm dropdown-toggle" data-toggle="dt_dropdown">{{ selectedFrom.label }}<span class="caret"></span></button>\n' +
         '                            <ul class="dropdown-menu">\n' +
         '                                <li ng-repeat="hour in hours" ng-click="selectFrom(hour)"><a>{{ hour.label }}</a></li>\n' +
         '                            </ul>\n' +
@@ -584,7 +958,7 @@
         '                    <div class="key-value-section">\n' +
         '                        <span class="bold-label">Duration</span>\n' +
         '                        <div class="btn-group">\n' +
-        '                            <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">{{ selectedDuration.label }}<span class="caret"></span></button>\n' +
+        '                            <button class="btn btn-sm dropdown-toggle" data-toggle="dt_dropdown">{{ selectedDuration.label }}<span class="caret"></span></button>\n' +
         '                            <ul class="dropdown-menu">\n' +
         '                                <li ng-repeat="duration in durations" ng-click="selectDuration(duration)"><a>{{ duration.label }}</a></li>\n' +
         '                            </ul>\n' +
@@ -600,7 +974,7 @@
         '                <div class="key-value-section">\n' +
         '                    <span class="bold-label">Range</span>\n' +
         '                    <div class="btn-group">\n' +
-        '                        <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">{{ internalRangeObject.selectedRange.label }}<span class="caret"></span></button>\n' +
+        '                        <button class="btn btn-sm dropdown-toggle" data-toggle="dt_dropdown">{{ internalRangeObject.selectedRange.label }}<span class="caret"></span></button>\n' +
         '                        <ul class="dropdown-menu">\n' +
         '                            <li ng-repeat="range in dictionary"><a ng-click="selectRangeOption(range)">{{ range.label }}</a></li>\n' +
         '                        </ul>\n' +
@@ -610,7 +984,7 @@
         '                    <span class="bold-label">Time Unit</span>\n' +
         '                    <span class="label-text" ng-hide="internalRangeObject.selectedRange.timeUnits.length > 1">{{ internalRangeObject.timeUnit }}</span>\n' +
         '                    <div class="btn-group" ng-show="internalRangeObject.selectedRange.timeUnits.length > 1">\n' +
-        '                        <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">{{ internalRangeObject.timeUnit }}<span class="caret"></span>\n' +
+        '                        <button class="btn btn-sm dropdown-toggle" data-toggle="dt_dropdown">{{ internalRangeObject.timeUnit }}<span class="caret"></span>\n' +
         '                        </button>\n' +
         '                        <ul class="dropdown-menu">\n' +
         '                            <li ng-repeat="unit in internalRangeObject.selectedRange.timeUnits" ng-click="selectTimeUnit(unit)"><a>{{ unit }}</a></li>\n' +
@@ -621,13 +995,14 @@
         '        </div>\n' +
         '        <div class="bottom-section">\n' +
         '            <div class="button-section">\n' +
-        '                <button class="btn btn-primary finish right" ng-click="save()">Apply</button>\n' +
-        '                <button class="btn finish right" ng-click="close()">Cancel</button>\n' +
+        '                <button class="btn btn-sm btn-save" ng-click="save()">Apply</button>\n' +
+        '                <button class="btn btn-sm" ng-click="close()">Cancel</button>\n' +
         '            </div>\n' +
         '            <div class="selected-section">\n' +
         '                <span class="bold-label">Selected</span>\n' +
         '                <span class="label-text">{{ internalRangeObject.suggestedRange().from | date: \'EEE d MMM yyyy H:mm\' }} &nbsp;&ndash;&nbsp; {{ internalRangeObject.suggestedRange().to | date: \'EEE d MMM yyyy H:mm\' }} {{ threeLetterTimezoneLabel }}</span>\n' +
         '            </div>\n' +
+        '            <div class="clearboth"></div>\n' +
         '        </div>\n' +
         '    </div>\n' +
         '</div>'); }

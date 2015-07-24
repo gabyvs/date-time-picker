@@ -2,7 +2,7 @@ define([
     'angular',
     'angularMocks',
     'partials',
-    'base/src/dt-picker'
+    'base/src/date-time-picker'
 ], function (angular, mocks) {
     describe('toolbarDirectives', function () {
         var scope, $compile, $rootScope, service, element;

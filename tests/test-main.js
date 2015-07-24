@@ -19,7 +19,7 @@ require.config({
         'lodash': '/base/bower_components/lodash/dist/lodash',
         'datepick': '/base/bower_components/datepick/jquery.datepick',
         'moment': '/base/bower_components/moment/moment',
-        'partials':'/base/src/dt-picker.html'
+        'partials':'/base/src/date-time-picker.html'
     },
 
     shim: {

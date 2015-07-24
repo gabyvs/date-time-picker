@@ -27,7 +27,7 @@ module.exports = function(config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            'src/dt-picker.html': 'ng-html2js'
+            'src/date-time-picker.html': 'ng-html2js'
         },
 
         ngHtml2JsPreprocessor: {
