@@ -11,13 +11,13 @@
 if (typeof jQuery === 'undefined') {
   throw new Error('Bootstrap\'s JavaScript requires jQuery')
 }
-+function ($) {
+(function ($) {
   'use strict';
   var version = $.fn.jquery.split(' ')[0].split('.')
   if ((version[0] < 2 && version[1] < 9) || (version[0] == 1 && version[1] == 9 && version[2] < 1)) {
     throw new Error('Bootstrap\'s JavaScript requires jQuery version 1.9.1 or higher')
   }
-}(jQuery);
+})(jQuery);
 
 /* ========================================================================
  * Bootstrap: dropdown.js v3.3.5
@@ -28,16 +28,16 @@ if (typeof jQuery === 'undefined') {
  * ======================================================================== */
 
 
-+function ($) {
+(function ($) {
   'use strict';
 
   // DROPDOWN CLASS DEFINITION
   // =========================
 
   var backdrop = '.dropdown-backdrop'
-  var toggle   = '[data-toggle="dropdown"]'
+  var toggle   = '[data-toggle="dt_dropdown"]'
   var Dropdown = function (element) {
-    $(element).on('click.bs.dropdown', this.toggle)
+    $(element).on('click.dt.dropdown', this.toggle)
   }
 
   Dropdown.VERSION = '3.3.5'
@@ -67,12 +67,12 @@ if (typeof jQuery === 'undefined') {
 
       if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
 
-      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
+      $parent.trigger(e = $.Event('hide.dt.dropdown', relatedTarget))
 
       if (e.isDefaultPrevented()) return
 
       $this.attr('aria-expanded', 'false')
-      $parent.removeClass('open').trigger('hidden.bs.dropdown', relatedTarget)
+      $parent.removeClass('open').trigger('hidden.dt.dropdown', relatedTarget)
     })
   }
 
@@ -96,7 +96,7 @@ if (typeof jQuery === 'undefined') {
       }
 
       var relatedTarget = { relatedTarget: this }
-      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
+      $parent.trigger(e = $.Event('show.dt.dropdown', relatedTarget))
 
       if (e.isDefaultPrevented()) return
 
@@ -106,7 +106,7 @@ if (typeof jQuery === 'undefined') {
 
       $parent
         .toggleClass('open')
-        .trigger('shown.bs.dropdown', relatedTarget)
+        .trigger('shown.dt.dropdown', relatedTarget)
     }
 
     return false
@@ -151,24 +151,24 @@ if (typeof jQuery === 'undefined') {
   function Plugin(option) {
     return this.each(function () {
       var $this = $(this)
-      var data  = $this.data('bs.dropdown')
+      var data  = $this.data('dt.dropdown')
 
-      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
+      if (!data) $this.data('dt.dropdown', (data = new Dropdown(this)))
       if (typeof option == 'string') data[option].call($this)
     })
   }
 
-  var old = $.fn.dropdown
+  var old = $.fn.dt_dropdown;
 
-  $.fn.dropdown             = Plugin
-  $.fn.dropdown.Constructor = Dropdown
+  $.fn.dt_dropdown             = Plugin
+  $.fn.dt_dropdown.Constructor = Dropdown
 
 
   // DROPDOWN NO CONFLICT
   // ====================
 
-  $.fn.dropdown.noConflict = function () {
-    $.fn.dropdown = old
+  $.fn.dt_dropdown.noConflict = function () {
+    $.fn.dt_dropdown = old;
     return this
   }
 
@@ -177,10 +177,10 @@ if (typeof jQuery === 'undefined') {
   // ===================================
 
   $(document)
-    .on('click.bs.dropdown.data-api', clearMenus)
-    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
-    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
+    .on('click.dt.dropdown.data-api', clearMenus)
+    .on('click.dt.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+    .on('click.dt.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+    .on('keydown.dt.dropdown.data-api', toggle, Dropdown.prototype.keydown)
+    .on('keydown.dt.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
 
-}(jQuery);
+})(jQuery);
