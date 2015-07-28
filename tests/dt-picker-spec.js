@@ -2,6 +2,8 @@ define([
     'angular',
     'angularMocks',
     'partials',
+    'jQuery',
+    'datepick',
     'base/src/date-time-picker'
 ], function (angular, mocks) {
     describe('toolbarDirectives', function () {

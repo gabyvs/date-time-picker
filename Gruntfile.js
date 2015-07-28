@@ -94,9 +94,20 @@ module.exports = function (grunt) {
                     {expand: true, flatten: true, src: ['src/*.png'], dest: '<%= dirs.dest %>/', filter: 'isFile'}
                 ]
             }
+        },
+        inDatepick: {
+            options: {
+                archive: '<%= dirs.dest %>/date-time-picker.js'
+            },
+            'dt-picker': {
+                files: [
+                    {src: ['bower_components/datepick/jquery.datepick.js'], filter: 'isFile'}
+                ]
+            }
         }
     });
     grunt.task.loadTasks('grunt/ng-template');
+    grunt.task.loadTasks('grunt/in-datepick');
 
     grunt.loadNpmTasks('grunt-contrib-clean');
 
@@ -115,7 +126,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
 
     grunt.registerTask('default', 'build');
-    grunt.registerTask('build', ['karma:build', 'copy', 'concat', 'ngTemplates', 'uglify', 'less', 'compress', 'clean']);
+    grunt.registerTask('build', ['karma:build', 'copy', 'concat', 'ngTemplates', 'inDatepick', 'uglify', 'less', 'compress', 'clean']);
 //    grunt.registerTask('build', ['karma:build', 'concat', 'ngTemplates', 'uglify', 'less', 'compress', 'clean']);
     grunt.registerTask('test', ['karma:test']);
 };
