@@ -1,6 +1,6 @@
 /**
  * Another angular directive for selecting date and time ranges
- * @version v0.1.0 - 2015-07-27
+ * @version v0.1.0 - 2015-07-28
  * @author Gabriela Vazquez <gabs.vz@gmail.com>
  **/
 ;(function () {
@@ -716,18 +716,19 @@
         })(jQuery);
     }
 
-    function createModule (angular, jQuery, lodash) {
+    function createModule (angular, jQuery, lodash, moment) {
         injectDatepick(jQuery);
         var module = angular.module('dt-picker', []);
         module.run( ['$templateCache', preCacheTemplates] );
         module.factory('jQuery', [function () { return jQuery; }]);
         module.factory('lodash', [function () { return lodash; }]);
+        module.factory('moment', [function () { return moment; }]);
         module.factory('dtPicker.service', [
             function () {
                 return { version: '0.1.0' };
             }
         ]);
-        module.directive('dtPicker', ['jQuery', 'lodash', directive]);
+        module.directive('dtPicker', ['jQuery', 'lodash', 'moment', directive]);
         return module;
     }
 
@@ -2882,10 +2883,10 @@ $(function() {
     // Verify if define is present as a function.
     if (typeof define == 'function' && typeof define.amd == 'object' && define.amd) {
         define(['angular', 'jQuery', 'lodash', 'moment'], function(angular, jQuery, _, moment) {
-            return createModule(angular, jQuery, _);
+            return createModule(angular, jQuery, _, moment);
         });
     }
     else if ( typeof angular !== "undefined" && angular !== null ) {
-        createModule(angular, $, _);
+        createModule(angular, $, _, moment);
     }
 }.call(this));
