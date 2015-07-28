@@ -431,6 +431,9 @@
                     if (scope.options && scope.options.hideCustom) {
                         _.remove(scope.dictionary, { custom: 'date' });
                     }
+                    if (scope.options && scope.options.hideTimeUnit) {
+                        scope.hideTimeUnit = true;
+                    }
                     scope.maxRange = scope.options && scope.options.maxRange || 31;
 
                     // Initializing main internal object and controller range object, this will set initial range and main label.

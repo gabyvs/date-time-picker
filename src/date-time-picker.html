@@ -57,7 +57,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="key-value-section">
+                <div class="key-value-section" ng-hide="hideTimeUnit">
                     <span class="bold-label">Time Unit</span>
                     <span class="label-text" ng-hide="internalRangeObject.selectedRange.timeUnits.length > 1">{{ internalRangeObject.timeUnit }}</span>
                     <div class="btn-group" ng-show="internalRangeObject.selectedRange.timeUnits.length > 1">
