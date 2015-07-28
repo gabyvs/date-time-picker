@@ -5,7 +5,7 @@
  **/
 ;(function () {
     'use strict';
-
+    var moment;
     var defaultDictionary = [
         { label: 'Last Hour', duration: { unit: 'hour', value: 1 }},
         { label: 'Last 24 Hours', duration: { unit: 'day', value: 1 }, preselected: true},
@@ -716,7 +716,8 @@
         })(jQuery);
     }
 
-    function createModule (angular, jQuery, lodash, moment) {
+    function createModule (angular, jQuery, lodash, _moment) {
+        moment = _moment;
         injectDatepick(jQuery);
         var module = angular.module('dt-picker', []);
         module.run( ['$templateCache', preCacheTemplates] );
@@ -2882,8 +2883,8 @@ $(function() {
 
     // Verify if define is present as a function.
     if (typeof define == 'function' && typeof define.amd == 'object' && define.amd) {
-        define(['angular', 'jQuery', 'lodash', 'moment'], function(angular, jQuery, _, moment) {
-            return createModule(angular, jQuery, _, moment);
+        define(['angular', 'jQuery', 'lodash', 'moment'], function(angular, jQuery, _, _moment) {
+            return createModule(angular, jQuery, _, _moment);
         });
     }
     else if ( typeof angular !== "undefined" && angular !== null ) {
