@@ -436,6 +436,9 @@
                     if (scope.options && scope.options.hideCustom) {
                         _.remove(scope.dictionary, { custom: 'date' });
                     }
+                    if (scope.options && scope.options.hideTimeUnit) {
+                        scope.hideTimeUnit = true;
+                    }
                     scope.maxRange = scope.options && scope.options.maxRange || 31;
 
                     // Initializing main internal object and controller range object, this will set initial range and main label.
@@ -793,7 +796,7 @@
         '                        </ul>\n' +
         '                    </div>\n' +
         '                </div>\n' +
-        '                <div class="key-value-section">\n' +
+        '                <div class="key-value-section" ng-hide="hideTimeUnit">\n' +
         '                    <span class="bold-label">Time Unit</span>\n' +
         '                    <span class="label-text" ng-hide="internalRangeObject.selectedRange.timeUnits.length > 1">{{ internalRangeObject.timeUnit }}</span>\n' +
         '                    <div class="btn-group" ng-show="internalRangeObject.selectedRange.timeUnits.length > 1">\n' +
