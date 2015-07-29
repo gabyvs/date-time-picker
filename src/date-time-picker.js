@@ -5,6 +5,7 @@
         var defaultDictionary = [
             { label: 'Last Hour', duration: { unit: 'hour', value: 1 }},
             { label: 'Last 24 Hours', duration: { unit: 'day', value: 1 }, preselected: true},
+            { label: 'Yesterday', duration: { unit: 'day', value: 1, offset: 1 } }, // This needs an offset
             { label: 'Last 7 Days', duration: { unit: 'week', value: 1 }},
             { label: 'Date Range', custom: 'date' },
             { label: 'Time Range', custom: 'time' }

@@ -66,7 +66,7 @@ define([
         });
 
         it('Saves selection to controller scope', function () {
-            element.isolateScope().selectRangeOption(element.isolateScope().dictionary[2]);
+            element.isolateScope().selectRangeOption(element.isolateScope().dictionary[3]);
             $rootScope.$digest();
             element.isolateScope().save();
             $rootScope.$digest();
@@ -100,7 +100,7 @@ define([
             selectedDates = $(element.find('.single-calendar-container')).datepick('getDate');
             expect(selectedDates[0]).toBeDefined();
             // selecting last 7 days
-            element.isolateScope().selectRangeOption(element.isolateScope().dictionary[2]);
+            element.isolateScope().selectRangeOption(element.isolateScope().dictionary[3]);
             $rootScope.$digest();
             expect(element.find('.date-range-selection').hasClass('ng-hide')).toBe(false);
             expect(element.find('.time-range-selection').hasClass('ng-hide')).toBe(true);
@@ -111,7 +111,7 @@ define([
             expect(selectedDates[0]).toBeDefined();
             expect(selectedDates[1]).toBeDefined();
             // selecting time range
-            element.isolateScope().selectRangeOption(element.isolateScope().dictionary[4]);
+            element.isolateScope().selectRangeOption(element.isolateScope().dictionary[5]);
             $rootScope.$digest();
             expect(element.find('.date-range-selection').hasClass('ng-hide')).toBe(true);
             expect(element.find('.time-range-selection').hasClass('ng-hide')).toBe(false);
@@ -124,7 +124,7 @@ define([
             expect(selectedDates[0]).toBeDefined();
             expect(selectedDates[0].getDate()).toBe(new moment().subtract(7, 'day').date());
             // selecting date range
-            element.isolateScope().selectRangeOption(element.isolateScope().dictionary[3]);
+            element.isolateScope().selectRangeOption(element.isolateScope().dictionary[4]);
             $rootScope.$digest();
             expect(element.find('.date-range-selection').hasClass('ng-hide')).toBe(false);
             expect(element.find('.time-range-selection').hasClass('ng-hide')).toBe(true);
@@ -136,7 +136,7 @@ define([
         });
 
         it('Selects a single date', function () {
-            element.isolateScope().selectRangeOption(element.isolateScope().dictionary[4]);
+            element.isolateScope().selectRangeOption(element.isolateScope().dictionary[5]);
             $rootScope.$digest();
             expect(element.isolateScope().internalRangeObject.selectedRange.label).toBe('Time Range');
             var firstDayOfMonth = new Date(new moment().date(1).valueOf());
@@ -176,7 +176,7 @@ define([
         // When the min and max date are not adjusted, it is send as [date1, date2] instead.
         // This test makes sure that a range is selected even with that problem.
        it('Selects a date range from calendar', function () {
-            element.isolateScope().selectRangeOption(element.isolateScope().dictionary[2]);
+            element.isolateScope().selectRangeOption(element.isolateScope().dictionary[3]);
             $rootScope.$digest();
             var firstDayOfLastMonth = new Date(moment().subtract(1, 'month').date(1).valueOf());
             var fifthDayOfLastMonth = new Date(moment(firstDayOfLastMonth).add(4, 'day').valueOf());
@@ -203,7 +203,7 @@ define([
             expect(element.isolateScope().savedRange.duration.unit).toBe('day');
             expect(element.isolateScope().savedRange.duration.value).toBe(1);
             element.isolateScope().configure();
-            element.isolateScope().selectRangeOption(element.isolateScope().dictionary[2]);
+            element.isolateScope().selectRangeOption(element.isolateScope().dictionary[3]);
             $rootScope.$digest();
             expect(element.isolateScope().internalRangeObject.selectedRange.duration.unit).toBe('week');
             expect(element.isolateScope().internalRangeObject.selectedRange.duration.value).toBe(1);
