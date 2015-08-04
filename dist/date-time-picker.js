@@ -1,6 +1,6 @@
 /**
  * Another angular directive for selecting date and time ranges
- * @version v0.1.0 - 2015-07-28
+ * @version v0.1.0 - 2015-08-03
  * @author Gabriela Vazquez <gabs.vz@gmail.com>
  **/
 ;(function () {

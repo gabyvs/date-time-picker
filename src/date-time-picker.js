@@ -12,7 +12,6 @@
         ];
 
         var hours = [
-            { value: -1, unit: 'hour', label: 'An hour ago' },
             { value: 0, label: '0:00' },
             { value: 1, label: '1:00' },
             { value: 2, label: '2:00' },
@@ -421,13 +420,20 @@
                     if (scope.rangeDictionary) { scope.dictionary = scope.rangeDictionary; }
                     else { scope.dictionary = defaultDictionary; }
 
+                    var h = [];
+                    var d = [];
+
                     if (_.find(scope.dictionary, { label: 'Last 10 Minutes'})) {
-                        scope.hours = [{ value: -10, unit: 'minute', label: 'Ten minutes ago' }].concat(hours);
-                        scope.durations = [{ value: 10, unit: 'minutes', label: '10 minutes' }].concat(durations);
-                    } else {
-                        scope.hours = hours;
-                        scope.durations = durations;
+                        h.push({ value: -10, unit: 'minute', label: 'Ten minutes ago' });
+                        d.push({ value: 10, unit: 'minutes', label: '10 minutes' });
                     }
+
+                    if (_.find(scope.dictionary, { label: 'Last Hour'})) {
+                        h.push({ value: -1, unit: 'hour', label: 'An hour ago' });
+                    }
+
+                    scope.hours = h.concat(hours);
+                    scope.durations = d.concat(durations);
 
                     if (scope.options && scope.options.hideCustom) {
                         _.remove(scope.dictionary, { custom: 'date' });
