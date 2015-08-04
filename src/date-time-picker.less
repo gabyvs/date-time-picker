@@ -17,6 +17,9 @@
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 13px;
     line-height: 18px;
+    .btn-group .btn {
+        box-sizing: border-box;
+    }
     .btn {
         background-color: #f9f9f9;
         border: 1px solid #b7c0c4;
@@ -133,9 +136,15 @@
             }
             .single-calendar-container {
                 width: 205px;
+                .datepick {
+                    width: 197px!important;
+                }
             }
             .double-calendar-container {
                 width: 403px;
+                .datepick {
+                    width: 394px!important;
+                }
             }
             .time-range-container {
                 float: left;
