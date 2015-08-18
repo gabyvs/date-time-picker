@@ -15,7 +15,7 @@ require.config({
     paths: {
         'angular': '/base/bower_components/angular/angular',
         'angularMocks': '/base/bower_components/angular-mocks/angular-mocks',
-        'jQuery': '/base/bower_components/jquery/jquery',
+        'jquery': '/base/bower_components/jquery/jquery',
         'lodash': '/base/bower_components/lodash/dist/lodash',
         'datepick': '/base/bower_components/datepick/jquery.datepick',
         'moment': '/base/bower_components/moment/moment',
@@ -23,18 +23,18 @@ require.config({
     },
 
     shim: {
-        'jQuery': {'exports': 'jQuery'},
+        'jquery': {'exports': 'jQuery'},
         'lodash': {'exports': 'lodash'},
         'moment': {'exports': 'moment'},
-        'datepick': {deps: ['jQuery'], 'exports': 'datepick'},
-        'angular': {'exports': 'angular'},
+        'datepick': {deps: ['jquery'], 'exports': 'datepick'},
+        'angular': {deps: ['jquery'], 'exports': 'angular'},
         'angularMocks': {deps: ['angular'], 'exports': 'angular.mock'},
         'partials': {
             exports: 'partials',
             deps: ['angular']
         }
     },
-    priority: ['jQuery', 'angular', 'datepick'],
+    priority: ['jquery', 'angular', 'datepick'],
 
     // dynamically load all test files
     deps: allTestFiles,

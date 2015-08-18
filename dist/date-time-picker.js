@@ -1,6 +1,6 @@
 /**
  * Another angular directive for selecting date and time ranges
- * @version v0.1.0 - 2015-08-03
+ * @version v0.1.0 - 2015-08-18
  * @author Gabriela Vazquez <gabs.vz@gmail.com>
  **/
 ;(function () {
@@ -2893,7 +2893,7 @@ $(function() {
 
     // Verify if define is present as a function.
     if (typeof define == 'function' && typeof define.amd == 'object' && define.amd) {
-        define(['angular', 'jQuery', 'lodash', 'moment'], function(angular, jQuery, lodash, moment) {
+        define(['angular', 'jquery', 'lodash', 'moment'], function(angular, jQuery, lodash, moment) {
             return createModule(angular, jQuery, lodash, moment);
         });
     }
