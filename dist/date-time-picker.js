@@ -731,7 +731,7 @@
         injectDatepick(jQuery);
         var module = angular.module('dt-picker', []);
         module.run( ['$templateCache', preCacheTemplates] );
-        module.factory('jQuery', [function () { return jQuery; }]);
+        module.factory('jquery', [function () { return jQuery; }]);
         module.factory('lodash', [function () { return lodash; }]);
         module.factory('moment', [function () { return moment; }]);
         module.factory('dtPicker.service', [
@@ -739,7 +739,7 @@
                 return { version: '0.1.0' };
             }
         ]);
-        module.directive('dtPicker', ['jQuery', 'lodash', 'moment', directive]);
+        module.directive('dtPicker', ['jquery', 'lodash', 'moment', directive]);
         return module;
     }
 
