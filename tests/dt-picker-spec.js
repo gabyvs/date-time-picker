@@ -2,7 +2,7 @@ define([
     'angular',
     'angularMocks',
     'partials',
-    'jQuery',
+    'jquery',
     'datepick',
     'base/src/date-time-picker'
 ], function (angular, mocks) {

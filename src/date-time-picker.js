@@ -745,7 +745,7 @@
 
     // Verify if define is present as a function.
     if (typeof define == 'function' && typeof define.amd == 'object' && define.amd) {
-        define(['angular', 'jQuery', 'lodash', 'moment'], function(angular, jQuery, lodash, moment) {
+        define(['angular', 'jquery', 'lodash', 'moment'], function(angular, jQuery, lodash, moment) {
             return createModule(angular, jQuery, lodash, moment);
         });
     }
