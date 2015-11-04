@@ -20,7 +20,8 @@ var config = {
         publicPath: '/build/'
     },
     externals: {
-        "angular": "angular"
+        'angular': 'angular',
+        'jQuery': 'jQuery'
     },
     module: {
         loaders: [
