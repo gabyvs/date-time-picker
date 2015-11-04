@@ -1,7 +1,10 @@
 import angular from 'angular';
 import jQuery from 'jQuery';
+
 import template from './dtPicker.html'
 import datepick from 'imports?jQuery=jQuery!./datepick/jquery.datepick.js'
+
+import './date-time-picker.less'
 
 var defaultDictionary = [
     { label: 'Last Hour', duration: { unit: 'hour', value: 1 }},
