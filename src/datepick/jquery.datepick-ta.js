@@ -2,7 +2,7 @@
    Tamil localisation for jQuery Datepicker.
    Written by S A Sureshkumar (saskumar@live.com). */
 (function($) {
-	$.datepick.regionalOptions['ta'] = {
+	$.datepick.regional['ta'] = {
 		monthNames: ['தை','மாசி','பங்குனி','சித்திரை','வைகாசி','ஆனி',
 		'ஆடி','ஆவணி','புரட்டாசி','ஐப்பசி','கார்த்திகை','மார்கழி'],
 		monthNamesShort: ['தை','மாசி','பங்','சித்','வைகா','ஆனி',
@@ -25,5 +25,5 @@
 		dayStatus: 'D, M d', defaultStatus: '',
 		isRTL: false
 	};
-	$.datepick.setDefaults($.datepick.regionalOptions['ta']);
+	$.datepick.setDefaults($.datepick.regional['ta']);
 })(jQuery);

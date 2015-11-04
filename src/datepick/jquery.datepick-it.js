@@ -2,7 +2,7 @@
    Italian localisation for jQuery Datepicker.
    Written by Apaella (apaella@gmail.com). */
 (function($) {
-	$.datepick.regionalOptions['it'] = {
+	$.datepick.regional['it'] = {
 		monthNames: ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno',
 		'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'],
 		monthNamesShort: ['Gen','Feb','Mar','Apr','Mag','Giu',
@@ -25,5 +25,5 @@
 		dayStatus: '\'Seleziona\' D, M d', defaultStatus: 'Scegliere una data',
 		isRTL: false
 	};
-	$.datepick.setDefaults($.datepick.regionalOptions['it']);
+	$.datepick.setDefaults($.datepick.regional['it']);
 })(jQuery);

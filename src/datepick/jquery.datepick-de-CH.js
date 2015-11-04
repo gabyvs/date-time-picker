@@ -2,7 +2,7 @@
    Swiss-German localisation for jQuery Datepicker.
    Written by Douglas Jose & Juerg Meier. */
 (function($) {
-	$.datepick.regionalOptions['de-CH'] = {
+	$.datepick.regional['de-CH'] = {
 		monthNames: ['Januar','Februar','März','April','Mai','Juni',
 		'Juli','August','September','Oktober','November','Dezember'],
 		monthNamesShort: ['Jan','Feb','Mär','Apr','Mai','Jun',
@@ -25,5 +25,5 @@
 		dayStatus: 'Wähle D, M d', defaultStatus: 'Wähle ein Datum',
 		isRTL: false
 	};
-	$.datepick.setDefaults($.datepick.regionalOptions['de-CH']);
+	$.datepick.setDefaults($.datepick.regional['de-CH']);
 })(jQuery);

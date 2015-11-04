@@ -2,7 +2,7 @@
    Azerbaijani localisation for jQuery Datepicker.
    Written by Jamil Najafov (necefov33@gmail.com). */
 (function($) {
-	$.datepick.regionalOptions['az'] = {
+	$.datepick.regional['az'] = {
 		monthNames: ['Yanvar','Fevral','Mart','Aprel','May','İyun',
 		'İyul','Avqust','Sentyabr','Oktyabr','Noyabr','Dekabr'],
 		monthNamesShort: ['Yan','Fev','Mar','Apr','May','İyun',
@@ -25,5 +25,5 @@
 		dayStatus: 'D, M d seçin', defaultStatus: 'Bir tarix seçin',
 		isRTL: false
 	};
-	$.datepick.setDefaults($.datepick.regionalOptions['az']);
+	$.datepick.setDefaults($.datepick.regional['az']);
 })(jQuery);

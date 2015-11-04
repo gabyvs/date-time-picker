@@ -2,7 +2,7 @@
    Afrikaans localisation for jQuery Datepicker.
    Written by Renier Pretorius and Ruediger Thiede. */
 (function($) {
-	$.datepick.regionalOptions['af'] = {
+	$.datepick.regional['af'] = {
 		monthNames: ['Januarie','Februarie','Maart','April','Mei','Junie',
 		'Julie','Augustus','September','Oktober','November','Desember'],
 		monthNamesShort: ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun',
@@ -25,5 +25,5 @@
 		dayStatus: 'Kies DD, M d', defaultStatus: 'Kies \'n datum',
 		isRTL: false
 	};
-	$.datepick.setDefaults($.datepick.regionalOptions['af']);
+	$.datepick.setDefaults($.datepick.regional['af']);
 })(jQuery);

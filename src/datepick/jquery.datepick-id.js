@@ -2,7 +2,7 @@
    Indonesian localisation for jQuery Datepicker.
    Written by Deden Fathurahman (dedenf@gmail.com). */
 (function($) {
-	$.datepick.regionalOptions['id'] = {
+	$.datepick.regional['id'] = {
 		monthNames: ['Januari','Februari','Maret','April','Mei','Juni',
 		'Juli','Agustus','September','Oktober','Nopember','Desember'],
 		monthNamesShort: ['Jan','Feb','Mar','Apr','Mei','Jun',
@@ -25,5 +25,5 @@
 		dayStatus: 'pilih le DD, MM d', defaultStatus: 'Pilih Tanggal',
 		isRTL: false
 	};
-	$.datepick.setDefaults($.datepick.regionalOptions['id']);
+	$.datepick.setDefaults($.datepick.regional['id']);
 })(jQuery);

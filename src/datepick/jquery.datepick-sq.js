@@ -2,7 +2,7 @@
    Albanian localisation for jQuery Datepicker.
    Written by Flakron Bytyqi (flakron@gmail.com). */
 (function($) {
-	$.datepick.regionalOptions['sq'] = {
+	$.datepick.regional['sq'] = {
 		monthNames: ['Janar','Shkurt','Mars','Prill','Maj','Qershor',
 		'Korrik','Gusht','Shtator','Tetor','Nëntor','Dhjetor'],
 		monthNamesShort: ['Jan','Shk','Mar','Pri','Maj','Qer',
@@ -25,5 +25,5 @@
 		dayStatus: '\'Zgjedh\' D, M d', defaultStatus: 'Zgjedhe një datë',
 		isRTL: false
 	};
-	$.datepick.setDefaults($.datepick.regionalOptions['sq']);
+	$.datepick.setDefaults($.datepick.regional['sq']);
 })(jQuery);

@@ -2,7 +2,7 @@
    Malayalam localisation for jQuery Datepicker.
    Saji Nediyanchath (saji89@gmail.com). */
 (function($) {
-	$.datepick.regionalOptions['ml'] = {
+	$.datepick.regional['ml'] = {
 		monthNames: ['ജനുവരി','ഫെബ്രുവരി','മാര്‍ച്ച്','ഏപ്രില്‍','മേയ്','ജൂണ്‍',
 		'ജൂലൈ','ആഗസ്റ്റ്','സെപ്റ്റംബര്‍','ഒക്ടോബര്‍','നവംബര്‍','ഡിസംബര്‍'],
 		monthNamesShort: ['ജനു', 'ഫെബ്', 'മാര്‍', 'ഏപ്രി', 'മേയ്', 'ജൂണ്‍',
@@ -25,5 +25,5 @@
 		dayStatus: 'DD d MM', defaultStatus: '',
 		isRTL: false
 	};
-	$.datepick.setDefaults($.datepick.regionalOptions['ml']);
+	$.datepick.setDefaults($.datepick.regional['ml']);
 })(jQuery);

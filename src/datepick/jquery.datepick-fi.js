@@ -2,7 +2,7 @@
    Finnish localisation for jQuery Datepicker.
    Written by Harri Kilpiö (harrikilpio@gmail.com). */
 (function($) {
-    $.datepick.regionalOptions['fi'] = {
+    $.datepick.regional['fi'] = {
         monthNames: ['Tammikuu','Helmikuu','Maaliskuu','Huhtikuu','Toukokuu','Kes&auml;kuu',
         'Hein&auml;kuu','Elokuu','Syyskuu','Lokakuu','Marraskuu','Joulukuu'],
         monthNamesShort: ['Tammi','Helmi','Maalis','Huhti','Touko','Kes&auml;',
@@ -25,5 +25,5 @@
 		dayStatus: 'D, M d', defaultStatus: '',
 		isRTL: false
 	};
-    $.datepick.setDefaults($.datepick.regionalOptions['fi']);
+    $.datepick.setDefaults($.datepick.regional['fi']);
 })(jQuery);
