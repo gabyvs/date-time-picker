@@ -10,6 +10,4 @@ function dtPicker() {
     }
 }
 
-export default angular.module('dt-picker', [])
-    .directive('dt-picker', dtPicker)
-    .name;
+export default dtPicker;

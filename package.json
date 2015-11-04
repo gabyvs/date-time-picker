@@ -7,7 +7,8 @@
         "test": "karma start",
         "ng-build": "webpack -p  --config webpack.ng.config.js",
         "default-build": "webpack -p",
-        "build": "npm run ng-build && npm run default-build"
+        "build": "npm run ng-build && npm run default-build",
+        "start": "http-server -a localhost -p 8000 -c-1"
     },
     "repository": {
         "type": "git",
@@ -23,6 +24,7 @@
     ],
     "copyright": "Copyright © 2015 Gabriela Vazquez",
     "devDependencies": {
+        "http-server": "^0.6.1",
         "jasmine-core": "^2.3.4",
         "phantomjs": "^1.9.18",
         "karma": "^0.13.10",
