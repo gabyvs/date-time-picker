@@ -6,16 +6,7 @@
     "scripts": {
         "test": "test"
     },
-    "devDependencies": {
-        "angular": "1.3.8",
-        "angular-route": "1.3.8",
-        "angular-mocks": "1.3.8",
-        "jquery": "1.9.1",
-        "less": "1.5.0-b3",
-        "lodash": "2.4.1",
-        "datepick": "kbwood/datepick#4.1.0",
-        "moment": "2.0.0"
-    },
+    "devDependencies": {},
     "repository": {
         "type": "git",
         "url": "git@github.com:gabyvs/date-time-picker.git"

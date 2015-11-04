@@ -2,12 +2,12 @@
     "name": "date-time-picker",
     "version": "0.1.0",
     "description": "Another angular directive for selecting date and time ranges",
-    "main": "dist/date-time-picker.js",
+    "main": "src/main.js",
     "scripts": {
-        "test": "grunt test",
-        "postinstall": "bower update",
-        "start": "http-server -a localhost -p 8000 -c-1",
-        "build": "grunt build"
+        "test": "karma start",
+        "ng-build": "webpack -p  --config webpack.ng.config.js",
+        "default-build": "webpack -p",
+        "build": "npm run ng-build && npm run default-build"
     },
     "repository": {
         "type": "git",
@@ -23,24 +23,16 @@
     ],
     "copyright": "Copyright © 2015 Gabriela Vazquez",
     "devDependencies": {
-        "http-server": "^0.6.1",
-        "grunt": "^0.4.5",
-        "grunt-contrib-compress": "^0.13.0",
-        "grunt-contrib-concat": "^0.5.1",
-        "grunt-contrib-jshint": "^0.11.2",
-        "grunt-contrib-uglify": "^0.9.1",
-        "grunt-contrib-less": "^1.0.1",
-        "grunt-contrib-clean": "^0.6.0",
-        "grunt-contrib-copy": "^0.8.0",
-        "grunt-html2js": "^0.3.3",
-        "grunt-karma": "^0.9.0",
-        "karma": "^0.12.0",
-        "karma-jasmine": "^0.3.5",
-        "karma-chrome-launcher": "^0.1.2",
-        "karma-phantomjs-launcher": "^0.1.2",
-        "karma-requirejs": "^0.2.2",
-        "karma-ng-html2js-preprocessor": "~0.1.0",
-        "chokidar": "^1.0.0",
-        "html-minifier": "~0.6.0"
+        "jasmine-core": "^2.3.4",
+        "phantomjs": "^1.9.18",
+        "karma": "^0.13.10",
+        "karma-chrome-launcher": "^0.2.1",
+        "karma-phantomjs-launcher": "^0.2.1",
+        "karma-sourcemap-loader": "^0.3.6",
+        "karma-webpack": "^1.7.0",
+        "karma-jasmine": "^0.3.6",
+        "webpack": "^1.12.2",
+        "babel-core": "^5.8.25",
+        "babel-loader": "^5.3.2"
     }
 }
