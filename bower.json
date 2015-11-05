@@ -2,7 +2,7 @@
     "name": "date-time-picker",
     "version": "0.1.0",
     "description": "Another angular directive for selecting date and time ranges",
-    "main": "dist/date-time-picker.js",
+    "main": "src/main.js",
     "scripts": {
         "test": "test"
     },

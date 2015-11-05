@@ -1,9 +1,10 @@
 import angular from 'angular';
-import jQuery from 'jQuery';
+import jQuery from 'jquery';
+import _ from 'lodash';
+import moment from 'moment';
 
-import datepick from 'imports?jQuery=jQuery!./datepick/jquery.datepick.js'
+import datepick from 'imports?jQuery=jquery!./datepick/jquery.datepick.js'
 
-import './date-time-picker.less'
 import template from './date-time-picker.html';
 
 function bootstrap() {
@@ -186,6 +187,7 @@ function bootstrap() {
 }
 
 function dtPicker(service) {
+    var $ = jQuery;
     bootstrap();
     return {
         restrict: 'E',

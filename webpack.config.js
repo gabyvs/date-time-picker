@@ -4,6 +4,7 @@ var path = require('path');
 var buildPath = path.resolve(__dirname, 'build');
 var nodeModulesPath = path.resolve(__dirname, 'node_modules');
 var mainPath = path.resolve(__dirname, 'src', 'main.js');
+var cssPath = path.resolve(__dirname, 'src', 'date-time-picker.less');
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
@@ -12,6 +13,7 @@ var config = {
     entry: [
         'webpack/hot/dev-server',
         'webpack-dev-server/client?http://localhost:8080',
+        cssPath,
         mainPath
     ],
     output: {
@@ -21,7 +23,9 @@ var config = {
     },
     externals: {
         'angular': 'angular',
-        'jQuery': 'jQuery'
+        'jQuery': 'jQuery',
+        'moment': 'moment',
+        'lodash': '_'
     },
     module: {
         loaders: [
