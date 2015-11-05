@@ -12,8 +12,8 @@ module.exports = function(config) {
         // list of files / patterns to load in the browser
         files: [
             'tests/test-main.js',
-            {pattern: 'src/**/*.js', included: false},
-            {pattern: 'src/**/*.html', included: false},
+            {pattern: 'app/**/*.js', included: false},
+            {pattern: 'app/**/*.html', included: false},
             {pattern: 'tests/**/*.js', included: false},
             {pattern: 'node_modules/**/*.js', included: false},
             {pattern: 'bower_components/**/*.js', included: false}
@@ -27,12 +27,12 @@ module.exports = function(config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            'src/date-time-picker.html': 'ng-html2js'
+            'app/date-time-picker.html': 'ng-html2js'
         },
 
         ngHtml2JsPreprocessor: {
 //            prependPrefix: 'base/',
-            stripPrefix: 'src/',
+            stripPrefix: 'app/',
             // setting this option
             // will create only a single module that contains templates
             // from all the files, so you can load them all with module('foo')

@@ -2,7 +2,7 @@
   "name": "date-time-picker",
   "version": "0.1.0",
   "description": "Another angular directive for selecting date and time ranges",
-  "main": "src/main.js",
+  "main": "app/main.js",
   "scripts": {
     "test": "karma start",
     "ng-build": "webpack -p  --config webpack.ng.config.js",

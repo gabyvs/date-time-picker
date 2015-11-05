@@ -3,8 +3,8 @@ var webpack = require('webpack');
 var path = require('path');
 var buildPath = path.resolve(__dirname, 'build');
 var nodeModulesPath = path.resolve(__dirname, 'node_modules');
-var mainPath = path.resolve(__dirname, 'src', 'main.js');
-var cssPath = path.resolve(__dirname, 'src', 'date-time-picker.less');
+var mainPath = path.resolve(__dirname, 'app', 'main.js');
+var cssPath = path.resolve(__dirname, 'app', 'date-time-picker.less');
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
