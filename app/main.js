@@ -4,7 +4,7 @@ import angular from 'angular';
 
 import dtPicker from './dtPicker';
 import pickerService from './pickerService';
-import bootstrapService from './bootstrapService';
+import bootstrapService from './custom-bootstrap/bootstrapService';
 
 export default angular
     .module( 'dt-picker', [])
