@@ -1,72 +1,37 @@
+// karma.conf.js
+var webpack = require('webpack');
+
 module.exports = function(config) {
     config.set({
-        // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: '',
-
-
-        // frameworks to use
-        // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: ['jasmine', 'requirejs'],
-
-
-        // list of files / patterns to load in the browser
-        files: [
-            'app/test-main.js',
-            {pattern: 'app/**/*.js', included: false},
-            {pattern: 'app/**/*.html', included: false},
-            {pattern: 'node_modules/**/*.js', included: false},
-            {pattern: 'bower_components/**/*.js', included: false}
-        ],
-
-
-        // list of files to exclude
-        exclude: [],
-
-
-        // preprocess matching files before serving them to the browser
-        // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-        preprocessors: {
-            'app/date-time-picker.html': 'ng-html2js'
-        },
-
-        ngHtml2JsPreprocessor: {
-//            prependPrefix: 'base/',
-            stripPrefix: 'app/',
-            // setting this option
-            // will create only a single module that contains templates
-            // from all the files, so you can load them all with module('foo')
-            moduleName: 'partials'
-        },
-
-
-        // test results reporter to use
-        // possible values: 'dots', 'progress'
-        // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['progress'],
-
-
-        // web server port
-        port: 8080,
-        runnerPort: 9100,
-        captureTimeout: 15000,
-        colors: true,
-
-        // level of logging
-        // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-        logLevel: config.LOG_INFO,
-
-
-        // enable / disable watching file and executing tests whenever any file changes
-        autoWatch: false,
-
-
-        // start these browsers
-        // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
         browsers: ['PhantomJS'],
-
-
-        // Continuous Integration mode
-        // if true, Karma captures browsers, runs the tests and exits
-        singleRun: true
+        files: [
+            'node_modules/phantomjs-polyfill/bind-polyfill.js',
+            { pattern: 'tests.webpack.js', watched: false }
+        ],
+        frameworks: ['jasmine'],
+        preprocessors: {
+            'tests.webpack.js': ['webpack', 'sourcemap']
+        },
+        reporters: ['dots'],
+        singleRun: true,
+        webpack: {
+            devtool: 'inline-source-map',
+            module: {
+                loaders: [
+                    {
+                        test: /(?:(?:app\/[^\.]+)|(?:tests\.webpack))\.js$/,
+                        loader: 'babel-loader'
+                    },
+                    {
+                        test: /app\/[^\.]+\.html$/,
+                        loader: "html-loader"
+                    }
+                ]
+            },
+            watch: true
+        },
+        webpackServer: {
+            noInfo: true
+        }
     });
 };
