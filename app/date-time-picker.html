@@ -18,10 +18,17 @@
     <div class="date-time-configure" ng-show="configuring">
         <div class="sections">
             <div class="date-range-selection" ng-hide="isTimeRange">
-                <div class="double-calendar-container"></div>
+                <double-calendar
+                        class="double-calendar-container"
+                        on-range-selected="onRangeSelected"
+                        max-range="maxRange"
+                        range="dateRange"></double-calendar>
             </div>
             <div class="time-range-selection" ng-show="isTimeRange">
-                <div class="single-calendar-container"></div>
+                <single-calendar
+                        class="single-calendar-container"
+                        on-date-selected="onDateSelected"
+                        single-date="singleDate"></single-calendar>
                 <div class="time-range-container">
                     <div class="key-value-section">
                         <span class="bold-label">From</span>

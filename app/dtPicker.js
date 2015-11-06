@@ -2,9 +2,6 @@ import angular from 'angular';
 import jQuery from 'jquery';
 import _ from 'lodash';
 import moment from 'moment';
-
-import datepick from 'imports?jQuery=jquery!./datepick/jquery.datepick.js'
-
 import template from './date-time-picker.html';
 
 function dtPicker(service, bootstrapService) {
@@ -41,7 +38,6 @@ function dtPicker(service, bootstrapService) {
             /**
              *  After a user selects an option that represents a time range, e.g. last hour, this function sets all the time range controls accordingly.
              */
-            var internalSettingSingleDate;
             function setupTimeRange() {
                 if (scope.internalRangeObject.selectedRange.label === 'Time Range') {
                     var from = moment(scope.internalRangeObject.from);
@@ -65,27 +61,20 @@ function dtPicker(service, bootstrapService) {
                     scope.selectedDuration = _.find(scope.durations, { value: durationInHours, unit: 'hours' });
                 }
 
-                var fromDay = new Date(scope.internalRangeObject.suggestedRange().from);
-                internalSettingSingleDate = true;
-                $(element.find('.single-calendar-container')).datepick('setDate', fromDay);
+                scope.singleDate = new Date(scope.internalRangeObject.suggestedRange().from);
             }
 
             /**
              * After a user selects an option that represents a date range, e.g. 7 days, this function sets all date range controls accordingly.
              */
-            var internalSettingDateRange;
             function setupDateRange() {
                 var from = scope.internalRangeObject.suggestedRange().from;
-                var fromDay = new Date(from);
-                var fromMonth = moment(from).month();
-                var fromYear = moment(from).year();
-                var toDay = new Date(scope.internalRangeObject.suggestedRange().to);
-                rangeStarted = false;
-                internalSettingDateRange = true;
-                $(element.find('.double-calendar-container')).datepick('option', 'minDate', '-6m');
-                $(element.find('.double-calendar-container')).datepick('option', 'maxDate', +0);
-                $(element.find('.double-calendar-container')).datepick('setDate', fromDay, toDay);
-                $(element.find('.double-calendar-container')).datepick('showMonth', fromYear, fromMonth);
+                scope.dateRange = {
+                    fromDay: new Date(from),
+                    fromMonth: moment(from).month(),
+                    fromYear: moment(from).year(),
+                    toDay: new Date(scope.internalRangeObject.suggestedRange().to)
+                };
                 setupAvailableTimeUnits(scope.internalRangeObject.suggestedRange().from, scope.internalRangeObject.suggestedRange().to);
             }
 
@@ -138,19 +127,9 @@ function dtPicker(service, bootstrapService) {
                 scope.internalRangeObject.timeUnit = scope.internalRangeObject.suggestedTimeUnit();
             }
 
-            /**
-             * Executes when a user selects a date in the single calendar, updating internal range.
-             * @param dates
-             */
-            scope.singleDateSelected = function (dates) {
-                if (!dates || !dates[0]) { return; }
-                if (internalSettingSingleDate) {
-                    internalSettingSingleDate = false;
-                    return;
-                }
-                var selection = new moment(dates[0]);
+            scope.onDateSelected = function (dateSelected) {
                 var newFrom = new moment(scope.internalRangeObject.from);
-                newFrom.year(selection.year()).month(selection.month()).date(selection.date());
+                newFrom.year(dateSelected.year()).month(dateSelected.month()).date(dateSelected.date());
 
                 var newTo = new moment(newFrom.valueOf()).add(scope.selectedDuration.value, 'hours');
                 setupInternalRange(newFrom.valueOf(), newTo.valueOf(), { custom: 'time' });
@@ -161,38 +140,9 @@ function dtPicker(service, bootstrapService) {
              * Executes when a user selects a date in the double calendar, updating internal range.
              * When the user selects the first date on the range, it also updates available dates for range ending according to the maximum range allowed in days.
              */
-            var rangeStarted;
-            scope.dateRangeSelected = function (dates) {
-                if (!dates || !dates.length) { return; }
-                if (internalSettingDateRange) {
-                    internalSettingDateRange = false;
-                    return;
-                }
-                var newFrom, newTo;
-
-                // Setting available dates according to max range configured
-                if (!rangeStarted) {
-                    newFrom = moment(dates[0]).startOf('day').valueOf();
-                    newTo = moment(dates[1]).endOf('day').valueOf();
-                    rangeStarted = newFrom;
-                    var maxRangeFromStart = moment(newFrom).add(scope.maxRange, 'days').valueOf();
-                    var maxRangeOrToday = _.min([maxRangeFromStart, moment().valueOf()]);
-//                            var initialMonthLabel = element.find('.datepick-month.first .datepick-month-header').text().split(' ')[0];
-                    $(element.find('.double-calendar-container')).datepick('option', 'minDate', new Date(newFrom));
-                    $(element.find('.double-calendar-container')).datepick('option', 'maxDate', new Date(maxRangeOrToday));
-//                            var finalMonthLabel = element.find('.datepick-month.last .datepick-month-header').text().split(' ')[0];
-                    //TODO: There is a problem when selecting a date from calendar, where calendars are moved while selecting a date. This partially fix that.
-                } else {
-                    // Clearing available dates
-                    newFrom = rangeStarted;
-                    newTo = moment(dates[1]).endOf('day').valueOf();
-                    $(element.find('.double-calendar-container')).datepick('option', 'minDate', '-6m');
-                    $(element.find('.double-calendar-container')).datepick('option', 'maxDate', +0);
-                    $(element.find('.double-calendar-container')).datepick('setDate', new Date(newFrom), new Date(newTo));
-                    rangeStarted = false;
-                }
-                setupInternalRange(newFrom, newTo, { custom: 'date' });
-                setupAvailableTimeUnits(newFrom, newTo);
+            scope.onRangeSelected = function (dates) {
+                setupInternalRange(dates.from, dates.to, { custom: 'date' });
+                setupAvailableTimeUnits(dates.from, dates.to);
                 scope.$apply();
             };
 
@@ -211,29 +161,6 @@ function dtPicker(service, bootstrapService) {
              * It also sets main label initial state, and starts the range shared with main controller.
              */
             function setupInitialConfigurations() {
-                // Initializing calendars
-                $(element.find('.single-calendar-container')).datepick({
-                    minDate: '-6m',
-                    maxDate: +0,
-                    changeMonth: false,
-                    dayNamesMin : ["S", "M", "T", "W", "T", "F", "S"],
-                    prevText: '<span class="datepickImagePrevious"></span><span class="datepickTextNextPrevious">Prev</span>',
-                    nextText: '<span class="datepickTextNextPrevious">Next</span><span class="datepickImageNext"></span>',
-                    onSelect: scope.singleDateSelected
-                });
-
-                $(element.find('.double-calendar-container')).datepick({
-                    rangeSelect: true,
-                    monthsToShow: 2,
-                    minDate: '-6m',
-                    maxDate: +0,
-                    changeMonth: false,
-                    dayNamesMin : ["S", "M", "T", "W", "T", "F", "S"],
-                    prevText: '<span class="datepickImagePrevious"></span><span class="datepickTextNextPrevious">Prev</span>',
-                    nextText: '<span class="datepickTextNextPrevious">Next</span><span class="datepickImageNext"></span>',
-                    onSelect: scope.dateRangeSelected
-                });
-
                 // Initializing available options for ranges, starting hours and durations.
                 if (scope.rangeDictionary) { scope.dictionary = scope.rangeDictionary; }
                 else { scope.dictionary = service.defaultDictionary; }
