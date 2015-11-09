@@ -20,7 +20,7 @@ function singleCalendar() {
                     internalSetting = false;
                     return;
                 }
-                scope.onDateSelected()(new moment(dates[0]));
+                scope.onDateSelected({ dateSelected: new moment(dates[0])});
             };
 
             scope.$watch('singleDate', function (value) {

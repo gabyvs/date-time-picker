@@ -13,39 +13,47 @@ function doubleCalendar() {
         },
         template: '<div></div>',
         link: function (scope, element) {
-            var rangeStarted;
-            var internalSetting;
+            function setMinMaxDates(minDate, maxDate) {
+                jQuery(element).datepick('option', 'minDate', minDate);
+                jQuery(element).datepick('option', 'maxDate', maxDate);
+            }
 
-            scope.rangeSelected = function (dates) {
+            function finishRange(fromDate, toDate) {
+                var from =  moment(fromDate).startOf('day').valueOf()
+                var to = moment(toDate).endOf('day').valueOf();
+                setMinMaxDates('-6m', +0);
+                jQuery(element).datepick('setDate', new Date(from), new Date(to));
+                scope.onRangeSelected()({ from: from, to: to });
+            }
+
+            function startRange(fromDate, toDate) {
+                var from = moment(fromDate).startOf('day').valueOf();
+                var to = moment(toDate).endOf('day').valueOf();
+                var maxRangeFromStart = moment(from).add(scope.maxRange, 'days').valueOf();
+                var maxRangeOrToday = _.min([maxRangeFromStart, moment().valueOf()]);
+                setMinMaxDates(new Date(from), new Date(maxRangeOrToday));
+//              var initialMonthLabel = element.find('.datepick-month.first .datepick-month-header').text().split(' ')[0];
+//              var finalMonthLabel = element.find('.datepick-month.last .datepick-month-header').text().split(' ')[0];
+                scope.onRangeSelected()({ from: from, to: to });
+            }
+
+            function onSetEvent (dates) {
                 if (!dates || !dates.length) { return; }
                 if (internalSetting) {
                     internalSetting = false;
                     return;
                 }
-                var from, to;
-                // Setting available dates according to max range configured
-                if (!rangeStarted) {
-                    from = moment(dates[0]).startOf('day').valueOf();
-                    to = moment(dates[1]).endOf('day').valueOf();
-                    rangeStarted = from;
-                    var maxRangeFromStart = moment(from).add(scope.maxRange, 'days').valueOf();
-                    var maxRangeOrToday = _.min([maxRangeFromStart, moment().valueOf()]);
-//                            var initialMonthLabel = element.find('.datepick-month.first .datepick-month-header').text().split(' ')[0];
-                    jQuery(element).datepick('option', 'minDate', new Date(from));
-                    jQuery(element).datepick('option', 'maxDate', new Date(maxRangeOrToday));
-//                            var finalMonthLabel = element.find('.datepick-month.last .datepick-month-header').text().split(' ')[0];
-                    //TODO: There is a problem when selecting a date from calendar, where calendars are moved while selecting a date. This partially fix that.
-                } else {
-                    // Clearing available dates
-                    from = rangeStarted;
-                    to = moment(dates[1]).endOf('day').valueOf();
-                    jQuery(element).datepick('option', 'minDate', '-6m');
-                    jQuery(element).datepick('option', 'maxDate', +0);
-                    jQuery(element).datepick('setDate', new Date(from), new Date(to));
+                if (rangeStarted) {
+                    finishRange(rangeStarted, dates[1]);
                     rangeStarted = false;
+                } else {
+                    startRange(dates[0], dates[1]);
+                    rangeStarted = dates[0];
                 }
-                scope.onRangeSelected()({ from: from, to: to });
-            };
+            }
+
+            var rangeStarted;
+            var internalSetting;
 
             scope.$watch('range', function (value) {
                 if (!value) { return; }
@@ -66,7 +74,7 @@ function doubleCalendar() {
                 dayNamesMin : ["S", "M", "T", "W", "T", "F", "S"],
                 prevText: '<span class="datepickImagePrevious"></span><span class="datepickTextNextPrevious">Prev</span>',
                 nextText: '<span class="datepickTextNextPrevious">Next</span><span class="datepickImageNext"></span>',
-                onSelect: scope.rangeSelected
+                onSelect: onSetEvent
             });
         }
     }
