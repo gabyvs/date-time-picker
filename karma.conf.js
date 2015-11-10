@@ -6,6 +6,7 @@ module.exports = function(config) {
         browsers: ['PhantomJS'],
         files: [
             'node_modules/phantomjs-polyfill/bind-polyfill.js',
+            'node_modules/jquery/dist/jquery.js',
             { pattern: 'tests.webpack.js', watched: false }
         ],
         frameworks: ['jasmine'],

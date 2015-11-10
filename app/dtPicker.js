@@ -129,7 +129,8 @@ function dtPicker(service, bootstrapService) {
 
             scope.onDateSelected = function (dateSelected) {
                 var newFrom = new moment(scope.internalRangeObject.from);
-                newFrom.year(dateSelected.year()).month(dateSelected.month()).date(dateSelected.date());
+                var newDateSelected = new moment(dateSelected);
+                newFrom.year(newDateSelected.year()).month(newDateSelected.month()).date(newDateSelected.date());
 
                 var newTo = new moment(newFrom.valueOf()).add(scope.selectedDuration.value, 'hours');
                 setupInternalRange(newFrom.valueOf(), newTo.valueOf(), { custom: 'time' });

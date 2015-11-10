@@ -1,9 +1,10 @@
+import jQuery from 'jquery';
 import moment from 'moment';
-
 import dtPickerMain from './main';
 
-describe('toolbarDirectives', function () {
+describe('Date Time Picker', function () {
     var scope, $compile, $rootScope, service, element;
+    var $ = jQuery;
 
     function compileDirective() {
         element = $compile('<dt-picker range="range" options="options" range-dictionary="rangeDictionary"></dt-picker>')(scope);
@@ -29,10 +30,6 @@ describe('toolbarDirectives', function () {
         var element = $compile('<dt-picker range="range" options="options" range-dictionary="rangeDictionary"></dt-picker>')(scope);
         scope.$digest();
         expect(element.isolateScope()).toBeDefined();
-    });
-
-    it('Loading service.', function () {
-        expect(service.version).toBeDefined();
     });
 
     it('Loads default configuration', function () {
@@ -135,7 +132,7 @@ describe('toolbarDirectives', function () {
         $rootScope.$digest();
         expect(element.isolateScope().internalRangeObject.selectedRange.label).toBe('Time Range');
         var firstDayOfMonth = new Date(new moment().date(1).valueOf());
-        element.isolateScope().singleDateSelected([firstDayOfMonth]);
+        element.isolateScope().onDateSelected(firstDayOfMonth);
         expect(element.isolateScope().internalRangeObject.timeUnit).toBe('hour');
         expect(element.isolateScope().selectedDuration.value).toBe(24);
         expect(element.isolateScope().selectedFrom.value).toBeDefined();
@@ -175,20 +172,20 @@ describe('toolbarDirectives', function () {
         $rootScope.$digest();
         var firstDayOfLastMonth = new Date(moment().subtract(1, 'month').date(1).valueOf());
         var fifthDayOfLastMonth = new Date(moment(firstDayOfLastMonth).add(4, 'day').valueOf());
-        element.isolateScope().dateRangeSelected([firstDayOfLastMonth, firstDayOfLastMonth]);
+        element.isolateScope().onRangeSelected({ from: moment(firstDayOfLastMonth).startOf('day').valueOf(), to: moment(firstDayOfLastMonth).endOf('day').valueOf() });
         $rootScope.$digest();
         expect(element.isolateScope().internalRangeObject.selectedRange.label).toBe('Date Range');
         expect(element.isolateScope().internalRangeObject.timeUnit).toBe('hour');
         var from = new moment(element.isolateScope().internalRangeObject.from);
         var to = new moment(element.isolateScope().internalRangeObject.to);
         expect(to.diff(from, 'days')).toBe(0);
-        element.isolateScope().dateRangeSelected([fifthDayOfLastMonth, fifthDayOfLastMonth]);
+        element.isolateScope().onRangeSelected({ from: moment(fifthDayOfLastMonth).startOf('day').valueOf(), to: moment(fifthDayOfLastMonth).endOf('day').valueOf() });
         $rootScope.$digest();
         expect(element.isolateScope().internalRangeObject.selectedRange.label).toBe('Date Range');
         expect(element.isolateScope().internalRangeObject.timeUnit).toBe('hour');
         var from = new moment(element.isolateScope().internalRangeObject.from);
         var to = new moment(element.isolateScope().internalRangeObject.to);
-        expect(to.diff(from, 'days')).toBe(4);
+        expect(to.diff(from, 'days')).toBe(0);
     });
 
     it('Can refresh page', function () {
