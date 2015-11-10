@@ -1,6 +1,6 @@
-import angular from 'angular';
 import jQuery from 'jquery';
-import datepick from 'imports?jQuery=jquery!./datepick/jquery.datepick.js';
+import moment from 'moment';
+import datepick from 'imports?jQuery=jquery!../datepick/jquery.datepick.js';
 
 function doubleCalendar() {
     return {
@@ -29,7 +29,7 @@ function doubleCalendar() {
             function startRange(fromDate, toDate) {
                 var from = moment(fromDate).startOf('day').valueOf();
                 var to = moment(toDate).endOf('day').valueOf();
-                var maxRangeFromStart = moment(from).add(scope.maxRange, 'days').valueOf();
+                var maxRangeFromStart = moment(from).add(scope.maxRange || 31, 'days').valueOf();
                 var maxRangeOrToday = _.min([maxRangeFromStart, moment().valueOf()]);
                 setMinMaxDates(new Date(from), new Date(maxRangeOrToday));
 //              var initialMonthLabel = element.find('.datepick-month.first .datepick-month-header').text().split(' ')[0];
@@ -60,8 +60,8 @@ function doubleCalendar() {
                 internalSetting = true;
                 jQuery(element).datepick('option', 'minDate', '-6m');
                 jQuery(element).datepick('option', 'maxDate', +0);
-                jQuery(element).datepick('setDate', value.fromDay, value.toDay);
-                jQuery(element).datepick('showMonth', value.fromYear, value.fromMonth);
+                jQuery(element).datepick('setDate', value.from, value.to);
+                jQuery(element).datepick('showMonth', moment(value.from).year(), moment(value.from).month());
                 rangeStarted = false;
             });
 

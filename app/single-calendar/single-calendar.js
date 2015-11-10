@@ -1,7 +1,5 @@
-import angular from 'angular';
 import jQuery from 'jquery';
-import moment from 'moment';
-import datepick from 'imports?jQuery=jquery!./datepick/jquery.datepick.js';
+import datepick from 'imports?jQuery=jquery!../datepick/jquery.datepick.js';
 
 function singleCalendar() {
     return {

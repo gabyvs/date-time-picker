@@ -70,10 +70,8 @@ function dtPicker(service, bootstrapService) {
             function setupDateRange() {
                 var from = scope.internalRangeObject.suggestedRange().from;
                 scope.dateRange = {
-                    fromDay: new Date(from),
-                    fromMonth: moment(from).month(),
-                    fromYear: moment(from).year(),
-                    toDay: new Date(scope.internalRangeObject.suggestedRange().to)
+                    from: new Date(from),
+                    to: new Date(scope.internalRangeObject.suggestedRange().to)
                 };
                 setupAvailableTimeUnits(scope.internalRangeObject.suggestedRange().from, scope.internalRangeObject.suggestedRange().to);
             }

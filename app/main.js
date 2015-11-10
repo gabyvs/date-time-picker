@@ -3,8 +3,8 @@
 import angular from 'angular';
 
 import dtPicker from './dtPicker';
-import singleCalendar from './single-calendar';
-import doubleCalendar from './double-calendar';
+import singleCalendar from './single-calendar/single-calendar';
+import doubleCalendar from './double-calendar/double-calendar';
 import pickerService from './pickerService';
 import bootstrapService from './custom-bootstrap/bootstrapService';
 

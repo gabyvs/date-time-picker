@@ -1,6 +1,5 @@
 import jQuery from 'jquery';
-import moment from 'moment';
-import dtPickerMain from './main';
+import dtPickerMain from '../main';
 
 describe('Single Calendar', function () {
     var scope, $compile, $rootScope, element;
@@ -16,7 +15,6 @@ describe('Single Calendar', function () {
     beforeEach(angular.mock.inject([
         '$rootScope',
         '$compile',
-        'pickerService',
         function (_$rootScope_, _$compile_) {
             $compile = _$compile_;
             scope = _$rootScope_.$new();
