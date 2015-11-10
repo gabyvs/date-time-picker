@@ -11,7 +11,7 @@ function doubleCalendar() {
             maxRange: '=',
             range: '='
         },
-        template: '<div></div>',
+        template: '<div class="double-calendar-container"></div>',
         link: function (scope, element) {
             function setMinMaxDates(minDate, maxDate) {
                 jQuery(element).datepick('option', 'minDate', minDate);

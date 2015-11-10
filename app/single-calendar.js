@@ -11,7 +11,7 @@ function singleCalendar() {
             onDateSelected: '&',
             singleDate: '='
         },
-        template: '<div></div>',
+        template: '<div class="single-calendar-container"></div>',
         link: function (scope, element) {
             var internalSetting;
             scope.dateSelected = function (dates) {

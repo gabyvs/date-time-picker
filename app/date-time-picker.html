@@ -19,14 +19,12 @@
         <div class="sections">
             <div class="date-range-selection" ng-hide="isTimeRange">
                 <double-calendar
-                        class="double-calendar-container"
                         on-range-selected="onRangeSelected"
                         max-range="maxRange"
                         range="dateRange"></double-calendar>
             </div>
             <div class="time-range-selection" ng-show="isTimeRange">
                 <single-calendar
-                        class="single-calendar-container"
                         on-date-selected="onDateSelected(dateSelected)"
                         single-date="singleDate"></single-calendar>
                 <div class="time-range-container">
