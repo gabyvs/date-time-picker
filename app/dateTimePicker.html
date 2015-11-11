@@ -25,32 +25,11 @@
             </div>
             <div class="time-range-selection" ng-show="isTimeRange">
                 <single-calendar
+                        observer="observer"
                         on-date-selected="onDateSelected(dateSelected)"
                         single-date="singleDate"></single-calendar>
-                <div class="time-range-container">
-                    <div class="key-value-section">
-                        <span class="bold-label">From</span>
-                        <div class="btn-group">
-                            <button class="btn btn-sm dropdown-toggle" data-toggle="dt_dropdown">{{ selectedFrom.label }}<span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                <li ng-repeat="hour in hours" ng-click="selectFrom(hour)"><a>{{ hour.label }}</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="key-value-section">
-                        <span class="bold-label">Duration</span>
-                        <div class="btn-group">
-                            <button class="btn btn-sm dropdown-toggle" data-toggle="dt_dropdown">{{ selectedDuration.label }}<span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                <li ng-repeat="duration in durations" ng-click="selectDuration(duration)"><a>{{ duration.label }}</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="key-value-section">
-                        <span class="bold-label">To</span>
-                        <span class="label-text to-value">{{ internalRangeObject.suggestedRange().to | date: 'H:mm' }}</span>
-                    </div>
-                </div>
+                <duration-panel
+                        dictionary="dictionary"></duration-panel>
             </div>
             <div class="section-configure">
                 <div class="key-value-section">

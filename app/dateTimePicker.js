@@ -2,7 +2,9 @@ import angular from 'angular';
 import jQuery from 'jquery';
 import _ from 'lodash';
 import moment from 'moment';
-import template from './date-time-picker.html';
+import RangeObserver from './rangeObserver';
+import TimeResolution from './timeResolution';
+import template from './dateTimePicker.html';
 
 function dtPicker(service, bootstrapService) {
     var $ = jQuery;
@@ -96,7 +98,7 @@ function dtPicker(service, bootstrapService) {
                             // In this case, double calendar needs to be initialized with a default range
                             var from = new moment(scope.internalRangeObject.from).startOf('day');
                             var to = new moment(scope.internalRangeObject.to).endOf('day');
-                            scope.internalRangeObject = service.timeResolution(from.valueOf(), to.valueOf());
+                            scope.internalRangeObject = new TimeResolution(from.valueOf(), to.valueOf());
                             scope.internalRangeObject.selectedRange = _.find(scope.dictionary, { custom: 'date' });
                             scope.isTimeRange = false;
                         }
@@ -105,13 +107,13 @@ function dtPicker(service, bootstrapService) {
                             // In this case, single calendar needs to be initialized with a default range
                             var from = new moment(scope.internalRangeObject.from).startOf('day');
                             var to = new moment(scope.internalRangeObject.from).startOf('day').add(1, 'day');
-                            scope.internalRangeObject = service.timeResolution(from.valueOf(), to.valueOf());
+                            scope.internalRangeObject = new TimeResolution(from.valueOf(), to.valueOf());
                             scope.internalRangeObject.selectedRange = _.find(scope.dictionary, { custom: 'time' });
                             scope.isTimeRange = true;
                         }
                     }
                 } else {
-                    scope.internalRangeObject = service.timeResolutionFromLocal(scope.internalRangeObject.selectedRange, honorTimeUnit ? scope.internalRangeObject.timeUnit : false);
+                    scope.internalRangeObject = TimeResolution.timeResolutionFromLocal(scope.internalRangeObject.selectedRange, honorTimeUnit ? scope.internalRangeObject.timeUnit : false);
                     scope.isTimeRange = service.isTimeRange(scope.internalRangeObject.selectedRange);
                 }
                 if (!honorTimeUnit) {
@@ -120,16 +122,28 @@ function dtPicker(service, bootstrapService) {
             }
 
             function setupInternalRange (from, to, rangeOption) {
-                scope.internalRangeObject = service.timeResolution(from, to);
+                scope.internalRangeObject = new TimeResolution(from, to);
                 scope.internalRangeObject.selectedRange = _.find(scope.dictionary, rangeOption);
                 scope.internalRangeObject.timeUnit = scope.internalRangeObject.suggestedTimeUnit();
             }
 
+            scope.observer = new RangeObserver();
+            scope.observer.subscribe('dtPicker', function (rangeObject) {
+                scope.rORangeObject = rangeObject;
+                console.log('dtPicker.js', 'rangeObject', rangeObject);
+            });
+
+            /**
+             * Executes when a user selects a date in the single calendar.
+             * @param dateSelected
+             */
             scope.onDateSelected = function (dateSelected) {
+                // Creating a new from using only the date, preserving time.
                 var newFrom = new moment(scope.internalRangeObject.from);
                 var newDateSelected = new moment(dateSelected);
                 newFrom.year(newDateSelected.year()).month(newDateSelected.month()).date(newDateSelected.date());
 
+                // Creating a new to using from and duration
                 var newTo = new moment(newFrom.valueOf()).add(scope.selectedDuration.value, 'hours');
                 setupInternalRange(newFrom.valueOf(), newTo.valueOf(), { custom: 'time' });
                 scope.$apply();
@@ -164,21 +178,6 @@ function dtPicker(service, bootstrapService) {
                 if (scope.rangeDictionary) { scope.dictionary = scope.rangeDictionary; }
                 else { scope.dictionary = service.defaultDictionary; }
 
-                var h = [];
-                var d = [];
-
-                if (_.find(scope.dictionary, { label: 'Last 10 Minutes'})) {
-                    h.push({ value: -10, unit: 'minute', label: 'Ten minutes ago' });
-                    d.push({ value: 10, unit: 'minutes', label: '10 minutes' });
-                }
-
-                if (_.find(scope.dictionary, { label: 'Last Hour'})) {
-                    h.push({ value: -1, unit: 'hour', label: 'An hour ago' });
-                }
-
-                scope.hours = h.concat(service.hours);
-                scope.durations = d.concat(service.durations);
-
                 if (scope.options && scope.options.hideCustom) {
                     _.remove(scope.dictionary, { custom: 'date' });
                 }
@@ -191,7 +190,7 @@ function dtPicker(service, bootstrapService) {
                 scope.internalRangeObject = {};
                 scope.selectRangeOption(_.find(scope.dictionary, { preselected: true }) || scope.dictionary[0]);
                 scope.threeLetterTimezoneLabel = service.browserTimezone();
-                var range = service.timeResolutionFromLocal(scope.internalRangeObject.selectedRange);
+                var range = TimeResolution.timeResolutionFromLocal(scope.internalRangeObject.selectedRange);
                 scope.range = { from: range.from, to: range.to, timeUnit: range.suggestedTimeUnit() };
                 scope.savedRange = scope.internalRangeObject.selectedRange;
             }

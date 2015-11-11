@@ -2,7 +2,7 @@ import jQuery from 'jquery';
 import moment from 'moment';
 import dtPickerMain from './main';
 
-describe('Date Time Picker', function () {
+xdescribe('Date Time Picker', function () {
     var scope, $compile, $rootScope, service, element;
     var $ = jQuery;
 

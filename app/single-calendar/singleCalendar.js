@@ -1,17 +1,24 @@
 import jQuery from 'jquery';
 import datepick from 'imports?jQuery=jquery!../datepick/jquery.datepick.js';
 
-function singleCalendar() {
+function singleCalendar($timeout) {
     return {
         restrict: 'E',
         replace: true,
         scope: {
             onDateSelected: '&',
-            singleDate: '='
+            singleDate: '=',
+            observer: '='
         },
         template: '<div class="single-calendar-container"></div>',
         link: function (scope, element) {
             var internalSetting;
+            $timeout(function () {
+                scope.observer.subscribe('single-calendar', function (range) {
+                   console.log('range');
+                });
+                scope.observer.emit('single-calendar', {});
+            });
             scope.dateSelected = function (dates) {
                 if (!dates || !dates.length) { return; }
                 if (internalSetting) {

@@ -4,7 +4,7 @@ var path = require('path');
 var buildPath = path.resolve(__dirname, 'build');
 var nodeModulesPath = path.resolve(__dirname, 'node_modules');
 var mainPath = path.resolve(__dirname, 'app', 'main.js');
-var cssPath = path.resolve(__dirname, 'app', 'date-time-picker.less');
+var cssPath = path.resolve(__dirname, 'app', 'dateTimePicker.less');
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
@@ -18,7 +18,7 @@ var config = {
     ],
     output: {
         path: buildPath,
-        filename: 'date-time-picker.js',
+        filename: 'dateTimePicker.js',
         publicPath: '/build/'
     },
     externals: {
