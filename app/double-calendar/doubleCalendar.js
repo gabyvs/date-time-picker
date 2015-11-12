@@ -2,14 +2,15 @@ import jQuery from 'jquery';
 import moment from 'moment';
 import datepick from 'imports?jQuery=jquery!../datepick/jquery.datepick.js';
 
-function doubleCalendar() {
+function doubleCalendar($timeout) {
     return {
         restrict: 'E',
         replace: true,
         scope: {
             onRangeSelected: '&',
             maxRange: '=',
-            range: '='
+            range: '=',
+            observer: '='
         },
         template: '<div class="double-calendar-container"></div>',
         link: function (scope, element) {
@@ -51,6 +52,12 @@ function doubleCalendar() {
                     rangeStarted = dates[0];
                 }
             }
+
+            $timeout(function () {
+                scope.observer.subscribe('doubleCalendar', function (range) {
+                    console.log('doubleCalendar.js', 'range', range);
+                });
+            });
 
             var rangeStarted;
             var internalSetting;

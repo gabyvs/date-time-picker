@@ -6,7 +6,7 @@ import RangeObserver from './rangeObserver';
 import TimeResolution from './timeResolution';
 import template from './dateTimePicker.html';
 
-function dtPicker(service, bootstrapService) {
+function dtPicker($timeout, service, bootstrapService) {
     var $ = jQuery;
     bootstrapService.bootstrap();
     return {
@@ -19,6 +19,60 @@ function dtPicker(service, bootstrapService) {
         },
         template: template,
         link: function (scope, element) {
+            /**
+             * Initializes available ranges that user can select.
+             */
+            function setupRangeDictionary() {
+                if (scope.rangeDictionary) { scope.dictionary = scope.rangeDictionary; }
+                else { scope.dictionary = service.defaultDictionary; }
+            }
+
+            function setupCustomSettings() {
+                if (scope.options && scope.options.hideCustom) {
+                    _.remove(scope.dictionary, { custom: 'date' });
+                }
+                if (scope.options && scope.options.hideTimeUnit) {
+                    scope.hideTimeUnit = true;
+                }
+                scope.maxRange = scope.options && scope.options.maxRange || 31;
+            }
+
+            /**
+             * Sets main label initial state, and starts the range shared with main controller.
+             */
+            function setupDefaultRange() {
+                scope.threeLetterTimezoneLabel = service.browserTimezone();
+                const preselectedOption = _.find(scope.dictionary, { preselected: true }) || scope.dictionary[0];
+                scope.isTimeRange = service.isTimeRange(preselectedOption);
+                const obsTimeResolution = TimeResolution.timeResolutionFromLocal(preselectedOption);
+                scope.internalRange = obsTimeResolution;
+                scope.range = { from: obsTimeResolution.from, to: obsTimeResolution.to, timeUnit: obsTimeResolution.suggestedTimeUnit() };
+                scope.observer.emit('dateTimePicker', obsTimeResolution);
+            }
+
+            scope.observer = new RangeObserver();
+            scope.observer.subscribe('dateTimePicker', function (rangeObject) {
+                console.log('dateTimePicker.js', 'rangeObject', rangeObject);
+            });
+
+            /**
+             * Executes when a user clicks over the main label, causing the configure area to open.
+             * It resets all controls to last saved range, and adjusted to current moment.
+             */
+            scope.configure = function () {
+                scope.configuring = true; // TODO: this can be done in template
+            };
+
+            setupRangeDictionary();
+            setupCustomSettings();
+            $timeout(function () {
+                setupDefaultRange();
+            });
+
+            //////////////////
+
+
+
             /**
              * After a user selects an option that includes a date range or sets a date range with the double calendar,
              * this function verifies which time units are available to select from (hours and days).
@@ -35,35 +89,6 @@ function dtPicker(service, bootstrapService) {
                 } else {
                     delete scope.internalRangeObject.selectedRange.timeUnits;
                 }
-            }
-
-            /**
-             *  After a user selects an option that represents a time range, e.g. last hour, this function sets all the time range controls accordingly.
-             */
-            function setupTimeRange() {
-                if (scope.internalRangeObject.selectedRange.label === 'Time Range') {
-                    var from = moment(scope.internalRangeObject.from);
-                    var to = moment(scope.internalRangeObject.to);
-                    scope.selectedFrom = _.find(scope.hours, { value: from.hour() });
-                    if (to.diff(from, 'minutes') === 10) {
-                        scope.selectedDuration = _.find(scope.durations, { value: 10, unit: 'minutes' });
-                    } else {
-                        scope.selectedDuration = _.find(scope.durations, { value: to.diff(from, 'hours'), unit: 'hours' });
-                    }
-                } else if (scope.internalRangeObject.selectedRange.label === 'Last Hour') {
-                    scope.selectedFrom = _.find(scope.hours, { value: -1 });
-                    scope.selectedDuration = _.find(scope.durations, { value: 1, unit: 'hours' });
-                } else if (scope.internalRangeObject.selectedRange.label === 'Last 10 Minutes') {
-                    scope.selectedFrom = _.find(scope.hours, { value: -10 });
-                    scope.selectedDuration = _.find(scope.durations, { value: 10, unit: 'minutes' });
-                } else {
-                    var fromHour = new moment(scope.internalRangeObject.suggestedRange().from).hour();
-                    scope.selectedFrom = _.find(scope.hours, { value: fromHour });
-                    var durationInHours = service.hourDifference(scope.internalRangeObject.from, scope.internalRangeObject.to);
-                    scope.selectedDuration = _.find(scope.durations, { value: durationInHours, unit: 'hours' });
-                }
-
-                scope.singleDate = new Date(scope.internalRangeObject.suggestedRange().from);
             }
 
             /**
@@ -127,12 +152,6 @@ function dtPicker(service, bootstrapService) {
                 scope.internalRangeObject.timeUnit = scope.internalRangeObject.suggestedTimeUnit();
             }
 
-            scope.observer = new RangeObserver();
-            scope.observer.subscribe('dtPicker', function (rangeObject) {
-                scope.rORangeObject = rangeObject;
-                console.log('dtPicker.js', 'rangeObject', rangeObject);
-            });
-
             /**
              * Executes when a user selects a date in the single calendar.
              * @param dateSelected
@@ -169,45 +188,7 @@ function dtPicker(service, bootstrapService) {
                 updateControls();
             };
 
-            /**
-             * Initializes calendars, available options for dropdowns with ranges, durations and starting hours.
-             * It also sets main label initial state, and starts the range shared with main controller.
-             */
-            function setupInitialConfigurations() {
-                // Initializing available options for ranges, starting hours and durations.
-                if (scope.rangeDictionary) { scope.dictionary = scope.rangeDictionary; }
-                else { scope.dictionary = service.defaultDictionary; }
 
-                if (scope.options && scope.options.hideCustom) {
-                    _.remove(scope.dictionary, { custom: 'date' });
-                }
-                if (scope.options && scope.options.hideTimeUnit) {
-                    scope.hideTimeUnit = true;
-                }
-                scope.maxRange = scope.options && scope.options.maxRange || 31;
-
-                // Initializing main internal object and controller range object, this will set initial range and main label.
-                scope.internalRangeObject = {};
-                scope.selectRangeOption(_.find(scope.dictionary, { preselected: true }) || scope.dictionary[0]);
-                scope.threeLetterTimezoneLabel = service.browserTimezone();
-                var range = TimeResolution.timeResolutionFromLocal(scope.internalRangeObject.selectedRange);
-                scope.range = { from: range.from, to: range.to, timeUnit: range.suggestedTimeUnit() };
-                scope.savedRange = scope.internalRangeObject.selectedRange;
-            }
-
-            /**
-             * Executes when a user clicks over the main label, causing the configure area to open.
-             * It resets all controls to last saved range, and adjusted to current moment.
-             */
-            scope.configure = function () {
-                scope.internalRangeObject.selectedRange = scope.savedRange;
-                scope.internalRangeObject.from = scope.range.from;
-                scope.internalRangeObject.to = scope.range.to;
-                scope.internalRangeObject.timeUnit = scope.range.timeUnit;
-                setInternalSelections(true);
-                updateControls();
-                scope.configuring = true;
-            };
 
             /**
              * Executes when a user selects the starting hour from time range selector, modifying internal ranges and probably duration.
@@ -270,8 +251,6 @@ function dtPicker(service, bootstrapService) {
                 scope.range.timeUnit = scope.internalRangeObject.timeUnit;
                 scope.configuring = false;
             };
-
-            setupInitialConfigurations();
         }
     }
 }

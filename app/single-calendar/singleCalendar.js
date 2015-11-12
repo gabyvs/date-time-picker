@@ -6,33 +6,35 @@ function singleCalendar($timeout) {
         restrict: 'E',
         replace: true,
         scope: {
-            onDateSelected: '&',
-            singleDate: '=',
             observer: '='
         },
         template: '<div class="single-calendar-container"></div>',
         link: function (scope, element) {
             var internalSetting;
+
+            /**
+             * Executes when a range is selected and emitted by any of the other components
+             * @param range
+             */
+            function onRangeSet(range) {
+                internalSetting = true;
+                // FIXME: Should this be done through a service so singleCalendar doesn't need to know specifics of range object?
+                jQuery(element).datepick('setDate', new Date(range.suggestedRange().from));
+            }
+
             $timeout(function () {
-                scope.observer.subscribe('single-calendar', function (range) {
-                   console.log('range');
-                });
-                scope.observer.emit('single-calendar', {});
+                scope.observer.subscribe('singleCalendar', onRangeSet);
             });
+
             scope.dateSelected = function (dates) {
                 if (!dates || !dates.length) { return; }
                 if (internalSetting) {
                     internalSetting = false;
                     return;
                 }
-                scope.onDateSelected({ dateSelected: dates[0]});
+                // TODO: here this component should emit!
+//                scope.observer.emit({ dateSelected: dates[0]});
             };
-
-            scope.$watch('singleDate', function (value) {
-                if (!value) { return; }
-                internalSetting = true;
-                jQuery(element).datepick('setDate', value);
-            });
 
             jQuery(element).datepick({
                 minDate: '-6m',

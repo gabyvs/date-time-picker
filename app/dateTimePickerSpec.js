@@ -26,47 +26,6 @@ xdescribe('Date Time Picker', function () {
         }
     ]));
 
-    it('Loading directive.', function () {
-        var element = $compile('<dt-picker range="range" options="options" range-dictionary="rangeDictionary"></dt-picker>')(scope);
-        scope.$digest();
-        expect(element.isolateScope()).toBeDefined();
-    });
-
-    it('Loads default configuration', function () {
-        expect(element.isolateScope().dictionary).toBeDefined();
-        expect(element.isolateScope().internalRangeObject).toBeDefined();
-        expect(element.isolateScope().threeLetterTimezoneLabel).toBeDefined();
-        expect(element.isolateScope().internalRangeObject.selectedRange).toBeDefined();
-        expect(element.isolateScope().internalRangeObject.selectedRange.label).toBe('Last 24 Hours');
-        expect(element.isolateScope().internalRangeObject.timeUnit).toBe('hour');
-        expect(element.isolateScope().savedRange).toBeDefined();
-        expect(element.isolateScope().range).toBeDefined();
-        expect(scope.range).toBeDefined();
-    });
-
-    it('Shows and hides configuration panel', function () {
-        expect(element.isolateScope().configuring).toBeUndefined();
-        expect(element.find('.date-time-configure').hasClass('ng-hide')).toBe(true);
-        element.isolateScope().configure();
-        $rootScope.$digest();
-        expect(element.isolateScope().configuring).toBe(true);
-        expect(element.find('.date-time-configure').hasClass('ng-hide')).toBe(false);
-        element.isolateScope().close();
-        $rootScope.$digest();
-        expect(element.isolateScope().configuring).toBe(false);
-        expect(element.find('.date-time-configure').hasClass('ng-hide')).toBe(true);
-    });
-
-    it('Saves selection to controller scope', function () {
-        element.isolateScope().selectRangeOption(element.isolateScope().dictionary[3]);
-        $rootScope.$digest();
-        element.isolateScope().save();
-        $rootScope.$digest();
-        expect(element.isolateScope().configuring).toBe(false);
-        expect(element.find('.date-time-configure').hasClass('ng-hide')).toBe(true);
-        expect(new moment(scope.range.to).diff(scope.range.from, 'days')).toBe(7);
-    });
-
     it('Selects available ranges', function () {
         var selectedDates;
         // By default it selects last 24 hours
@@ -186,26 +145,6 @@ xdescribe('Date Time Picker', function () {
         var from = new moment(element.isolateScope().internalRangeObject.from);
         var to = new moment(element.isolateScope().internalRangeObject.to);
         expect(to.diff(from, 'days')).toBe(0);
-    });
-
-    it('Can refresh page', function () {
-        expect(element.isolateScope().internalRangeObject.selectedRange.label).toBe('Last 24 Hours');
-        expect(element.isolateScope().internalRangeObject.selectedRange.duration.unit).toBe('day');
-        expect(element.isolateScope().internalRangeObject.selectedRange.duration.value).toBe(1);
-        expect(element.isolateScope().savedRange.duration.unit).toBe('day');
-        expect(element.isolateScope().savedRange.duration.value).toBe(1);
-        element.isolateScope().configure();
-        element.isolateScope().selectRangeOption(element.isolateScope().dictionary[3]);
-        $rootScope.$digest();
-        expect(element.isolateScope().internalRangeObject.selectedRange.duration.unit).toBe('week');
-        expect(element.isolateScope().internalRangeObject.selectedRange.duration.value).toBe(1);
-        element.isolateScope().close();
-        element.isolateScope().refresh();
-        $rootScope.$digest();
-        expect(element.isolateScope().internalRangeObject.selectedRange.duration.unit).toBe('day');
-        expect(element.isolateScope().internalRangeObject.selectedRange.duration.value).toBe(1);
-        expect(element.isolateScope().savedRange.duration.unit).toBe('day');
-        expect(element.isolateScope().savedRange.duration.value).toBe(1);
     });
 
     it('Hides custom date range', function () {

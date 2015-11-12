@@ -6,6 +6,7 @@ import dtPicker from './dateTimePicker';
 import singleCalendar from './single-calendar/singleCalendar';
 import doubleCalendar from './double-calendar/doubleCalendar';
 import durationPanel from './duration-panel/durationPanel';
+import rangePanel from './range-panel/rangePanel';
 import pickerService from './pickerService';
 import bootstrapService from './custom-bootstrap/bootstrapService';
 
@@ -14,7 +15,8 @@ export default angular
     .service('pickerService', pickerService)
     .service('bootstrapService', bootstrapService)
     .directive('singleCalendar', ['$timeout', singleCalendar])
-    .directive('doubleCalendar', ['pickerService', doubleCalendar])
-    .directive('durationPanel', ['pickerService', durationPanel])
-    .directive('dtPicker', ['pickerService', 'bootstrapService', dtPicker])
+    .directive('doubleCalendar', ['$timeout', doubleCalendar])
+    .directive('durationPanel', ['$timeout', 'pickerService', durationPanel])
+    .directive('rangePanel', ['$timeout', rangePanel])
+    .directive('dtPicker', ['$timeout', 'pickerService', 'bootstrapService', dtPicker])
     .name;

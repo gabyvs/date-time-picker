@@ -19,40 +19,21 @@
         <div class="sections">
             <div class="date-range-selection" ng-hide="isTimeRange">
                 <double-calendar
+                        observer="observer"
                         on-range-selected="onRangeSelected"
                         max-range="maxRange"
                         range="dateRange"></double-calendar>
             </div>
             <div class="time-range-selection" ng-show="isTimeRange">
-                <single-calendar
-                        observer="observer"
-                        on-date-selected="onDateSelected(dateSelected)"
-                        single-date="singleDate"></single-calendar>
+                <single-calendar observer="observer"></single-calendar>
                 <duration-panel
+                        observer="observer"
                         dictionary="dictionary"></duration-panel>
             </div>
-            <div class="section-configure">
-                <div class="key-value-section">
-                    <span class="bold-label">Range</span>
-                    <div class="btn-group">
-                        <button class="btn btn-sm dropdown-toggle" data-toggle="dt_dropdown">{{ internalRangeObject.selectedRange.label }}<span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li ng-repeat="range in dictionary"><a ng-click="selectRangeOption(range)">{{ range.label }}</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="key-value-section" ng-hide="hideTimeUnit">
-                    <span class="bold-label">Time Unit</span>
-                    <span class="label-text" ng-hide="internalRangeObject.selectedRange.timeUnits.length > 1">{{ internalRangeObject.timeUnit }}</span>
-                    <div class="btn-group" ng-show="internalRangeObject.selectedRange.timeUnits.length > 1">
-                        <button class="btn btn-sm dropdown-toggle" data-toggle="dt_dropdown">{{ internalRangeObject.timeUnit }}<span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li ng-repeat="unit in internalRangeObject.selectedRange.timeUnits" ng-click="selectTimeUnit(unit)"><a>{{ unit }}</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <range-panel
+                    observer="observer"
+                    dictionary="dictionary"
+                    hide-time-unit="hideTimeUnit"></range-panel>
         </div>
         <div class="bottom-section">
             <div class="button-section">
@@ -61,7 +42,7 @@
             </div>
             <div class="selected-section">
                 <span class="bold-label">Selected</span>
-                <span class="label-text">{{ internalRangeObject.suggestedRange().from | date: 'EEE d MMM yyyy H:mm' }} &nbsp;&ndash;&nbsp; {{ internalRangeObject.suggestedRange().to | date: 'EEE d MMM yyyy H:mm' }} {{ threeLetterTimezoneLabel }}</span>
+                <span class="label-text">{{ internalRange.suggestedRange().from | date: 'EEE d MMM yyyy H:mm' }} &nbsp;&ndash;&nbsp; {{ internalRange.suggestedRange().to | date: 'EEE d MMM yyyy H:mm' }} {{ threeLetterTimezoneLabel }}</span>
             </div>
             <div class="clearboth"></div>
         </div>
