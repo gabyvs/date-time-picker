@@ -32,12 +32,11 @@ describe('Single Calendar', function () {
         expect(element.find('.datepick').length).toBe(1);
     });
 
-    // TODO: fix this test
-    xit('User selects a date from calendar, controller is alerted', function () {
+    it('User selects a date from calendar, controller is alerted', function () {
         var dateTest;
-        scope.onDateSelected = function (dateSelected) {
-            dateTest = dateSelected;
-        };
+        element.isolateScope().observer.subscribe('singleCalendarSpec', function (date) {
+            dateTest = date;
+        });
         $(element).datepick('setDate', new Date());
         expect(dateTest).toBeDefined();
     });

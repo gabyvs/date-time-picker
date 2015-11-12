@@ -1,4 +1,6 @@
 import dtPickerMain from './main';
+import moment from 'moment';
+import TimeResolution from './timeResolution';
 
 describe('Date Time Picker', function () {
     var scope, $compile, $rootScope, service, element, $timeout;
@@ -33,7 +35,7 @@ describe('Date Time Picker', function () {
         expect(element.isolateScope().observer).toBeDefined();
         expect(element.isolateScope().dictionary).toBeDefined();
         var rangeSet;
-        element.isolateScope().observer.subscribe('test', function (range) {
+        element.isolateScope().observer.subscribe('dateTimePickerSpec', function (range) {
             rangeSet = range;
         });
         $timeout.flush();
@@ -56,6 +58,18 @@ describe('Date Time Picker', function () {
         $rootScope.$digest();
         expect(element.isolateScope().configuring).toBe(false);
         expect(element.find('.date-time-configure').hasClass('ng-hide')).toBe(true);
+    });
+
+    it('Receives changes on internal range from internal directives', function () {
+        $timeout.flush();
+        const originalRange = element.isolateScope().internalRange;
+        const oneWeekBefore = moment().subtract(7, 'days');
+        const dayStart = moment(oneWeekBefore).startOf('day');
+        const dayEnds = moment(oneWeekBefore).endOf('day');
+        const newDate = new TimeResolution(dayStart, dayEnds);
+        newDate.selectedRange = { label: 'Time Range', custom: 'time' };
+        element.isolateScope().observer.emit('dateTimePickerSpec', newDate);
+        expect(moment(originalRange.from).diff(moment(element.isolateScope().internalRange.from), 'days')).toBe(6);
     });
 
     // TODO: fix this test

@@ -55,7 +55,7 @@ function doubleCalendar($timeout) {
 
             $timeout(function () {
                 scope.observer.subscribe('doubleCalendar', function (range) {
-                    console.log('doubleCalendar.js', 'range', range);
+//                    console.log('doubleCalendar.js', 'range', range);
                 });
             });
 

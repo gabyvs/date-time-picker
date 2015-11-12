@@ -16,8 +16,8 @@ function durationPanel($timeout, pickerService) {
              */
             function setupControls() {
                 if (scope.internalRange.selectedRange.label === 'Time Range') {
-                    var from = moment(scope.internalRangeObject.from);
-                    var to = moment(scope.internalRangeObject.to);
+                    var from = moment(scope.internalRange.from);
+                    var to = moment(scope.internalRange.to);
                     scope.selectedFrom = _.find(scope.hours, { value: from.hour() });
                     if (to.diff(from, 'minutes') === 10) {
                         scope.selectedDuration = _.find(scope.durations, { value: 10, unit: 'minutes' });

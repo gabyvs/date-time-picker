@@ -52,7 +52,8 @@ function dtPicker($timeout, service, bootstrapService) {
 
             scope.observer = new RangeObserver();
             scope.observer.subscribe('dateTimePicker', function (rangeObject) {
-                console.log('dateTimePicker.js', 'rangeObject', rangeObject);
+                scope.internalRange = rangeObject;
+                scope.$digest();
             });
 
             /**
@@ -69,10 +70,12 @@ function dtPicker($timeout, service, bootstrapService) {
                 setupDefaultRange();
             });
 
+            window.theScope = scope;
+
             //////////////////
 
 
-
+            // TODO: move this to rangePanel
             /**
              * After a user selects an option that includes a date range or sets a date range with the double calendar,
              * this function verifies which time units are available to select from (hours and days).
@@ -91,6 +94,7 @@ function dtPicker($timeout, service, bootstrapService) {
                 }
             }
 
+            // TODO: this should emit and be catched by double calendar
             /**
              * After a user selects an option that represents a date range, e.g. 7 days, this function sets all date range controls accordingly.
              */
@@ -103,14 +107,7 @@ function dtPicker($timeout, service, bootstrapService) {
                 setupAvailableTimeUnits(scope.internalRangeObject.suggestedRange().from, scope.internalRangeObject.suggestedRange().to);
             }
 
-            function updateControls() {
-                if (scope.isTimeRange) {
-                    setupTimeRange();
-                } else {
-                    setupDateRange();
-                }
-            }
-
+            // TODO: this function shouldnt be needed
             /**
              * After a user selects any option this function sets all the controls according to the user selection.
              * When the directive needs to update the selected range, like when refreshing or opening the configure area, this sets all the controls according to last saved selection.
@@ -146,12 +143,14 @@ function dtPicker($timeout, service, bootstrapService) {
                 }
             }
 
+            // TODO: this should be set when receiving a signal
             function setupInternalRange (from, to, rangeOption) {
                 scope.internalRangeObject = new TimeResolution(from, to);
                 scope.internalRangeObject.selectedRange = _.find(scope.dictionary, rangeOption);
                 scope.internalRangeObject.timeUnit = scope.internalRangeObject.suggestedTimeUnit();
             }
 
+            // TODO: this should happen when receiving a signal from single calendar
             /**
              * Executes when a user selects a date in the single calendar.
              * @param dateSelected
@@ -168,6 +167,7 @@ function dtPicker($timeout, service, bootstrapService) {
                 scope.$apply();
             };
 
+            // TODO: this should happen when receiving a signal from double calendar
             /**
              * Executes when a user selects a date in the double calendar, updating internal range.
              * When the user selects the first date on the range, it also updates available dates for range ending according to the maximum range allowed in days.
@@ -178,6 +178,7 @@ function dtPicker($timeout, service, bootstrapService) {
                 scope.$apply();
             };
 
+            // TODO: move this to range panel
             /**
              * Executes when a user selects an available range.
              * @param range
@@ -189,7 +190,7 @@ function dtPicker($timeout, service, bootstrapService) {
             };
 
 
-
+            // TODO: move this to durationPanel
             /**
              * Executes when a user selects the starting hour from time range selector, modifying internal ranges and probably duration.
              * @param hour taken from scope.hours like { value: 0, label: '0:00' }. Exceptions to this format are last hour and last 10 minutes.
@@ -209,6 +210,7 @@ function dtPicker($timeout, service, bootstrapService) {
                 }
             };
 
+            // TODO: move this to durationPanel
             /**
              * Executes when a user selects a duration from time range selector, modifying internal ranges.
              * @param duration a duration in hours, taken from scope.durations like { value: 1, label: '1 hour' }. Only exception is for 10 minutes.
@@ -219,6 +221,7 @@ function dtPicker($timeout, service, bootstrapService) {
                 setupInternalRange(scope.internalRangeObject.from, newTo.valueOf(), { custom: 'time' });
             };
 
+            // TODO: move this to rangePanel
             scope.selectTimeUnit = function (unit) {
                 scope.internalRangeObject.timeUnit = unit;
                 setInternalSelections(true);
@@ -231,6 +234,7 @@ function dtPicker($timeout, service, bootstrapService) {
                 scope.configuring = false;
             };
 
+            // TODO: fix this
             /**
              * Takes last saved user selection to calculate ranges with current moment,
              * then it modifies controller range object with updated range.
@@ -241,6 +245,7 @@ function dtPicker($timeout, service, bootstrapService) {
                 scope.save();
             };
 
+            // TODO: fix this
             /**
              *  Saves user selections into controller range object, closing configuring area.
              */

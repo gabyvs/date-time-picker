@@ -17,6 +17,7 @@ function rangePanel($timeout) {
              */
             function onRangeSet(range) {
                 scope.internalRange = range;
+                scope.$digest();
             }
 
             $timeout(function () {

@@ -1,5 +1,7 @@
 import jQuery from 'jquery';
+import moment from 'moment';
 import datepick from 'imports?jQuery=jquery!../datepick/jquery.datepick.js';
+import TimeResolution from '../timeResolution';
 
 function singleCalendar($timeout) {
     return {
@@ -11,6 +13,7 @@ function singleCalendar($timeout) {
         template: '<div class="single-calendar-container"></div>',
         link: function (scope, element) {
             var internalSetting;
+            var internalRange;
 
             /**
              * Executes when a range is selected and emitted by any of the other components
@@ -18,7 +21,7 @@ function singleCalendar($timeout) {
              */
             function onRangeSet(range) {
                 internalSetting = true;
-                // FIXME: Should this be done through a service so singleCalendar doesn't need to know specifics of range object?
+                internalRange = range;
                 jQuery(element).datepick('setDate', new Date(range.suggestedRange().from));
             }
 
@@ -32,8 +35,16 @@ function singleCalendar($timeout) {
                     internalSetting = false;
                     return;
                 }
-                // TODO: here this component should emit!
-//                scope.observer.emit({ dateSelected: dates[0]});
+                var newDate;
+                if (internalRange) {
+                    newDate = internalRange.changeFrom(dates[0]);
+                } else {
+                    const dayStart = moment(dates[0]).startOf('day');
+                    const dayEnds = moment(dates[0]).endOf('day');
+                    newDate = new TimeResolution(dayStart, dayEnds);
+                    newDate.selectedRange = { label: 'Time Range', custom: 'time' };
+                }
+                scope.observer.emit('singleCalendar', newDate);
             };
 
             jQuery(element).datepick({

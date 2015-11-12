@@ -59,7 +59,6 @@ class TimeResolution {
         this.timeUnit = timeUnit;
         this.maxResolution = maxResolution;
         this.selectedRange = 'custom';
-
     }
 
     suggestedTimeUnit () {
@@ -85,6 +84,22 @@ class TimeResolution {
             }
         };
         return result;
+    }
+
+    /**
+     * Creating a new time resolution given a different starting date with the same settings than the original one
+     * @param startingDate
+     * @returns {TimeResolution}
+     */
+    changeFrom (startingDate) {
+        const fromHelper = new moment(this.from);
+        const newDateSelected = new moment(startingDate);
+        fromHelper.year(newDateSelected.year()).month(newDateSelected.month()).date(newDateSelected.date());
+        const diffInMillis = new moment(this.to).diff(new moment(this.from));
+        const toHelper = new moment(fromHelper).add(diffInMillis, 'ms');
+        const newTime = new TimeResolution(fromHelper.valueOf(), toHelper.valueOf(), this.timeUnit);
+        newTime.selectedRange = { label: 'Time Range', custom: 'time' };
+        return newTime;
     }
 
     static timeResolutionFromLocal (selection, timeUnit) {
