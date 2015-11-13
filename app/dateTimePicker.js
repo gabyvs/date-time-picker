@@ -53,7 +53,6 @@ function dtPicker($timeout, service, bootstrapService) {
             scope.observer = new RangeObserver();
             scope.observer.subscribe('dateTimePicker', function (rangeObject) {
                 scope.internalRange = rangeObject;
-                scope.$digest();
             });
 
             /**
@@ -143,29 +142,12 @@ function dtPicker($timeout, service, bootstrapService) {
                 }
             }
 
-            // TODO: this should be set when receiving a signal
+            // TODO: verify if this should be set when receiving a signal, particularly the time unit
             function setupInternalRange (from, to, rangeOption) {
                 scope.internalRangeObject = new TimeResolution(from, to);
                 scope.internalRangeObject.selectedRange = _.find(scope.dictionary, rangeOption);
                 scope.internalRangeObject.timeUnit = scope.internalRangeObject.suggestedTimeUnit();
             }
-
-            // TODO: this should happen when receiving a signal from single calendar
-            /**
-             * Executes when a user selects a date in the single calendar.
-             * @param dateSelected
-             */
-            scope.onDateSelected = function (dateSelected) {
-                // Creating a new from using only the date, preserving time.
-                var newFrom = new moment(scope.internalRangeObject.from);
-                var newDateSelected = new moment(dateSelected);
-                newFrom.year(newDateSelected.year()).month(newDateSelected.month()).date(newDateSelected.date());
-
-                // Creating a new to using from and duration
-                var newTo = new moment(newFrom.valueOf()).add(scope.selectedDuration.value, 'hours');
-                setupInternalRange(newFrom.valueOf(), newTo.valueOf(), { custom: 'time' });
-                scope.$apply();
-            };
 
             // TODO: this should happen when receiving a signal from double calendar
             /**
@@ -187,38 +169,6 @@ function dtPicker($timeout, service, bootstrapService) {
                 scope.internalRangeObject.selectedRange = range;
                 setInternalSelections();
                 updateControls();
-            };
-
-
-            // TODO: move this to durationPanel
-            /**
-             * Executes when a user selects the starting hour from time range selector, modifying internal ranges and probably duration.
-             * @param hour taken from scope.hours like { value: 0, label: '0:00' }. Exceptions to this format are last hour and last 10 minutes.
-             */
-            scope.selectFrom = function (hour) {
-                // Case of an hour ago, changes date, duration and internal selection
-                if (hour.value === -1) {
-                    scope.selectRangeOption(_.find(scope.dictionary, { label: 'Last Hour' }));
-                } else if (hour.value === -10) {
-                    scope.selectRangeOption(_.find(scope.dictionary, { label: 'Last 10 Minutes' }));
-                } else { // Case of selecting an hour, changes only the hour part of the from
-                    scope.selectedFrom = hour;
-                    var newFrom = new moment(scope.internalRangeObject.from);
-                    newFrom.hour(hour.value).minute(0).second(0).millisecond(0);
-                    var newTo = new moment(newFrom.valueOf()).add(scope.selectedDuration.value, scope.selectedDuration.unit);
-                    setupInternalRange(newFrom.valueOf(), newTo.valueOf(), { custom: 'time' });
-                }
-            };
-
-            // TODO: move this to durationPanel
-            /**
-             * Executes when a user selects a duration from time range selector, modifying internal ranges.
-             * @param duration a duration in hours, taken from scope.durations like { value: 1, label: '1 hour' }. Only exception is for 10 minutes.
-             */
-            scope.selectDuration = function (duration) {
-                scope.selectedDuration = duration;
-                var newTo = new moment(scope.internalRangeObject.from).add(scope.selectedDuration.value, scope.selectedDuration.unit);
-                setupInternalRange(scope.internalRangeObject.from, newTo.valueOf(), { custom: 'time' });
             };
 
             // TODO: move this to rangePanel

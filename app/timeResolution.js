@@ -91,14 +91,40 @@ class TimeResolution {
      * @param startingDate
      * @returns {TimeResolution}
      */
-    changeFrom (startingDate) {
+    changeStartingDate (startingDate) {
         const fromHelper = new moment(this.from);
         const newDateSelected = new moment(startingDate);
         fromHelper.year(newDateSelected.year()).month(newDateSelected.month()).date(newDateSelected.date());
+        return this.changeFrom(fromHelper);
+    }
+
+    /**
+     * Creating a new time resolution given a different starting time with the same settings than the original one
+     * @param startingHour taken from pickerService.hours like { value: 0, label: '0:00' }
+     * @returns {TimeResolution}
+     */
+    changeStartingHour (startingHour) {
+        const fromHelper = new moment(this.from);
+        fromHelper.hour(startingHour.value).minute(0).second(0).millisecond(0);
+        return this.changeFrom(fromHelper);
+    }
+
+    changeFrom (newFrom) {
         const diffInMillis = new moment(this.to).diff(new moment(this.from));
-        const toHelper = new moment(fromHelper).add(diffInMillis, 'ms');
-        const newTime = new TimeResolution(fromHelper.valueOf(), toHelper.valueOf(), this.timeUnit);
+        const toHelper = new moment(newFrom).add(diffInMillis, 'ms');
+        const newTime = new TimeResolution(newFrom.valueOf(), toHelper.valueOf(), this.timeUnit);
         newTime.selectedRange = { label: 'Time Range', custom: 'time' };
+        return newTime;
+    }
+
+    /**
+     @param duration A duration in hours, taken from pickerService.durations like { value: 1, label: '1 hour' }. Only exception is for 10 minutes.
+     */
+    changeWithDuration(duration) {
+        const newTo = moment(this.from).add(duration.value, duration.unit);
+        const newTime = new TimeResolution(this.from, newTo);
+        newTime.selectedRange = { label: 'Time Range', custom: 'time' };
+        newTime.timeUnit = newTime.suggestedTimeUnit();
         return newTime;
     }
 

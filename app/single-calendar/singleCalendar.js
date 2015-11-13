@@ -13,7 +13,6 @@ function singleCalendar($timeout) {
         template: '<div class="single-calendar-container"></div>',
         link: function (scope, element) {
             var internalSetting;
-            var internalRange;
 
             /**
              * Executes when a range is selected and emitted by any of the other components
@@ -21,7 +20,7 @@ function singleCalendar($timeout) {
              */
             function onRangeSet(range) {
                 internalSetting = true;
-                internalRange = range;
+                scope.internalRange = range;
                 jQuery(element).datepick('setDate', new Date(range.suggestedRange().from));
             }
 
@@ -36,15 +35,17 @@ function singleCalendar($timeout) {
                     return;
                 }
                 var newDate;
-                if (internalRange) {
-                    newDate = internalRange.changeFrom(dates[0]);
+                if (scope.internalRange) {
+                    newDate = scope.internalRange.changeStartingDate(dates[0]);
                 } else {
                     const dayStart = moment(dates[0]).startOf('day');
                     const dayEnds = moment(dates[0]).endOf('day');
                     newDate = new TimeResolution(dayStart, dayEnds);
                     newDate.selectedRange = { label: 'Time Range', custom: 'time' };
                 }
+                scope.internalRange = newDate;
                 scope.observer.emit('singleCalendar', newDate);
+                $timeout();
             };
 
             jQuery(element).datepick({

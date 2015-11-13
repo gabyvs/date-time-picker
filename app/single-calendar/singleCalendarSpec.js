@@ -2,6 +2,7 @@ import jQuery from 'jquery';
 import dtPickerMain from '../main';
 import RangeObserver from '../rangeObserver';
 import TimeResolution from '../timeResolution';
+import moment from 'moment';
 
 describe('Single Calendar', function () {
     var scope, $compile, element, $timeout;
@@ -33,12 +34,14 @@ describe('Single Calendar', function () {
     });
 
     it('User selects a date from calendar, controller is alerted', function () {
-        var dateTest;
+        var dateSet;
         element.isolateScope().observer.subscribe('singleCalendarSpec', function (date) {
-            dateTest = date;
+            dateSet = date;
         });
-        $(element).datepick('setDate', new Date());
-        expect(dateTest).toBeDefined();
+        const dateToTest = new Date();
+        $(element).datepick('setDate', dateToTest);
+        expect(dateSet).toBeDefined();
+        expect(moment(element.isolateScope().internalRange.from).date()).toBe(moment(dateToTest).date())
     });
 
     it('Calendar is initialized with a date from controller', function () {

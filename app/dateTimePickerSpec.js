@@ -26,6 +26,7 @@ xdescribe('Date Time Picker', function () {
         }
     ]));
 
+    // TODO: write this as end to end tests
     it('Selects available ranges', function () {
         var selectedDates;
         // By default it selects last 24 hours
@@ -86,41 +87,6 @@ xdescribe('Date Time Picker', function () {
         expect(selectedDates[1]).toBeDefined();
     });
 
-    it('Selects a single date', function () {
-        element.isolateScope().selectRangeOption(element.isolateScope().dictionary[5]);
-        $rootScope.$digest();
-        expect(element.isolateScope().internalRangeObject.selectedRange.label).toBe('Time Range');
-        var firstDayOfMonth = new Date(new moment().date(1).valueOf());
-        element.isolateScope().onDateSelected(firstDayOfMonth);
-        expect(element.isolateScope().internalRangeObject.timeUnit).toBe('hour');
-        expect(element.isolateScope().selectedDuration.value).toBe(24);
-        expect(element.isolateScope().selectedFrom.value).toBeDefined();
-        expect(angular.element(element.find(".to-value")[0]).html()).toBe(element.isolateScope().selectedFrom.label);
-        var selectedDates = $(element.find('.single-calendar-container')).datepick('getDate');
-        expect(selectedDates[0]).toBeDefined();
-    });
-
-    it('Selects a different starting hour', function () {
-        element.isolateScope().selectFrom({ value: 0, label: '0:00' });
-        $rootScope.$digest();
-        expect(element.isolateScope().internalRangeObject.selectedRange.label).toBe('Time Range');
-        expect(element.isolateScope().selectedDuration.value).toBe(24);
-        expect(element.isolateScope().selectedFrom.value).toBeDefined();
-        expect(angular.element(element.find(".to-value")[0]).html()).toBe('0:00');
-        expect(new moment(element.isolateScope().internalRangeObject.from).hour()).toBe(0);
-    });
-    it('Selects a different duration', function () {
-        element.isolateScope().selectDuration({ value: 2, label: '2 hours', unit: 'hours' });
-        $rootScope.$digest();
-        expect(element.isolateScope().internalRangeObject.selectedRange.label).toBe('Time Range');
-        expect(element.isolateScope().selectedDuration.value).toBe(2);
-        expect(element.isolateScope().internalRangeObject.timeUnit).toBe('minute');
-        expect(element.isolateScope().selectedFrom.value).toBeDefined();
-        expect(angular.element(element.find(".to-value")[0]).html()).not.toBe('');
-        var from = new moment(element.isolateScope().internalRangeObject.from);
-        var to = new moment(element.isolateScope().internalRangeObject.to);
-        expect(to.diff(from, 'hours')).toBe(2);
-    });
     // There is a problem with the range picker because of the fact that the min and max dates need to be adjusted with every click
     // Because of that, the first date selected by the user sends to the picker only this date [date1, date1]
     // and the second time only the second date selected [date2, date2]
@@ -151,31 +117,6 @@ xdescribe('Date Time Picker', function () {
         scope.options = { hideCustom: true };
         compileDirective();
         expect(_.find(element.isolateScope().dictionary, { custom: 'date'})).toBeUndefined();
-    });
-
-    it('Selects last 10 minutes', function () {
-        scope.rangeDictionary = [
-            { label: 'Last 10 Minutes', duration: { unit: 'minutes', value: 10 }},
-            { label: 'Last Hour', duration: { unit: 'hour', value: 1 }},
-            { label: 'Last 24 Hours', duration: { unit: 'day', value: 1 }, preselected: true},
-            { label: 'Last 7 Days', duration: { unit: 'week', value: 1 }},
-            { label: 'Date Range', custom: 'date' },
-            { label: 'Time Range', custom: 'time' }
-        ];
-        compileDirective();
-        // selection last 10 minutes
-        element.isolateScope().selectRangeOption(element.isolateScope().dictionary[0]);
-        $rootScope.$digest();
-        expect(element.find('.date-range-selection').hasClass('ng-hide')).toBe(true);
-        expect(element.find('.time-range-selection').hasClass('ng-hide')).toBe(false);
-        expect(element.isolateScope().internalRangeObject.selectedRange.label).toBe('Last 10 Minutes');
-        expect(element.isolateScope().internalRangeObject.timeUnit).toBe('minute');
-        expect(element.isolateScope().selectedDuration.value).toBe(10);
-        expect(element.isolateScope().selectedFrom.value).toBeDefined();
-        expect(angular.element(element.find(".to-value")[0]).html()).not.toBe('');
-        var selectedDates = $(element.find('.single-calendar-container')).datepick('getDate');
-        expect(selectedDates[0]).toBeDefined();
-        expect(selectedDates[0].getDate()).toBe(new moment().subtract(10, 'minutes').date());
     });
 
     it('Honors time unit for refreshing', function () {

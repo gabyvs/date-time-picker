@@ -1,5 +1,6 @@
 import template from './durationPanel.html';
 import moment from 'moment';
+import TimeResolution from '../timeResolution';
 
 function durationPanel($timeout, pickerService) {
     return {
@@ -74,15 +75,35 @@ function durationPanel($timeout, pickerService) {
             scope.hours = setupHours();
             scope.durations = setupDurations();
 
-            // TODO: implement this
-            scope.selectFrom = function () {
-
+            /**
+             * Executes when a user selects a different starting hour from time range selector
+             * @param hour taken from scope.hours like { value: 0, label: '0:00' }. Exceptions to this format are last hour and last 10 minutes.
+             */
+            scope.selectFrom = function (hour) {
+                var newDate;
+                if (hour.value === -1) {
+                    newDate = TimeResolution.timeResolutionFromLocal(_.find(scope.dictionary, { label: 'Last Hour' }));
+                } else if (hour.value === -10) {
+                    newDate = TimeResolution.timeResolutionFromLocal(_.find(scope.dictionary, { label: 'Last 10 Minutes' }));
+                } else {
+                    newDate = scope.internalRange.changeStartingHour(hour);
+                }
+                scope.selectedFrom = hour;
+                scope.internalRange = newDate;
+                scope.observer.emit('durationPanel', newDate);
             };
 
-            // TODO: implement this
-            scope.selectDuration = function () {
-
-            }
+            // FIXME: for up to a 3 hour duration, user should be able to select hour as time unit
+            /**
+             * Executes when a user selects a duration from time range selector
+             * @param duration a duration in hours, taken from scope.durations like { value: 1, label: '1 hour' }. Only exception is for 10 minutes.
+             */
+            scope.selectDuration = function (duration) {
+                scope.selectedDuration = duration;
+                var newDate = scope.internalRange.changeWithDuration(duration);
+                scope.internalRange = newDate;
+                scope.observer.emit('durationPanel', newDate);
+            };
         }
     }
 }

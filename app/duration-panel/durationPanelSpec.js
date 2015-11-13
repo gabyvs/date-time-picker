@@ -1,13 +1,20 @@
 import dtPickerMain from '../main';
 import RangeObserver from '../rangeObserver';
 import TimeResolution from '../timeResolution';
+import moment from 'moment';
 
 describe('Duration Panel', function () {
     var scope, $compile, element, $timeout;
 
     function compileDirective() {
         scope.observer = new RangeObserver();
-        element = $compile('<duration-panel observer="observer"></duration-panel>')(scope);
+        scope.dictionary = [{ label: 'Last 10 Minutes', duration: { unit: 'minutes', value: 10 }},
+            { label: 'Last Hour', duration: { unit: 'hour', value: 1 }},
+            { label: 'Last 24 Hours', duration: { unit: 'day', value: 1 }, preselected: true},
+            { label: 'Last 7 Days', duration: { unit: 'week', value: 1 }},
+            { label: 'Date Range', custom: 'date' },
+            { label: 'Time Range', custom: 'time' }];
+        element = $compile('<duration-panel observer="observer" dictionary="dictionary"></duration-panel>')(scope);
         $timeout.flush();
     }
 
@@ -41,14 +48,38 @@ describe('Duration Panel', function () {
         expect(element.isolateScope().selectedDuration).toBeDefined();
     });
 
-    // TODO: write this test
     it('Can select a different from', function () {
-
+        scope.observer.emit('durationPanelSpec', TimeResolution.timeResolutionFromLocal({ label: 'Last 24 Hours', duration: { unit: 'day', value: 1 }}));
+        var dateTest;
+        element.isolateScope().observer.subscribe('durationPanelSpec', function (date) {
+            dateTest = date;
+        });
+        element.isolateScope().selectFrom({ value: -1 });
+        expect(dateTest.selectedRange.label).toBe('Last Hour');
+        element.isolateScope().selectFrom({ value: -10 });
+        expect(dateTest.selectedRange.label).toBe('Last 10 Minutes');
+        const twoHoursAgo = moment().hour() - 2;
+        element.isolateScope().selectFrom({ value: twoHoursAgo, label: `{twoHoursAgo}:00` });
+        expect(dateTest.selectedRange.label).toBe('Time Range');
+        expect(moment(element.isolateScope().internalRange.from).hours()).toBe(twoHoursAgo);
     });
 
-    // TODO: write this test
     it('Can select a different duration', function () {
-
+        scope.observer.emit('durationPanelSpec', TimeResolution.timeResolutionFromLocal({ label: 'Last Hour', duration: { unit: 'hour', value: 1 }}));
+        var dateTest;
+        element.isolateScope().observer.subscribe('durationPanelSpec', function (date) {
+            dateTest = date;
+        });
+        element.isolateScope().selectDuration({ value: 2, label: '2 hours', unit: 'hours' });
+        scope.$digest();
+        expect(element.isolateScope().internalRange.selectedRange.label).toBe('Time Range');
+        expect(element.isolateScope().selectedDuration.value).toBe(2);
+        expect(element.isolateScope().internalRange.timeUnit).toBe('minute');
+        expect(element.isolateScope().selectedFrom.value).toBeDefined();
+        expect(angular.element(element.find(".to-value")[0]).html()).not.toBe('');
+        var from = new moment(element.isolateScope().internalRange.from);
+        var to = new moment(element.isolateScope().internalRange.to);
+        expect(to.diff(from, 'hours')).toBe(2);
     });
 });
 
