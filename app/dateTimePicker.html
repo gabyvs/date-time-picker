@@ -20,9 +20,7 @@
             <div class="date-range-selection" ng-hide="isTimeRange">
                 <double-calendar
                         observer="observer"
-                        on-range-selected="onRangeSelected"
-                        max-range="maxRange"
-                        range="dateRange"></double-calendar>
+                        max-range="maxRange"></double-calendar>
             </div>
             <div class="time-range-selection" ng-show="isTimeRange">
                 <single-calendar observer="observer"></single-calendar>

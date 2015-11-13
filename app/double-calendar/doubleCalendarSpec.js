@@ -1,13 +1,16 @@
 import jQuery from 'jquery';
 import dtPickerMain from '../main';
+import RangeObserver from '../rangeObserver';
+import TimeResolution from '../timeResolution';
 
 describe('Double Calendar', function () {
-    var scope, $compile, $rootScope, element;
+    var scope, $compile, $rootScope, element, $timeout;
     var $ = jQuery;
 
     function compileDirective() {
-        element = $compile('<double-calendar on-range-selected="onRangeSelected" max-range="maxRange" range="dateRange"></double-calendar>')(scope);
-        $rootScope.$digest();
+        scope.observer = new RangeObserver();
+        element = $compile('<double-calendar observer="observer" max-range="maxRange"></double-calendar>')(scope);
+        $timeout.flush();
     }
 
     beforeEach(angular.mock.module(dtPickerMain));
@@ -15,10 +18,12 @@ describe('Double Calendar', function () {
     beforeEach(angular.mock.inject([
         '$rootScope',
         '$compile',
-        function (_$rootScope_, _$compile_) {
+        '$timeout',
+        function (_$rootScope_, _$compile_, _$timeout_) {
             $compile = _$compile_;
             scope = _$rootScope_.$new();
             $rootScope = _$rootScope_;
+            $timeout = _$timeout_;
             compileDirective();
         }
     ]));
@@ -29,23 +34,18 @@ describe('Double Calendar', function () {
     });
 
     it('User selects a range from calendar, controller is alerted', function () {
-        var rangeTest;
-        scope.onRangeSelected = function (rangeSelected) {
-            rangeTest = rangeSelected;
-        };
+        var rangeSet;
+        element.isolateScope().observer.subscribe('doubleCalendarSpec', function (range) {
+            rangeSet = range;
+        });
         $(element).datepick('setDate', new Date(), new Date());
-        expect(rangeTest).toBeDefined();
+        expect(rangeSet).toBeDefined();
+        expect(rangeSet.selectedRange.custom).toBe('date');
     });
 
     it('Calendar is initialized with a range from controller', function () {
         expect($(element).datepick('getDate')[0]).toBeUndefined();
-        var rangeTest;
-        scope.onRangeSelected = function (rangeSelected) {
-            rangeTest = rangeSelected;
-        };
-        scope.dateRange = { from: new Date(), to: new Date() };
-        $rootScope.$apply();
-        expect(rangeTest).toBeUndefined();
+        scope.observer.emit('doubleCalendarSpec', TimeResolution.timeResolutionFromLocal({ label: 'Last 7 Days', duration: { unit: 'day', value: 7 }}));
         expect($(element).datepick('getDate')[0]).toBeDefined();
         expect($(element).datepick('getDate')[1]).toBeDefined();
     });

@@ -1,6 +1,7 @@
 import jQuery from 'jquery';
 import moment from 'moment';
 import datepick from 'imports?jQuery=jquery!../datepick/jquery.datepick.js';
+import TimeResolution from '../timeResolution';
 
 function doubleCalendar($timeout) {
     return {
@@ -19,12 +20,21 @@ function doubleCalendar($timeout) {
                 jQuery(element).datepick('option', 'maxDate', maxDate);
             }
 
+            function setDateAndEmit (from, to) {
+                const newDate = new TimeResolution(from, to);
+                newDate.selectedRange = { label: 'Date Range', custom: 'date' };
+                newDate.timeUnit = newDate.suggestedTimeUnit();
+                scope.internalRange = newDate;
+                scope.observer.emit('doubleCalendar', newDate);
+                $timeout();
+            }
+
             function finishRange(fromDate, toDate) {
                 var from =  moment(fromDate).startOf('day').valueOf()
                 var to = moment(toDate).endOf('day').valueOf();
                 setMinMaxDates('-6m', +0);
                 jQuery(element).datepick('setDate', new Date(from), new Date(to));
-                scope.onRangeSelected()({ from: from, to: to });
+                setDateAndEmit(from, to);
             }
 
             function startRange(fromDate, toDate) {
@@ -35,7 +45,7 @@ function doubleCalendar($timeout) {
                 setMinMaxDates(new Date(from), new Date(maxRangeOrToday));
 //              var initialMonthLabel = element.find('.datepick-month.first .datepick-month-header').text().split(' ')[0];
 //              var finalMonthLabel = element.find('.datepick-month.last .datepick-month-header').text().split(' ')[0];
-                scope.onRangeSelected()({ from: from, to: to });
+                setDateAndEmit(from, to);
             }
 
             function onSetEvent (dates) {
@@ -53,23 +63,20 @@ function doubleCalendar($timeout) {
                 }
             }
 
-            $timeout(function () {
-                scope.observer.subscribe('doubleCalendar', function (range) {
-//                    console.log('doubleCalendar.js', 'range', range);
-                });
-            });
-
             var rangeStarted;
             var internalSetting;
 
-            scope.$watch('range', function (value) {
-                if (!value) { return; }
-                internalSetting = true;
-                jQuery(element).datepick('option', 'minDate', '-6m');
-                jQuery(element).datepick('option', 'maxDate', +0);
-                jQuery(element).datepick('setDate', value.from, value.to);
-                jQuery(element).datepick('showMonth', moment(value.from).year(), moment(value.from).month());
-                rangeStarted = false;
+            $timeout(function () {
+                scope.observer.subscribe('doubleCalendar', function (range) {
+                    console.log('doubleCalendar.js', 'range', range);
+                    scope.internalRange = range;
+                    internalSetting = true;
+                    setMinMaxDates('-6m', +0);
+                    jQuery(element).datepick('setDate', new Date(range.from), new Date(range.to));
+                    jQuery(element).datepick('showMonth', moment(range.from).year(), moment(range.from).month());
+                    rangeStarted = false;
+                    console.log('doubleCalendar.js');
+                });
             });
 
             jQuery(element).datepick({
