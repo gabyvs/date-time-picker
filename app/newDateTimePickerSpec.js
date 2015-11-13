@@ -103,4 +103,11 @@ describe('Date Time Picker', function () {
         expect(element.find('.date-time-configure').hasClass('ng-hide')).toBe(true);
         expect(new moment(scope.range.to).diff(scope.range.from, 'days')).toBe(7);
     });
+
+    // TODO: fix this test, copy pasted from datePickerSpec
+    xit('Hides custom date range', function () {
+        scope.options = { hideCustom: true };
+        compileDirective();
+        expect(_.find(element.isolateScope().dictionary, { custom: 'date'})).toBeUndefined();
+    });
 });

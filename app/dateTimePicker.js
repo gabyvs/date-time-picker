@@ -69,29 +69,7 @@ function dtPicker($timeout, service, bootstrapService) {
                 setupDefaultRange();
             });
 
-            window.theScope = scope;
-
             //////////////////
-
-
-            // TODO: move this to rangePanel
-            /**
-             * After a user selects an option that includes a date range or sets a date range with the double calendar,
-             * this function verifies which time units are available to select from (hours and days).
-             * Up to 36 hours the only time unit available is hours.
-             * More than 36 hours and up to 7 days can be retrieved by hours and days.
-             * For more days than that the only available unit is days.
-             * @param from
-             * @param to
-             */
-            function setupAvailableTimeUnits (from, to) {
-                var hours = moment(to).diff(moment(from), 'hours');
-                if (hours > 36 && hours < 200) {
-                    scope.internalRangeObject.selectedRange.timeUnits = [ 'hour', 'day' ];
-                } else {
-                    delete scope.internalRangeObject.selectedRange.timeUnits;
-                }
-            }
 
             // TODO: this should emit and be catched by double calendar
             /**
@@ -158,23 +136,6 @@ function dtPicker($timeout, service, bootstrapService) {
                 setupInternalRange(dates.from, dates.to, { custom: 'date' });
                 setupAvailableTimeUnits(dates.from, dates.to);
                 scope.$apply();
-            };
-
-            // TODO: move this to range panel
-            /**
-             * Executes when a user selects an available range.
-             * @param range
-             */
-            scope.selectRangeOption = function (range) {
-                scope.internalRangeObject.selectedRange = range;
-                setInternalSelections();
-                updateControls();
-            };
-
-            // TODO: move this to rangePanel
-            scope.selectTimeUnit = function (unit) {
-                scope.internalRangeObject.timeUnit = unit;
-                setInternalSelections(true);
             };
 
             /**

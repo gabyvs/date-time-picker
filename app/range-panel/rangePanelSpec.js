@@ -1,6 +1,7 @@
 import dtPickerMain from '../main';
 import RangeObserver from '../rangeObserver';
 import TimeResolution from '../timeResolution';
+import moment from 'moment';
 
 describe('Range Panel', function () {
     var scope, $compile, element, $timeout, service;
@@ -8,7 +9,7 @@ describe('Range Panel', function () {
     function compileDirective() {
         scope.observer = new RangeObserver();
         scope.dictionary = service.defaultDictionary;
-        element = $compile('<range-panel observer="observer" dictionary="dictionary"></range-panel>')(scope);
+        element = $compile('<range-panel observer="observer" dictionary="dictionary" hide-time-unit="hideTimeUnit"></range-panel>')(scope);
         $timeout.flush();
     }
 
@@ -39,14 +40,42 @@ describe('Range Panel', function () {
         expect(element.isolateScope().internalRange).toBeDefined();
     });
 
-    // TODO: write this test
-    it('Can select a different range', function () {
-
+    it('Can select units for certain ranges', function () {
+        scope.observer.emit('durationPanelSpec', TimeResolution.timeResolutionFromLocal({ label: 'Last 24 Hours', duration: { unit: 'day', value: 1 }}));
+        expect(element.isolateScope().internalRange.selectedRange.timeUnits).toBeUndefined();
+        scope.observer.emit('durationPanelSpec', TimeResolution.timeResolutionFromLocal({ label: 'Last 7 Days', duration: { unit: 'week', value: 1 }}));
+        expect(element.isolateScope().internalRange.selectedRange.timeUnits.length).toBe(2);
+        scope.observer.emit('durationPanelSpec', TimeResolution.timeResolutionFromLocal({ label: 'Last 24 Hours', duration: { unit: 'day', value: 1 }}));
+        expect(element.isolateScope().internalRange.selectedRange.timeUnits).toBeUndefined();
+        scope.observer.emit('durationPanelSpec', element.isolateScope().internalRange.changeWithDuration({ value: 3, unit: 'hours', label: '3 hours' }));
+        expect(element.isolateScope().internalRange.selectedRange.timeUnits.length).toBe(2);
     });
 
-    // TODO: write this test
-    it('Can select a different unit', function () {
+    it('Can select a different range', function () {
+        scope.observer.emit('durationPanelSpec', TimeResolution.timeResolutionFromLocal({ label: 'Last 24 Hours', duration: { unit: 'day', value: 1 }}));
+        var dateTest;
+        element.isolateScope().observer.subscribe('rangePanelSpec', function (date) {
+            dateTest = date;
+        });
+        element.isolateScope().selectRangeOption({ label: 'Last Hour', duration: { unit: 'hour', value: 1 }});
+        expect(element.isolateScope().internalRange).toBeDefined();
+        expect(dateTest.selectedRange.label).toBe('Last Hour');
+    });
 
+    it('Can select a different unit', function () {
+        scope.observer.emit('durationPanelSpec', TimeResolution.timeResolutionFromLocal({ label: 'Last Hour', duration: { unit: 'hour', value: 1 }}));
+        var dateTest;
+        element.isolateScope().observer.subscribe('rangePanelSpec', function (date) {
+            dateTest = date;
+        });
+        scope.observer.emit('durationPanelSpec', element.isolateScope().internalRange.changeWithDuration({ value: 2, unit: 'hours', label: '2 hours' }));
+        expect(dateTest.timeUnit).toBe('minute');
+        if (moment().minute() > 0 && moment().minute() < 59) {
+            expect(moment(dateTest.to).minute()).not.toBe(0);
+        }
+        element.isolateScope().selectTimeUnit('hour');
+        expect(dateTest.timeUnit).toBe('hour');
+        expect(moment(dateTest.to).minute()).toBe(0);
     });
 });
 

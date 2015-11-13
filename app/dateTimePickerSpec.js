@@ -87,6 +87,7 @@ xdescribe('Date Time Picker', function () {
         expect(selectedDates[1]).toBeDefined();
     });
 
+    // TODO: move this to double calendar spec
     // There is a problem with the range picker because of the fact that the min and max dates need to be adjusted with every click
     // Because of that, the first date selected by the user sends to the picker only this date [date1, date1]
     // and the second time only the second date selected [date2, date2]
@@ -111,12 +112,6 @@ xdescribe('Date Time Picker', function () {
         var from = new moment(element.isolateScope().internalRangeObject.from);
         var to = new moment(element.isolateScope().internalRangeObject.to);
         expect(to.diff(from, 'days')).toBe(0);
-    });
-
-    it('Hides custom date range', function () {
-        scope.options = { hideCustom: true };
-        compileDirective();
-        expect(_.find(element.isolateScope().dictionary, { custom: 'date'})).toBeUndefined();
     });
 
     it('Honors time unit for refreshing', function () {

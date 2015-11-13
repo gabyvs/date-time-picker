@@ -118,6 +118,7 @@ class TimeResolution {
     }
 
     /**
+     * Creating a new time resolution given a different duration time with the same settings than the original one
      @param duration A duration in hours, taken from pickerService.durations like { value: 1, label: '1 hour' }. Only exception is for 10 minutes.
      */
     changeWithDuration(duration) {
@@ -126,6 +127,45 @@ class TimeResolution {
         newTime.selectedRange = { label: 'Time Range', custom: 'time' };
         newTime.timeUnit = newTime.suggestedTimeUnit();
         return newTime;
+    }
+
+    /**
+     * Creating a new time resolution given a different range option with the same settings than the original one
+     * @param rangeOption A range option taken from options specified in dateTimePicker directive, or its default as in
+     * pickerService.defaultDictionary
+     */
+    changeWithRangeOption(rangeOption) {
+        var newDate;
+        if (rangeOption.custom === 'date') {
+            var from = new moment(this.from).startOf('day');
+            var to = new moment(this.to).endOf('day');
+            newDate = new TimeResolution(from.valueOf(), to.valueOf());
+            newDate.selectedRange = { label: 'Date Range', custom: 'date' };
+            newDate.timeUnit = newDate.suggestedTimeUnit();
+        } else if (rangeOption.custom === 'time') {
+            var from = new moment(this.from).startOf('day');
+            var to = new moment(this.from).startOf('day').add(1, 'day');
+            newDate = new TimeResolution(from.valueOf(), to.valueOf());
+            newDate.selectedRange = { label: 'Time Range', custom: 'time' };
+            newDate.timeUnit = newDate.suggestedTimeUnit();
+        } else {
+            newDate = TimeResolution.timeResolutionFromLocal(rangeOption);
+        }
+        return newDate;
+    }
+
+    /**
+     * Creating a new time resolution given a different time unit with the same settings than the original one
+     * @param unit A different time unit from [ 'minute', 'hour', 'day' ]
+     */
+    changeWithTimeUnit(unit) {
+        const diffInMillis = new moment(this.to).diff(new moment(this.from));
+        const rangeObject = new TimeResolution(this.from, this.to);
+        rangeObject.to = moment(rangeObject.to).startOf(unit).valueOf();
+        rangeObject.from = new moment(rangeObject.to).subtract(diffInMillis, 'ms');
+        rangeObject.timeUnit = unit;
+        rangeObject.selectedRange = this.selectedRange;
+        return rangeObject;
     }
 
     static timeResolutionFromLocal (selection, timeUnit) {

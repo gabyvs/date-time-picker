@@ -38,7 +38,6 @@ function durationPanel($timeout, pickerService) {
                     scope.selectedDuration = _.find(scope.durations, { value: durationInHours, unit: 'hours' });
                 }
             }
-
             /**
              * Executes when a range is selected and emitted by any of the other components
              * @param range
@@ -47,10 +46,6 @@ function durationPanel($timeout, pickerService) {
                 scope.internalRange = range;
                 setupControls();
             }
-
-            $timeout(function () {
-                scope.observer.subscribe('durationPanel', onRangeSet);
-            });
 
             function setupHours () {
                 var h = [];
@@ -72,8 +67,11 @@ function durationPanel($timeout, pickerService) {
                 return d.concat(pickerService.durations)
             }
 
-            scope.hours = setupHours();
-            scope.durations = setupDurations();
+            $timeout(function () {
+                scope.observer.subscribe('durationPanel', onRangeSet);
+                scope.hours = setupHours();
+                scope.durations = setupDurations();
+            });
 
             /**
              * Executes when a user selects a different starting hour from time range selector
@@ -83,8 +81,10 @@ function durationPanel($timeout, pickerService) {
                 var newDate;
                 if (hour.value === -1) {
                     newDate = TimeResolution.timeResolutionFromLocal(_.find(scope.dictionary, { label: 'Last Hour' }));
+                    scope.selectedDuration = { value: 1, unit: 'hours', label: '1 hour' };
                 } else if (hour.value === -10) {
                     newDate = TimeResolution.timeResolutionFromLocal(_.find(scope.dictionary, { label: 'Last 10 Minutes' }));
+                    scope.selectedDuration = { value: 10, unit: 'minutes', label: '10 minutes' };
                 } else {
                     newDate = scope.internalRange.changeStartingHour(hour);
                 }
@@ -93,7 +93,6 @@ function durationPanel($timeout, pickerService) {
                 scope.observer.emit('durationPanel', newDate);
             };
 
-            // FIXME: for up to a 3 hour duration, user should be able to select hour as time unit
             /**
              * Executes when a user selects a duration from time range selector
              * @param duration a duration in hours, taken from scope.durations like { value: 1, label: '1 hour' }. Only exception is for 10 minutes.
