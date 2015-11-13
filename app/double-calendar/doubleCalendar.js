@@ -68,14 +68,12 @@ function doubleCalendar($timeout) {
 
             $timeout(function () {
                 scope.observer.subscribe('doubleCalendar', function (range) {
-                    console.log('doubleCalendar.js', 'range', range);
                     scope.internalRange = range;
                     internalSetting = true;
                     setMinMaxDates('-6m', +0);
                     jQuery(element).datepick('setDate', new Date(range.from), new Date(range.to));
                     jQuery(element).datepick('showMonth', moment(range.from).year(), moment(range.from).month());
                     rangeStarted = false;
-                    console.log('doubleCalendar.js');
                 });
             });
 

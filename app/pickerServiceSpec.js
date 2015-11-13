@@ -2,7 +2,7 @@ import moment from 'moment';
 
 import dtPickerMain from './main';
 
-xdescribe('Picker Service', function () {
+describe('Picker Service', function () {
     var scope, $compile, $rootScope, service;
 
     beforeEach(angular.mock.module(dtPickerMain));

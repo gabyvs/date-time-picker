@@ -58,7 +58,7 @@ class TimeResolution {
         this.to = to;
         this.timeUnit = timeUnit;
         this.maxResolution = maxResolution;
-        this.selectedRange = 'custom';
+        this.selectedRange = { label: 'Time Range', custom: 'time' };
     }
 
     suggestedTimeUnit () {
