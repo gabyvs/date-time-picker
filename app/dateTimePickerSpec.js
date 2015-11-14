@@ -86,20 +86,5 @@ xdescribe('Date Time Picker', function () {
         expect(selectedDates[0]).toBeDefined();
         expect(selectedDates[1]).toBeDefined();
     });
-
-    // TODO: move this to double calendar spec
-    it('Honors time unit for refreshing', function () {
-        element.isolateScope().configure();
-        element.isolateScope().selectRangeOption(element.isolateScope().dictionary[2]);
-        $rootScope.$digest();
-        expect(element.isolateScope().internalRangeObject.timeUnit).toBe('hour');
-        element.isolateScope().internalRangeObject.timeUnit = 'day';
-        $rootScope.$digest();
-        element.isolateScope().save();
-        $rootScope.$digest();
-        element.isolateScope().refresh();
-        $rootScope.$digest();
-        expect(element.isolateScope().internalRangeObject.timeUnit).toBe('day');
-    });
 });
 

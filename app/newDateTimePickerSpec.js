@@ -93,12 +93,11 @@ describe('Date Time Picker', function () {
         expect(element.isolateScope().savedRange.duration.value).toBe(1);
     });
 
-    // TODO: fix this test
-    xit('Saves selection to controller scope', function () {
-        element.isolateScope().selectRangeOption(element.isolateScope().dictionary[3]);
-        $rootScope.$digest();
+    it('Saves selection to controller scope', function () {
+        $timeout.flush();
+        const newDate = element.isolateScope().internalRange.changeWithRangeOption({ label: 'Last 7 Days', duration: { unit: 'week', value: 1 }});
+        element.isolateScope().observer.emit('dateTimePickerSpec', newDate);
         element.isolateScope().save();
-        $rootScope.$digest();
         expect(element.isolateScope().configuring).toBe(false);
         expect(element.find('.date-time-configure').hasClass('ng-hide')).toBe(true);
         expect(new moment(scope.range.to).diff(scope.range.from, 'days')).toBe(7);
@@ -109,5 +108,20 @@ describe('Date Time Picker', function () {
         scope.options = { hideCustom: true };
         compileDirective();
         expect(_.find(element.isolateScope().dictionary, { custom: 'date'})).toBeUndefined();
+    });
+
+    // TODO: fix this
+    xit('Honors time unit for refreshing', function () {
+        element.isolateScope().configure();
+        element.isolateScope().selectRangeOption(element.isolateScope().dictionary[2]);
+        $rootScope.$digest();
+        expect(element.isolateScope().internalRangeObject.timeUnit).toBe('hour');
+        element.isolateScope().internalRangeObject.timeUnit = 'day';
+        $rootScope.$digest();
+        element.isolateScope().save();
+        $rootScope.$digest();
+        element.isolateScope().refresh();
+        $rootScope.$digest();
+        expect(element.isolateScope().internalRangeObject.timeUnit).toBe('day');
     });
 });

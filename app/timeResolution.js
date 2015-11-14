@@ -167,6 +167,14 @@ class TimeResolution {
         rangeObject.selectedRange = this.selectedRange;
         return rangeObject;
     }
+    // TODO: implement this
+    /**
+     * Creates a new time resolution based on the original settings but up to date
+     * @returns {TimeResolution}
+     */
+    refresh() {
+        return this;
+    }
 
     static timeResolutionFromLocal (selection, timeUnit) {
         var to, from, rangeObject;

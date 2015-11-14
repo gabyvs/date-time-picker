@@ -70,14 +70,6 @@ function dtPicker($timeout, service, bootstrapService) {
                 scope.configuring = true; // TODO: this can be done in template
             };
 
-            setupRangeDictionary();
-            setupCustomSettings();
-            $timeout(function () {
-                setupDefaultRange();
-            });
-
-            //////////////////
-
             /**
              * Only closes configuring space, without saving user changes.
              */
@@ -85,26 +77,29 @@ function dtPicker($timeout, service, bootstrapService) {
                 scope.configuring = false;
             };
 
-            // TODO: fix this
+            setupRangeDictionary();
+            setupCustomSettings();
+            $timeout(function () {
+                setupDefaultRange();
+            });
+
             /**
              * Takes last saved user selection to calculate ranges with current moment,
              * then it modifies controller range object with updated range.
              */
             scope.refresh = function () {
-                scope.internalRangeObject.selectedRange = scope.savedRange;
-                setInternalSelections(true);
+                scope.internalRange = scope.internalRange.refresh();
+                scope.observer.emit('dateTimePicker', scope.internalRange);
                 scope.save();
             };
 
-            // TODO: fix this
             /**
              *  Saves user selections into controller range object, closing configuring area.
              */
             scope.save = function () {
-                scope.savedRange = scope.internalRangeObject.selectedRange;
-                scope.range.from = scope.internalRangeObject.from;
-                scope.range.to = scope.internalRangeObject.to;
-                scope.range.timeUnit = scope.internalRangeObject.timeUnit;
+                scope.range.from = scope.internalRange.from;
+                scope.range.to = scope.internalRange.to;
+                scope.range.timeUnit = scope.internalRange.timeUnit;
                 scope.configuring = false;
             };
         }
