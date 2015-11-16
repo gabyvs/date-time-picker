@@ -51,6 +51,7 @@ function rangePanel($timeout) {
             scope.selectRangeOption = function (range) {
                 const newDate = scope.internalRange.changeWithRangeOption(range);
                 scope.internalRange = newDate;
+                setupAvailableTimeUnits();
                 scope.observer.emit('rangePanel', newDate);
             };
 

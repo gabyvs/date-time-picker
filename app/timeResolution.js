@@ -53,16 +53,20 @@ function isInRange (timeResolution, unit) {
 }
 
 class TimeResolution {
-    constructor(from, to, timeUnit = 'second', maxResolution = 200) {
+    constructor(from, to, timeUnit, range = { label: 'Time Range', custom: 'time' }, maxResolution = 200) {
         this.from = from;
         this.to = to;
-        this.timeUnit = timeUnit;
         this.maxResolution = maxResolution;
-        this.selectedRange = { label: 'Time Range', custom: 'time' };
+        this.selectedRange = range;
+        if (timeUnit) {
+            this.timeUnit = timeUnit;
+        } else {
+            this.timeUnit = this.suggestedTimeUnit();
+        }
     }
 
     suggestedTimeUnit () {
-        var newR = this.timeUnit,
+        var newR = this.timeUnit || 'second',
             end = timeUnits[timeUnits.length - 1];
 
         while (newR !== end) {
@@ -113,7 +117,6 @@ class TimeResolution {
         const diffInMillis = new moment(this.to).diff(new moment(this.from));
         const toHelper = new moment(newFrom).add(diffInMillis, 'ms');
         const newTime = new TimeResolution(newFrom.valueOf(), toHelper.valueOf(), this.timeUnit);
-        newTime.selectedRange = { label: 'Time Range', custom: 'time' };
         return newTime;
     }
 
@@ -124,8 +127,6 @@ class TimeResolution {
     changeWithDuration(duration) {
         const newTo = moment(this.from).add(duration.value, duration.unit);
         const newTime = new TimeResolution(this.from, newTo);
-        newTime.selectedRange = { label: 'Time Range', custom: 'time' };
-        newTime.timeUnit = newTime.suggestedTimeUnit();
         return newTime;
     }
 
@@ -139,15 +140,11 @@ class TimeResolution {
         if (rangeOption.custom === 'date') {
             var from = new moment(this.from).startOf('day');
             var to = new moment(this.to).endOf('day');
-            newDate = new TimeResolution(from.valueOf(), to.valueOf());
-            newDate.selectedRange = { label: 'Date Range', custom: 'date' };
-            newDate.timeUnit = newDate.suggestedTimeUnit();
+            newDate = new TimeResolution(from.valueOf(), to.valueOf(), undefined, { label: 'Date Range', custom: 'date' });
         } else if (rangeOption.custom === 'time') {
             var from = new moment(this.from).startOf('day');
             var to = new moment(this.from).startOf('day').add(1, 'day');
             newDate = new TimeResolution(from.valueOf(), to.valueOf());
-            newDate.selectedRange = { label: 'Time Range', custom: 'time' };
-            newDate.timeUnit = newDate.suggestedTimeUnit();
         } else {
             newDate = TimeResolution.timeResolutionFromLocal(rangeOption);
         }
@@ -160,20 +157,23 @@ class TimeResolution {
      */
     changeWithTimeUnit(unit) {
         const diffInMillis = new moment(this.to).diff(new moment(this.from));
-        const rangeObject = new TimeResolution(this.from, this.to);
+        const rangeObject = new TimeResolution(this.from, this.to, unit, this.selectedRange);
         rangeObject.to = moment(rangeObject.to).startOf(unit).valueOf();
         rangeObject.from = new moment(rangeObject.to).subtract(diffInMillis, 'ms');
-        rangeObject.timeUnit = unit;
-        rangeObject.selectedRange = this.selectedRange;
         return rangeObject;
     }
-    // TODO: implement this
+
     /**
      * Creates a new time resolution based on the original settings but up to date
      * @returns {TimeResolution}
      */
     refresh() {
-        return this;
+        if (this.selectedRange.custom) { return this; }
+        return TimeResolution.timeResolutionFromLocal(this.selectedRange, this.timeUnit);
+    }
+
+    clone() {
+        return new TimeResolution(this.from, this.to, this.timeUnit, this.selectedRange);
     }
 
     static timeResolutionFromLocal (selection, timeUnit) {
@@ -190,12 +190,10 @@ class TimeResolution {
             to = moment();
             from = moment().subtract(selection.duration.value, selection.duration.unit);
         }
-        rangeObject = new TimeResolution(from.valueOf(), to.valueOf());
+        rangeObject = new TimeResolution(from.valueOf(), to.valueOf(), timeUnit, selection);
         var unit = timeUnit || rangeObject.suggestedTimeUnit();
         rangeObject.to = moment(rangeObject.to).startOf(unit).valueOf();
         rangeObject.from = moment(rangeObject.to).subtract(selection.duration.value, selection.duration.unit).valueOf();
-        rangeObject.timeUnit = unit;
-        rangeObject.selectedRange = selection;
         return rangeObject;
     }
 }

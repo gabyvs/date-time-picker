@@ -1,5 +1,4 @@
 import angular from 'angular';
-import jQuery from 'jquery';
 import _ from 'lodash';
 import moment from 'moment';
 import RangeObserver from './rangeObserver';
@@ -7,7 +6,6 @@ import TimeResolution from './timeResolution';
 import template from './dateTimePicker.html';
 
 function dtPicker($timeout, service, bootstrapService) {
-    var $ = jQuery;
     bootstrapService.bootstrap();
     return {
         restrict: 'E',
@@ -18,7 +16,7 @@ function dtPicker($timeout, service, bootstrapService) {
             rangeDictionary: '='
         },
         template: template,
-        link: function (scope, element) {
+        link: function (scope) {
             /**
              * Initializes available ranges that user can select.
              */
@@ -28,9 +26,6 @@ function dtPicker($timeout, service, bootstrapService) {
             }
 
             function setupCustomSettings() {
-                if (scope.options && scope.options.hideCustom) {
-                    _.remove(scope.dictionary, { custom: 'date' });
-                }
                 if (scope.options && scope.options.hideTimeUnit) {
                     scope.hideTimeUnit = true;
                 }
@@ -47,6 +42,7 @@ function dtPicker($timeout, service, bootstrapService) {
                 const obsTimeResolution = TimeResolution.timeResolutionFromLocal(preselectedOption);
                 scope.internalRange = obsTimeResolution;
                 scope.range = { from: obsTimeResolution.from, to: obsTimeResolution.to, timeUnit: obsTimeResolution.suggestedTimeUnit() };
+                scope.savedRange = obsTimeResolution.clone();
                 scope.observer.emit('dateTimePicker', obsTimeResolution);
             }
 
@@ -67,7 +63,7 @@ function dtPicker($timeout, service, bootstrapService) {
              * It resets all controls to last saved range, and adjusted to current moment.
              */
             scope.configure = function () {
-                scope.configuring = true; // TODO: this can be done in template
+                scope.configuring = true;
             };
 
             /**
@@ -88,7 +84,7 @@ function dtPicker($timeout, service, bootstrapService) {
              * then it modifies controller range object with updated range.
              */
             scope.refresh = function () {
-                scope.internalRange = scope.internalRange.refresh();
+                scope.internalRange = scope.savedRange.refresh();
                 scope.observer.emit('dateTimePicker', scope.internalRange);
                 scope.save();
             };
@@ -100,6 +96,7 @@ function dtPicker($timeout, service, bootstrapService) {
                 scope.range.from = scope.internalRange.from;
                 scope.range.to = scope.internalRange.to;
                 scope.range.timeUnit = scope.internalRange.timeUnit;
+                scope.savedRange = scope.internalRange.clone();
                 scope.configuring = false;
             };
         }
