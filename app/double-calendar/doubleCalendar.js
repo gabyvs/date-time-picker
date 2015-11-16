@@ -21,9 +21,7 @@ function doubleCalendar($timeout) {
             }
 
             function setDateAndEmit (from, to) {
-                const newDate = new TimeResolution(from, to);
-                newDate.selectedRange = { label: 'Date Range', custom: 'date' };
-                newDate.timeUnit = newDate.suggestedTimeUnit();
+                const newDate = new TimeResolution(from, to, undefined, { label: 'Date Range', custom: 'date' });
                 scope.internalRange = newDate;
                 scope.observer.emit('doubleCalendar', newDate);
                 $timeout();

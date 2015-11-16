@@ -38,10 +38,9 @@ function singleCalendar($timeout) {
                 if (scope.internalRange) {
                     newDate = scope.internalRange.changeStartingDate(dates[0]);
                 } else {
-                    const dayStart = moment(dates[0]).startOf('day');
-                    const dayEnds = moment(dates[0]).endOf('day');
+                    const dayStart = moment(dates[0]).startOf('day').valueOf();
+                    const dayEnds = moment(dates[0]).endOf('day').valueOf();
                     newDate = new TimeResolution(dayStart, dayEnds);
-                    newDate.selectedRange = { label: 'Time Range', custom: 'time' };
                 }
                 scope.internalRange = newDate;
                 scope.observer.emit('singleCalendar', newDate);

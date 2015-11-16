@@ -1,6 +1,8 @@
 import dtPickerMain from './main';
 import moment from 'moment';
 import TimeResolution from './timeResolution';
+import jQuery from 'jquery';
+import datepick from 'imports?jQuery=jquery!./datepick/jquery.datepick.js';
 
 describe('Date Time Picker', function () {
     var scope, $compile, $rootScope, service, element, $timeout;
@@ -100,10 +102,10 @@ describe('Date Time Picker', function () {
 
     it('Honors time unit for refreshing', function () {
         element.isolateScope().configure();
-        element.isolateScope().observer.emit('dateTimePickerSpec', TimeResolution.timeResolutionFromLocal({ label: 'Last 7 Days', duration: { unit: 'week', value: 1 }});
+        element.isolateScope().observer.emit('dateTimePickerSpec', TimeResolution.timeResolutionFromLocal({ label: 'Last 7 Days', duration: { unit: 'week', value: 1 }}));
         $rootScope.$digest();
         expect(element.isolateScope().internalRange.timeUnit).toBe('hour');
-        element.isolateScope().observer.emit('dateTimePickerSpec', TimeResolution.timeResolutionFromLocal({ label: 'Last 7 Days', duration: { unit: 'week', value: 1 }}, 'day');
+        element.isolateScope().observer.emit('dateTimePickerSpec', TimeResolution.timeResolutionFromLocal({ label: 'Last 7 Days', duration: { unit: 'week', value: 1 }}, 'day'));
         $rootScope.$digest();
         element.isolateScope().save();
         $rootScope.$digest();
@@ -120,9 +122,7 @@ describe('Date Time Picker', function () {
         expect(element.find('.time-range-selection').hasClass('ng-hide')).toBe(false);
         expect(element.isolateScope().internalRange.selectedRange.label).toBe('Last 24 Hours');
         expect(element.isolateScope().internalRange.timeUnit).toBe('hour');
-        expect(element.isolateScope().selectedDuration.value).toBe(24);
-        expect(element.isolateScope().selectedFrom.value).toBeDefined();
-        expect(angular.element(element.find(".to-value")[0]).html()).toBe(element.isolateScope().selectedFrom.label);
+        expect(angular.element(element.find(".to-value")[0]).html()).toBe(moment().hours() + ':00');
         selectedDates = $(element.find('.single-calendar-container')).datepick('getDate');
         expect(selectedDates[0]).toBeDefined();
         // Selecting last hour
@@ -132,8 +132,6 @@ describe('Date Time Picker', function () {
         expect(element.find('.time-range-selection').hasClass('ng-hide')).toBe(false);
         expect(element.isolateScope().internalRange.selectedRange.label).toBe('Last Hour');
         expect(element.isolateScope().internalRange.timeUnit).toBe('minute');
-        expect(element.isolateScope().selectedDuration.value).toBe(1);
-        expect(element.isolateScope().selectedFrom.value).toBeDefined();
         expect(angular.element(element.find(".to-value")[0]).html()).not.toBe('');
         selectedDates = $(element.find('.single-calendar-container')).datepick('getDate');
         expect(selectedDates[0]).toBeDefined();
@@ -155,9 +153,7 @@ describe('Date Time Picker', function () {
         expect(element.find('.time-range-selection').hasClass('ng-hide')).toBe(false);
         expect(element.isolateScope().internalRange.selectedRange.label).toBe('Time Range');
         expect(element.isolateScope().internalRange.timeUnit).toBe('hour');
-        expect(element.isolateScope().selectedDuration.value).toBe(24);
-        expect(element.isolateScope().selectedFrom.value).toBeDefined();
-        expect(angular.element(element.find(".to-value")[0]).html()).toBe(element.isolateScope().selectedFrom.label);
+        expect(angular.element(element.find(".to-value")[0]).html()).toBe('0:00');
         selectedDates = $(element.find('.single-calendar-container')).datepick('getDate');
         expect(selectedDates[0]).toBeDefined();
         expect(selectedDates[0].getDate()).toBe(new moment().subtract(7, 'day').date());
