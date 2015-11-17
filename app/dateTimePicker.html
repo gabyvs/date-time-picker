@@ -17,21 +17,21 @@
     </div>
     <div class="date-time-configure" ng-show="configuring">
         <div class="sections">
+            <range-panel
+                    observer="observer"
+                    dictionary="dictionary"
+                    hide-time-unit="hideTimeUnit"></range-panel>
             <div class="date-range-selection" ng-hide="isTimeRange">
                 <double-calendar
                         observer="observer"
                         max-range="maxRange"></double-calendar>
             </div>
             <div class="time-range-selection" ng-show="isTimeRange">
-                <single-calendar observer="observer"></single-calendar>
                 <duration-panel
                         observer="observer"
                         dictionary="dictionary"></duration-panel>
+                <single-calendar observer="observer"></single-calendar>
             </div>
-            <range-panel
-                    observer="observer"
-                    dictionary="dictionary"
-                    hide-time-unit="hideTimeUnit"></range-panel>
         </div>
         <div class="bottom-section">
             <div class="button-section">

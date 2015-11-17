@@ -21,6 +21,7 @@ function rangePanel($timeout) {
              * @param from
              * @param to
              */
+            // FIXME: max resolution is now hardcoded to 200 (because of highcharts performance issues), it should be configurable
             function setupAvailableTimeUnits () {
                 var hours = moment(scope.internalRange.to).diff(moment(scope.internalRange.from), 'hours');
                 if (hours > 36 && hours < 200) {
