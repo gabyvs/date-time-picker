@@ -47,7 +47,7 @@ function resolution (timeResolution, unit) {
 function isInRange (timeResolution, unit) {
     var res = resolution(timeResolution, unit);
     if(res) {
-        return resolution(timeResolution, unit) < timeResolution.maxResolution;
+        return res < timeResolution.maxResolution;
     }
     return false;
 }
@@ -159,7 +159,7 @@ class TimeResolution {
         const diffInMillis = new moment(this.to).diff(new moment(this.from));
         const rangeObject = new TimeResolution(this.from, this.to, unit, this.selectedRange);
         rangeObject.to = moment(rangeObject.to).startOf(unit).valueOf();
-        rangeObject.from = new moment(rangeObject.to).subtract(diffInMillis, 'ms');
+        rangeObject.from = new moment(rangeObject.to).subtract(diffInMillis, 'ms').valueOf();
         return rangeObject;
     }
 
