@@ -23,6 +23,14 @@ describe('Picker Service', function () {
         expect(service.hours).toBeDefined();
         expect(service.durations).toBeDefined();
         expect(service.defaultDictionary).toBeDefined();
+        expect(service.browserTimezone).toBeDefined();
+    });
+
+    it('Detects time ranges', function () {
+        expect(service.isTimeRange({ label: 'Last Hour', duration: { unit: 'hour', value: 1 }})).toBe(true);
+        expect(service.isTimeRange({ label: 'Last 24 Hours', duration: { unit: 'day', value: 1 }})).toBe(true);
+        expect(service.isTimeRange({ label: 'Yesterday', duration: { unit: 'day', value: 1, offset: 1 } })).toBe(true);
+        expect(service.isTimeRange({ label: 'Last 7 Days', duration: { unit: 'week', value: 1 }})).toBe(false);
     });
 });
 
