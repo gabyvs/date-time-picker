@@ -5,6 +5,7 @@
   "main": "app/main.js",
   "scripts": {
     "test": "karma start",
+    "test:cont": "karma start karma.conf.continuous.js",
     "ng-build": "webpack -p  --config webpack.ng.config.js",
     "default-build": "webpack -p",
     "build": "npm run ng-build && npm run default-build",
