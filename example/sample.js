@@ -8,7 +8,7 @@
         function ($routeProvider) {
             $routeProvider
                 .when('/', {
-                    controller:'sample', // I name the main controller on each page as 'app' as a personal preference.
+                    controller:'sample',
                     templateUrl:'sample.html'
                 })
                 .otherwise({
@@ -17,7 +17,6 @@
         }
     ]);
 
-    // In case you want to define some stuff to be available globally, use this.
     module.run([
         function () {
         }
