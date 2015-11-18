@@ -99,7 +99,7 @@ class TimeResolution {
         const fromHelper = new moment(this.from);
         const newDateSelected = new moment(startingDate);
         fromHelper.year(newDateSelected.year()).month(newDateSelected.month()).date(newDateSelected.date());
-        return this.changeFrom(fromHelper);
+        return this.changeFromRespectingDuration(fromHelper.valueOf());
     }
 
     /**
@@ -110,14 +110,22 @@ class TimeResolution {
     changeStartingHour (startingHour) {
         const fromHelper = new moment(this.from);
         fromHelper.hour(startingHour.value).minute(0).second(0).millisecond(0);
-        return this.changeFrom(fromHelper);
+        return this.changeFromRespectingDuration(fromHelper.valueOf());
+    }
+
+    changeFromRespectingDuration (newFrom) {
+        const diffInMillis = new moment(this.to).diff(new moment(this.from));
+        const toHelper = new moment(newFrom).add(diffInMillis, 'ms');
+        const newTime = new TimeResolution(newFrom, toHelper.valueOf(), this.timeUnit);
+        return newTime;
     }
 
     changeFrom (newFrom) {
-        const diffInMillis = new moment(this.to).diff(new moment(this.from));
-        const toHelper = new moment(newFrom).add(diffInMillis, 'ms');
-        const newTime = new TimeResolution(newFrom.valueOf(), toHelper.valueOf(), this.timeUnit);
-        return newTime;
+        return new TimeResolution(newFrom, this.to, this.timeUnit);
+    }
+
+    changeTo (newTo) {
+        return new TimeResolution(this.from, newTo, this.timeUnit);
     }
 
     /**

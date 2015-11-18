@@ -13,7 +13,8 @@ function dtPicker($timeout, service, bootstrapService) {
         scope: {
             range: '=',
             options: '=',
-            rangeDictionary: '='
+            rangeDictionary: '=',
+            absoluteMode: '='
         },
         template: template,
         link: function (scope) {

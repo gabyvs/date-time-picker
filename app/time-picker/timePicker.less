@@ -1,0 +1,41 @@
+.time-picker {
+    display: inline-block;
+    .arrow-up,
+    .arrow-down {
+        background-repeat: no-repeat;
+        width: 12px;
+        height: 6px;
+        display: inline-block;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+    .arrow-up {
+        background-image: url('up_arrow.png');
+    }
+    .arrow-down {
+        background-image: url('down_arrow.png');
+    }
+    .time-input {
+        width: 16px;
+        height: 16px;
+        padding: 4px;
+        font-size: 13px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        &.focus {
+//            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
+//            outline: 0 none;
+        }
+        &.has-error {
+//            border-color: #a94442;
+        }
+    }
+    .arrow-button {
+        width: 28px;
+        display: inline-block;
+        text-align: center;
+    }
+    .arrow-button:not(:first-of-type) {
+        margin-left: 5px;
+    }
+}
