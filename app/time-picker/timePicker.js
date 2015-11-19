@@ -57,7 +57,7 @@ function timePicker($timeout) {
             };
 
             scope.changeHours = function () {
-                if (!_.isNumber(Number(scope.hours)) || scope.hours > 23 || scope.hours < 0) {
+                if (!_.isNumber(Number(scope.hours)) || _.isNaN(Number(scope.hours)) || scope.hours > 23 || scope.hours < 0) {
                     scope.invalidHours = true;
                     return;
                 }
@@ -66,7 +66,7 @@ function timePicker($timeout) {
             };
 
             scope.changeMinutes = function () {
-                if (!_.isNumber(Number(scope.minutes)) || scope.minutes > 59 || scope.minutes < 0) {
+                if (!_.isNumber(Number(scope.minutes)) || _.isNaN(Number(scope.minutes)) || scope.minutes > 59 || scope.minutes < 0) {
                     scope.invalidMinutes = true;
                     return;
                 }
