@@ -54,32 +54,4 @@ describe('Time Picker', function () {
         expect(element.isolateScope().minutes).toBe(moment(now).subtract(5, 'minutes').format('mm'));
         expect(updatedValue).toBeDefined();
     });
-
-    it('Changes hours', function () {
-        element.isolateScope().hours = 'invalid value';
-        element.isolateScope().changeHours();
-        expect(updatedValue).toBeUndefined();
-        expect(element.isolateScope().invalidHours).toBe(true);
-        element.isolateScope().hours = 23;
-        element.isolateScope().changeHours();
-        expect(updatedValue).toBeDefined();
-        expect(element.isolateScope().invalidHours).toBe(false);
-        element.isolateScope().hours = 26;
-        element.isolateScope().changeHours();
-        expect(element.isolateScope().invalidHours).toBe(true);
-    });
-
-    it('Changes minutes', function () {
-        element.isolateScope().minutes = 'invalid value';
-        element.isolateScope().changeMinutes();
-        expect(updatedValue).toBeUndefined();
-        expect(element.isolateScope().invalidMinutes).toBe(true);
-        element.isolateScope().minutes = 16;
-        element.isolateScope().changeMinutes();
-        expect(updatedValue).toBeDefined();
-        expect(element.isolateScope().invalidMinutes).toBe(false);
-        element.isolateScope().minutes = 61;
-        element.isolateScope().changeMinutes();
-        expect(element.isolateScope().invalidMinutes).toBe(true);
-    });
 });

@@ -2,7 +2,7 @@ import template from './timePicker.html';
 import moment from 'moment';
 import _ from 'lodash';
 
-function timePicker($timeout) {
+export function timePicker() {
     return {
         restrict: 'E',
         replace: true,
@@ -16,11 +16,6 @@ function timePicker($timeout) {
                 return n > 9 ? "" + n : "0" + n;
             }
 
-            function callUpdate() {
-                scope.internalSetting = true;
-                scope.update({ value: moment(scope.time).hours(scope.hours).minutes(scope.minutes) });
-            }
-
             scope.$watch('time', (value) => {
                 if (!value) { return; }
                 if (scope.internalSetting) { scope.internalSetting = false; return; }
@@ -32,49 +27,66 @@ function timePicker($timeout) {
                 var hours = Number(scope.hours) + 1;
                 if (hours > 23) { hours = 0; }
                 scope.hours = twoDigits(hours);
-                callUpdate();
+                scope.callUpdate();
             };
 
             scope.incrementMinutes= function () {
                 var minutes = Number(scope.minutes) + 5;
                 if (minutes > 59) { minutes = 0; }
                 scope.minutes = twoDigits(minutes);
-                callUpdate();
+                scope.callUpdate();
             };
 
             scope.decrementHours = function () {
                 var hours = Number(scope.hours) - 1;
                 if (hours < 0) { hours = 23; }
                 scope.hours = twoDigits(hours);
-                callUpdate();
+                scope.callUpdate();
             };
 
             scope.decrementMinutes= function () {
                 var minutes = Number(scope.minutes) - 5;
                 if (minutes < 0) { minutes = 55; }
                 scope.minutes = twoDigits(minutes);
-                callUpdate();
+                scope.callUpdate();
             };
 
-            scope.changeHours = function () {
-                if (!_.isNumber(Number(scope.hours)) || _.isNaN(Number(scope.hours)) || scope.hours > 23 || scope.hours < 0) {
-                    scope.invalidHours = true;
-                    return;
-                }
-                scope.invalidHours = false;
-                callUpdate();
-            };
-
-            scope.changeMinutes = function () {
-                if (!_.isNumber(Number(scope.minutes)) || _.isNaN(Number(scope.minutes)) || scope.minutes > 59 || scope.minutes < 0) {
-                    scope.invalidMinutes = true;
-                    return;
-                }
-                scope.invalidMinutes = false;
-                callUpdate();
-            };
+            scope.callUpdate = function () {
+                scope.internalSetting = true;
+                scope.update({ value: moment(scope.time).hours(scope.hours).minutes(scope.minutes) });
+            }
         }
-    }
+    };
 }
 
-export default timePicker;
+export function hours() {
+    return {
+        require: 'ngModel',
+        restrict: 'A',
+        link: function(scope, elm, attrs, ctrl) {
+            var INTEGER_REGEXP = /^\-?\d+$/;
+            ctrl.$validators.hours = function(modelValue, viewValue) {
+                if (INTEGER_REGEXP.test(viewValue) && viewValue > 0 && viewValue < 24) {
+                    return true;
+                }
+                return false;
+            };
+        }
+    };
+}
+
+export function minutes() {
+    return {
+        require: 'ngModel',
+        restrict: 'A',
+        link: function(scope, elm, attrs, ctrl) {
+            var INTEGER_REGEXP = /^\-?\d+$/;
+            ctrl.$validators.minutes = function(modelValue, viewValue) {
+                if (INTEGER_REGEXP.test(viewValue) && viewValue > 0 && viewValue < 60) {
+                    return true;
+                }
+                return false;
+            };
+        }
+    };
+}

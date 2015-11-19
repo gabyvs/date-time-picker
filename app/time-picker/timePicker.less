@@ -22,13 +22,6 @@
         font-size: 13px;
         border-radius: 4px;
         border: 1px solid #ccc;
-        &.focus {
-//            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
-//            outline: 0 none;
-        }
-        &.has-error {
-//            border-color: #a94442;
-        }
     }
     .arrow-button {
         width: 28px;
@@ -37,5 +30,12 @@
     }
     .arrow-button:not(:first-of-type) {
         margin-left: 5px;
+    }
+    .number-input-form {
+        .ng-invalid {
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(233, 75, 23, 0.6);
+            outline: 0 none;
+            border-color: #a94442;
+        }
     }
 }

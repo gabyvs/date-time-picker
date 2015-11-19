@@ -3,7 +3,7 @@
 import angular from 'angular';
 
 import dtPicker from './dateTimePicker';
-import timePicker from './time-picker/timePicker';
+import { timePicker, hours, minutes } from './time-picker/timePicker';
 import singleCalendar from './single-calendar/singleCalendar';
 import doubleCalendar from './double-calendar/doubleCalendar';
 import durationPanel from './duration-panel/durationPanel';
@@ -16,7 +16,8 @@ export default angular
     .module( 'dt-picker', [])
     .service('pickerService', pickerService)
     .service('bootstrapService', bootstrapService)
-    .directive('timePicker', ['$timeout', timePicker])
+    .directive('hours', hours)
+    .directive('timePicker', timePicker)
     .directive('singleCalendar', ['$timeout', singleCalendar])
     .directive('doubleCalendar', ['$timeout', doubleCalendar])
     .directive('durationPanel', ['$timeout', 'pickerService', durationPanel])

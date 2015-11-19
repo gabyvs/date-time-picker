@@ -7,11 +7,11 @@
             <span class="arrow-up"></span>
         </a>
     </div>
-    <div>
-        <input type="text" class="time-input" ng-model="hours" ng-change="changeHours()" maxlength="2" ng-class="{ 'has-error': invalidHours }"/>
+    <form name="number-input-form" class="number-input-form" novalidate>
+        <input type="text" class="time-input" ng-model="hours" ng-change="callUpdate()" maxlength="2" hours />
         <span>:</span>
-        <input type="text" class="time-input" ng-model="minutes" ng-change="changeMinutes()" maxlength="2" ng-class="{ 'has-error': invalidMinutes }"/>
-    </div>
+        <input type="text" class="time-input" ng-model="minutes" ng-change="callUpdate()" maxlength="2" minutes />
+    </form>
     <div>
         <a ng-click="decrementHours()" class="arrow-button">
             <span class="arrow-down"></span>
