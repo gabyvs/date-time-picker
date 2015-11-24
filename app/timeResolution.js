@@ -53,7 +53,7 @@ function isInRange (timeResolution, unit) {
 }
 
 class TimeResolution {
-    constructor(from, to, timeUnit, range = { label: 'Time Range', custom: 'time' }, maxResolution = 200) {
+    constructor(from, to, timeUnit, range = { label: 'Custom Range', custom: true }, maxResolution = 200) {
         this.from = from;
         this.to = to;
         this.maxResolution = maxResolution;
@@ -145,13 +145,9 @@ class TimeResolution {
      */
     changeWithRangeOption(rangeOption) {
         var newDate;
-        if (rangeOption.custom === 'date') {
+        if (rangeOption.custom) {
             var from = new moment(this.from).startOf('day');
             var to = new moment(this.to).endOf('day');
-            newDate = new TimeResolution(from.valueOf(), to.valueOf(), undefined, { label: 'Date Range', custom: 'date' });
-        } else if (rangeOption.custom === 'time') {
-            var from = new moment(this.from).startOf('day');
-            var to = new moment(this.from).startOf('day').add(1, 'day');
             newDate = new TimeResolution(from.valueOf(), to.valueOf());
         } else {
             newDate = TimeResolution.timeResolutionFromLocal(rangeOption);

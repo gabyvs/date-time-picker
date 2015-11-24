@@ -1,4 +1,4 @@
-<div class="section-configure">
+<div class="section-configure absolute-panel">
     <div class="key-value-section">
         <span class="bold-label">Range</span>
         <div class="btn-group">
@@ -26,5 +26,9 @@
                 <li ng-repeat="unit in internalRange.selectedRange.timeUnits" ng-click="selectTimeUnit(unit)"><a>{{ unit }}</a></li>
             </ul>
         </div>
+    </div>
+    <div class="key-value-section single-date-section" ng-show="internalRange.selectedRange.custom">
+        <input type="checkbox" ng-model="singleDate" />
+        <span>Single Date</span>
     </div>
 </div>

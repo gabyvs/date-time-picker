@@ -8,7 +8,7 @@ describe('Time Resolution', function () {
         expect(timeRes.from).toBe(moment(now).subtract(1, 'hour').valueOf());
         expect(timeRes.to).toBe(moment(now).valueOf());
         expect(timeRes.timeUnit).toBe('minute');
-        expect(timeRes.selectedRange.custom).toBe('time');
+        expect(timeRes.selectedRange.custom).toBe(true);
     });
 
     it('Creates time resolution with from, to, time unit and range', function () {
@@ -54,7 +54,7 @@ describe('Time Resolution', function () {
         expect(moment(newDate.to).minutes()).toBe(moment(now).minutes());
         expect(newDate.timeUnit).toBe('minute');
         expect(newDate.timeUnit).toBe(timeRes.timeUnit);
-        expect(newDate.selectedRange.custom).toBe('time');
+        expect(newDate.selectedRange.custom).toBe(true);
     });
 
     it('Creates a new time resolution from an existing one and a new starting hour', function () {
@@ -65,7 +65,7 @@ describe('Time Resolution', function () {
         expect(moment(newDate.from).minutes()).toBe(0);
         expect(moment(newDate.to).minutes()).toBe(0);
         expect(newDate.timeUnit).toBe('minute');
-        expect(newDate.selectedRange.custom).toBe('time');
+        expect(newDate.selectedRange.custom).toBe(true);
     });
 
     it('Creates a new time resolution from an existing one and a new duration', function () {
@@ -74,7 +74,7 @@ describe('Time Resolution', function () {
         const newDate = timeRes.changeWithDuration({ value: 6, unit: 'hours', label: '6 hours' });
         expect(moment(newDate.to).diff(moment(newDate.from), 'hours')).toBe(6);
         expect(newDate.timeUnit).toBe('hour');
-        expect(newDate.selectedRange.custom).toBe('time');
+        expect(newDate.selectedRange.custom).toBe(true);
     });
 
     it('Creates a new time resolution from an existing one and a new range option', function () {
@@ -133,14 +133,10 @@ describe('Time Resolution', function () {
         expect(moment(timeRes.to).diff(moment(timeRes.from), 'days')).toBe(7);
         expect(timeRes.timeUnit).toBe('hour');
         expect(timeRes.selectedRange.label).toBe('Last 7 Days');
-        timeRes = timeRes.changeWithRangeOption({ label: 'Date Range', custom: 'date' });
+        timeRes = timeRes.changeWithRangeOption({ label: 'Custom Range', custom: true });
         expect(moment(timeRes.to).diff(moment(timeRes.from), 'days')).toBe(7);
         expect(timeRes.timeUnit).toBe('hour');
-        expect(timeRes.selectedRange.label).toBe('Date Range');
-        timeRes = timeRes.changeWithRangeOption({ label: 'Time Range', custom: 'time' });
-        expect(moment(timeRes.to).diff(moment(timeRes.from), 'hours')).toBe(24);
-        expect(timeRes.timeUnit).toBe('hour');
-        expect(timeRes.selectedRange.label).toBe('Time Range');
+        expect(timeRes.selectedRange.label).toBe('Custom Range');
     });
 });
 

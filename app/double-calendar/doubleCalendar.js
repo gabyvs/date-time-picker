@@ -11,7 +11,8 @@ function doubleCalendar($timeout) {
             onRangeSelected: '&',
             maxRange: '=',
             range: '=',
-            observer: '='
+            observer: '=',
+            singleDate: '='
         },
         template: '<div class="double-calendar-container"></div>',
         link: function (scope, element) {
@@ -21,7 +22,7 @@ function doubleCalendar($timeout) {
             }
 
             function setDateAndEmit (from, to) {
-                const newDate = new TimeResolution(from, to, undefined, { label: 'Date Range', custom: 'date' });
+                const newDate = new TimeResolution(from, to, undefined, { label: 'Custom Range', custom: true });
                 scope.internalRange = newDate;
                 scope.observer.emit('doubleCalendar', newDate);
                 $timeout();
@@ -52,7 +53,10 @@ function doubleCalendar($timeout) {
                     internalSetting = false;
                     return;
                 }
-                if (rangeStarted) {
+                if (scope.singleDate) {
+                    finishRange(dates[0], dates[0]);
+                    rangeStarted = false;
+                } else if (rangeStarted) {
                     finishRange(rangeStarted, dates[1]);
                     rangeStarted = false;
                 } else {

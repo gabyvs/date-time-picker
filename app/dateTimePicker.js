@@ -39,7 +39,6 @@ function dtPicker($timeout, service, bootstrapService) {
             function setupDefaultRange() {
                 scope.threeLetterTimezoneLabel = service.browserTimezone();
                 const preselectedOption = _.find(scope.dictionary, { preselected: true }) || scope.dictionary[0];
-                scope.isTimeRange = service.isTimeRange(preselectedOption);
                 const obsTimeResolution = TimeResolution.timeResolutionFromLocal(preselectedOption);
                 scope.internalRange = obsTimeResolution;
                 scope.range = { from: obsTimeResolution.from, to: obsTimeResolution.to, timeUnit: obsTimeResolution.suggestedTimeUnit() };
@@ -50,13 +49,6 @@ function dtPicker($timeout, service, bootstrapService) {
             scope.observer = new RangeObserver();
             scope.observer.subscribe('dateTimePicker', function (rangeObject) {
                 scope.internalRange = rangeObject;
-                if (rangeObject.selectedRange.custom === 'date') {
-                    scope.isTimeRange = false;
-                } else if(rangeObject.selectedRange.custom === 'time') {
-                    scope.isTimeRange = true;
-                } else {
-                    scope.isTimeRange = service.isTimeRange(rangeObject.selectedRange);
-                }
             });
 
             /**

@@ -8,7 +8,8 @@ function absolutePanel($timeout) {
         scope: {
             observer: '=',
             dictionary: '=',
-            hideTimeUnit: '='
+            hideTimeUnit: '=',
+            singleDate: '='
         },
         template: template,
         link: function (scope) {
@@ -74,7 +75,7 @@ function absolutePanel($timeout) {
                 scope.internalRange = newDate;
                 setupAvailableTimeUnits();
                 scope.observer.emit('absolutePanel', newDate);
-            }
+            };
         }
     }
 }

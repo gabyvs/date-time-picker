@@ -2,6 +2,8 @@ import jQuery from 'jquery';
 import dtPickerMain from '../main';
 import RangeObserver from '../rangeObserver';
 import TimeResolution from '../timeResolution';
+import moment from 'moment';
+import datepick from 'imports?jQuery=jquery!../datepick/jquery.datepick.js';
 
 describe('Double Calendar', function () {
     var scope, $compile, $rootScope, element, $timeout;
@@ -9,7 +11,7 @@ describe('Double Calendar', function () {
 
     function compileDirective() {
         scope.observer = new RangeObserver();
-        element = $compile('<double-calendar observer="observer" max-range="maxRange"></double-calendar>')(scope);
+        element = $compile('<double-calendar observer="observer" max-range="maxRange" single-date="singleDate"></double-calendar>')(scope);
         $timeout.flush();
     }
 
@@ -40,7 +42,7 @@ describe('Double Calendar', function () {
         });
         $(element).datepick('setDate', new Date(), new Date());
         expect(rangeSet).toBeDefined();
-        expect(rangeSet.selectedRange.custom).toBe('date');
+        expect(rangeSet.selectedRange.custom).toBe(true);
     });
 
     it('Calendar is initialized with a range from controller', function () {
@@ -54,6 +56,27 @@ describe('Double Calendar', function () {
         scope.maxRange = 15;
         $rootScope.$digest();
         expect(element.isolateScope().maxRange).toBe(15);
+    });
+
+    it('Selects only one day when single date flag is on, and a range if it is off', function () {
+        var rangeSet;
+        element.isolateScope().observer.subscribe('doubleCalendarSpec', function (range) {
+            rangeSet = range;
+        });
+        $(element.find(`.datepick a[title='Select ${moment().date(1).format('dddd, MMM D, YYYY')}']`)).click();
+        expect(moment(rangeSet.from).date()).toBe(1);
+        expect(moment(rangeSet.to).date()).toBe(1);
+        $(element.find(`.datepick a[title='Select ${moment().date(5).format('dddd, MMM D, YYYY')}']`)).click();
+        expect(moment(rangeSet.from).date()).toBe(1);
+        expect(moment(rangeSet.to).date()).toBe(5);
+        scope.singleDate = true;
+        scope.$digest();
+        $(element.find(`.datepick a[title='Select ${moment().date(1).format('dddd, MMM D, YYYY')}']`)).click();
+        expect(moment(rangeSet.from).date()).toBe(1);
+        expect(moment(rangeSet.to).date()).toBe(1);
+        $(element.find(`.datepick a[title='Select ${moment().date(5).format('dddd, MMM D, YYYY')}']`)).click();
+        expect(moment(rangeSet.from).date()).toBe(5);
+        expect(moment(rangeSet.to).date()).toBe(5);
     });
 });
 

@@ -33,25 +33,41 @@ describe('Time Picker', function () {
 
     it('Increments hours', function () {
         element.isolateScope().incrementHours();
-        expect(element.isolateScope().hours).toBe(moment(now).add(1, 'hours').format('HH'));
+        if (moment(now).hours() > 22) {
+            expect(element.isolateScope().hours).toBe('00');
+        } else {
+            expect(element.isolateScope().hours).toBe(moment(now).add(1, 'hours').format('HH'));
+        }
         expect(updatedValue).toBeDefined();
     });
 
     it('Decrements hours', function () {
         element.isolateScope().decrementHours();
-        expect(element.isolateScope().hours).toBe(moment(now).subtract(1, 'hours').format('HH'));
+        if (moment(now).hours() < 1) {
+            expect(element.isolateScope().hours).toBe('23');
+        } else {
+            expect(element.isolateScope().hours).toBe(moment(now).subtract(1, 'hours').format('HH'));
+        }
         expect(updatedValue).toBeDefined();
     });
 
     it('Increments minutes', function () {
         element.isolateScope().incrementMinutes();
-        expect(element.isolateScope().minutes).toBe(moment(now).add(5, 'minutes').format('mm'));
+        if (moment(now).minutes() > 54) {
+            expect(element.isolateScope().minutes).toBe('00');
+        } else {
+            expect(element.isolateScope().minutes).toBe(moment(now).add(5, 'minutes').format('mm'));
+        }
         expect(updatedValue).toBeDefined();
     });
 
     it('Decrements minutes', function () {
         element.isolateScope().decrementMinutes();
-        expect(element.isolateScope().minutes).toBe(moment(now).subtract(5, 'minutes').format('mm'));
+        if (moment(now).minutes() < 5) {
+            expect(element.isolateScope().minutes).toBe('55');
+        } else {
+            expect(element.isolateScope().minutes).toBe(moment(now).subtract(5, 'minutes').format('mm'));
+        }
         expect(updatedValue).toBeDefined();
     });
 });

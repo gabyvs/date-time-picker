@@ -44,22 +44,13 @@ export default class PickerService {
             { value: 48, unit: 'hours', label: '48 hours' }
         ];
 
-        //FIXME: there should be only one custom option. Fix this with displaying only the double calendar.
         this.defaultDictionary = [
             { label: 'Last Hour', duration: { unit: 'hour', value: 1 }},
             { label: 'Last 24 Hours', duration: { unit: 'day', value: 1 }, preselected: true},
             { label: 'Yesterday', duration: { unit: 'day', value: 1, offset: 1 } }, // This needs an offset
             { label: 'Last 7 Days', duration: { unit: 'week', value: 1 }},
-            { label: 'Date Range', custom: 'date' },
-            { label: 'Time Range', custom: 'time' }
+            { label: 'Custom Range', custom: true }
         ];
-    }
-
-    isTimeRange(selection) {
-        if (selection.duration.unit === 'hour' || selection.duration.unit === 'minutes' || (selection.duration.unit == 'day' && selection.duration.value == 1)) {
-            return true;
-        }
-        return false;
     }
 
     browserTimezone (dateInput) {

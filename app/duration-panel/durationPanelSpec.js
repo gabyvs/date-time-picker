@@ -12,8 +12,7 @@ describe('Duration Panel', function () {
             { label: 'Last Hour', duration: { unit: 'hour', value: 1 }},
             { label: 'Last 24 Hours', duration: { unit: 'day', value: 1 }, preselected: true},
             { label: 'Last 7 Days', duration: { unit: 'week', value: 1 }},
-            { label: 'Date Range', custom: 'date' },
-            { label: 'Time Range', custom: 'time' }];
+            { label: 'Custom Range', custom: true }];
         element = $compile('<duration-panel observer="observer" dictionary="dictionary"></duration-panel>')(scope);
         $timeout.flush();
     }
@@ -60,7 +59,7 @@ describe('Duration Panel', function () {
         expect(dateTest.selectedRange.label).toBe('Last 10 Minutes');
         const twoHoursAgo = moment().hour() - 2;
         element.isolateScope().selectFrom({ value: twoHoursAgo, label: `{twoHoursAgo}:00` });
-        expect(dateTest.selectedRange.label).toBe('Time Range');
+        expect(dateTest.selectedRange.label).toBe('Custom Range');
         expect(moment(element.isolateScope().internalRange.from).hours()).toBe(twoHoursAgo);
     });
 
@@ -72,7 +71,7 @@ describe('Duration Panel', function () {
         });
         element.isolateScope().selectDuration({ value: 2, label: '2 hours', unit: 'hours' });
         scope.$digest();
-        expect(element.isolateScope().internalRange.selectedRange.label).toBe('Time Range');
+        expect(element.isolateScope().internalRange.selectedRange.label).toBe('Custom Range');
         expect(element.isolateScope().selectedDuration.value).toBe(2);
         expect(element.isolateScope().internalRange.timeUnit).toBe('minute');
         expect(element.isolateScope().selectedFrom.value).toBeDefined();

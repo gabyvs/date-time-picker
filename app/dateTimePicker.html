@@ -21,22 +21,18 @@
                     ng-show="absoluteMode"
                     observer="observer"
                     dictionary="dictionary"
-                    hide-time-unit="hideTimeUnit">
+                    hide-time-unit="hideTimeUnit"
+                    single-date="singleDate">
             </absolute-panel>
             <range-panel ng-hide="absoluteMode"
                     observer="observer"
                     dictionary="dictionary"
                     hide-time-unit="hideTimeUnit"></range-panel>
-            <div class="date-range-selection" ng-hide="!absoluteMode && isTimeRange">
+            <div class="date-range-selection">
                 <double-calendar
                         observer="observer"
-                        max-range="maxRange"></double-calendar>
-            </div>
-            <div class="time-range-selection" ng-show="!absoluteMode && isTimeRange">
-                <duration-panel
-                        observer="observer"
-                        dictionary="dictionary"></duration-panel>
-                <single-calendar observer="observer"></single-calendar>
+                        max-range="maxRange"
+                        single-date="singleDate"></double-calendar>
             </div>
         </div>
         <div class="bottom-section">
