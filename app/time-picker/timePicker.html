@@ -8,9 +8,9 @@
         </a>
     </div>
     <form name="number-input-form" class="number-input-form" novalidate>
-        <input type="text" class="time-input" ng-model="hours" ng-change="callUpdate()" maxlength="2" hours />
+        <input type="text" class="time-input" ng-model="hours" ng-change="changeHours()" ng-blur="renderHours()" maxlength="2" hours />
         <span>:</span>
-        <input type="text" class="time-input" ng-model="minutes" ng-change="callUpdate()" maxlength="2" minutes />
+        <input type="text" class="time-input" ng-model="minutes" ng-change="changeMinutes()" ng-blur="renderMinutes()" maxlength="2" minutes />
     </form>
     <div>
         <a ng-click="decrementHours()" class="arrow-button">

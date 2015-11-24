@@ -44,6 +44,7 @@ export default class PickerService {
             { value: 48, unit: 'hours', label: '48 hours' }
         ];
 
+        //FIXME: there should be only one custom option. Fix this with displaying only the double calendar.
         this.defaultDictionary = [
             { label: 'Last Hour', duration: { unit: 'hour', value: 1 }},
             { label: 'Last 24 Hours', duration: { unit: 'day', value: 1 }, preselected: true},

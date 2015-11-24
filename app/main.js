@@ -16,6 +16,7 @@ export default angular
     .module( 'dt-picker', [])
     .service('pickerService', pickerService)
     .service('bootstrapService', bootstrapService)
+    .directive('minutes', minutes)
     .directive('hours', hours)
     .directive('timePicker', timePicker)
     .directive('singleCalendar', ['$timeout', singleCalendar])
