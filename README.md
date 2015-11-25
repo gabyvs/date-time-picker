@@ -1,6 +1,8 @@
 Date Time Picker
 ================
 
+[![Build Status](https://travis-ci.org/gabyvs/date-time-picker.svg?branch=master)](https://travis-ci.org/gabyvs/date-time-picker)
+
 Another angular directive for selecting date and time ranges for analytics and data queries. There is a pretty good
 number of date pickers and range date pickers out there, but none of them was solving our use case:
 
