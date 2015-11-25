@@ -52,13 +52,11 @@ describe('Date Time Picker', function () {
     it('Shows and hides configuration panel', function () {
         expect(element.isolateScope().configuring).toBeUndefined();
         expect(element.find('.date-time-configure').hasClass('ng-hide')).toBe(true);
-        element.isolateScope().configure();
+        element.isolateScope().configuring = true;
         $rootScope.$digest();
-        expect(element.isolateScope().configuring).toBe(true);
         expect(element.find('.date-time-configure').hasClass('ng-hide')).toBe(false);
-        element.isolateScope().close();
+        element.isolateScope().configuring = false;
         $rootScope.$digest();
-        expect(element.isolateScope().configuring).toBe(false);
         expect(element.find('.date-time-configure').hasClass('ng-hide')).toBe(true);
     });
 
@@ -75,13 +73,13 @@ describe('Date Time Picker', function () {
     it('Only takes saved selections when refreshing', function () {
         expect(element.isolateScope().internalRange.selectedRange.label).toBe('Last 24 Hours');
         expect(element.isolateScope().savedRange.selectedRange.label).toBe('Last 24 Hours');
-        element.isolateScope().configure();
+        element.isolateScope().configuring = true;
         const newDate = TimeResolution.timeResolutionFromLocal({ label: 'Last Hour', duration: { unit: 'hour', value: 1 }});
         element.isolateScope().observer.emit('dateTimePickerSpec', newDate);
         $rootScope.$digest();
         expect(element.isolateScope().internalRange.selectedRange.duration.unit).toBe('hour');
         expect(element.isolateScope().internalRange.selectedRange.duration.value).toBe(1);
-        element.isolateScope().close();
+        element.isolateScope().configuring = false;
         element.isolateScope().refresh();
         $rootScope.$digest();
         expect(element.isolateScope().internalRange.selectedRange.duration.unit).toBe('day');
@@ -100,7 +98,7 @@ describe('Date Time Picker', function () {
     });
 
     it('Honors time unit for refreshing', function () {
-        element.isolateScope().configure();
+        element.isolateScope().configuring = true;
         element.isolateScope().observer.emit('dateTimePickerSpec', TimeResolution.timeResolutionFromLocal({ label: 'Last 7 Days', duration: { unit: 'week', value: 1 }}));
         $rootScope.$digest();
         expect(element.isolateScope().internalRange.timeUnit).toBe('hour');

@@ -51,21 +51,6 @@ function dtPicker($timeout, service, bootstrapService) {
                 scope.internalRange = rangeObject;
             });
 
-            /**
-             * Executes when a user clicks over the main label, causing the configure area to open.
-             * It resets all controls to last saved range, and adjusted to current moment.
-             */
-            scope.configure = function () {
-                scope.configuring = true;
-            };
-
-            /**
-             * Only closes configuring space, without saving user changes.
-             */
-            scope.close = function () {
-                scope.configuring = false;
-            };
-
             setupRangeDictionary();
             setupCustomSettings();
             $timeout(function () {

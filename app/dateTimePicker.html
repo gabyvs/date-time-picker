@@ -1,7 +1,7 @@
 <div class="date-time-picker">
     <div>
         <div class="main-label-container">
-            <a class="main-date-time-label" ng-class="configuring ? 'configuring' : 'closed'" ng-click="configure()">
+            <a class="main-date-time-label" ng-class="configuring ? 'configuring' : 'closed'" ng-click="configuring = !configuring">
                 <span class="dt-lighter">{{ range.from | date: 'EEE' }}</span>
                 <span class="dt-bolder">{{ range.from | date: 'd MMM yyyy' }}</span>
                 <span class="dt-lighter">{{ range.from | date: 'H:mm' }}</span>
@@ -39,7 +39,7 @@
         <div class="bottom-section">
             <div class="button-section">
                 <button class="btn btn-sm btn-save" ng-click="save()">Apply</button>
-                <button class="btn btn-sm" ng-click="close()">Cancel</button>
+                <button class="btn btn-sm" ng-click="configuring = false">Cancel</button>
             </div>
             <div class="selected-section">
                 <span class="bold-label">Selected</span>
