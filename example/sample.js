@@ -25,7 +25,8 @@
     module.controller('sample', [
         '$scope',
         function ($scope) {
-            //
+            $scope.from = moment().subtract(7, 'days').valueOf();
+            $scope.to = moment().valueOf();
         }
     ]);
 } (angular));

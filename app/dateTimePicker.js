@@ -14,7 +14,9 @@ function dtPicker($timeout, service, bootstrapService) {
             range: '=',
             options: '=',
             rangeDictionary: '=',
-            absoluteMode: '='
+            absoluteMode: '=',
+            from: '=',
+            to: '='
         },
         template: template,
         link: function (scope) {
@@ -38,12 +40,17 @@ function dtPicker($timeout, service, bootstrapService) {
              */
             function setupDefaultRange() {
                 scope.threeLetterTimezoneLabel = service.browserTimezone();
-                const preselectedOption = _.find(scope.dictionary, { preselected: true }) || scope.dictionary[0];
-                const obsTimeResolution = TimeResolution.timeResolutionFromLocal(preselectedOption);
-                scope.internalRange = obsTimeResolution;
-                scope.range = { from: obsTimeResolution.from, to: obsTimeResolution.to, timeUnit: obsTimeResolution.suggestedTimeUnit() };
-                scope.savedRange = obsTimeResolution.clone();
-                scope.observer.emit('dateTimePicker', obsTimeResolution);
+                var timeResolution;
+                if (scope.from && scope.to) {
+                    timeResolution = new TimeResolution(scope.from, scope.to);
+                } else {
+                    const preselectedOption = _.find(scope.dictionary, { preselected: true }) || scope.dictionary[0];
+                    timeResolution = TimeResolution.timeResolutionFromLocal(preselectedOption);
+                }
+                scope.internalRange = timeResolution;
+                scope.range = { from: timeResolution.from, to: timeResolution.to, timeUnit: timeResolution.suggestedTimeUnit() };
+                scope.savedRange = timeResolution.clone();
+                scope.observer.emit('dateTimePicker', timeResolution);
             }
 
             scope.observer = new RangeObserver();

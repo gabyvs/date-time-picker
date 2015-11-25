@@ -8,9 +8,7 @@ function doubleCalendar($timeout) {
         restrict: 'E',
         replace: true,
         scope: {
-            onRangeSelected: '&',
             maxRange: '=',
-            range: '=',
             observer: '=',
             singleDate: '='
         },
