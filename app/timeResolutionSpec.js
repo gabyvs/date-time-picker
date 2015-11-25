@@ -134,7 +134,7 @@ describe('Time Resolution', function () {
         expect(timeRes.timeUnit).toBe('hour');
         expect(timeRes.selectedRange.label).toBe('Last 7 Days');
         timeRes = timeRes.changeWithRangeOption({ label: 'Custom Range', custom: true });
-        expect(moment(timeRes.to).diff(moment(timeRes.from), 'days')).toBe(7);
+        expect(moment(timeRes.to).diff(moment(timeRes.from), 'days')).toBe(8);
         expect(timeRes.timeUnit).toBe('hour');
         expect(timeRes.selectedRange.label).toBe('Custom Range');
     });

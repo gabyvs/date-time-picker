@@ -147,7 +147,7 @@ class TimeResolution {
         var newDate;
         if (rangeOption.custom) {
             var from = new moment(this.from).startOf('day');
-            var to = new moment(this.to).endOf('day');
+            var to = new moment(this.to).add(1, 'days').startOf('day');
             newDate = new TimeResolution(from.valueOf(), to.valueOf());
         } else {
             newDate = TimeResolution.timeResolutionFromLocal(rangeOption);

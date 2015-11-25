@@ -29,16 +29,16 @@ function doubleCalendar($timeout) {
             }
 
             function finishRange(fromDate, toDate) {
-                var from =  moment(fromDate).startOf('day').valueOf()
-                var to = moment(toDate).endOf('day').valueOf();
+                var from =  moment(fromDate).startOf('day').valueOf();
+                var to = moment(toDate).add(1, 'days').startOf('day').valueOf();
                 setMinMaxDates('-6m', +0);
-                jQuery(element).datepick('setDate', new Date(from), new Date(to));
+                jQuery(element).datepick('setDate', new Date(from), new Date(to - 1));
                 setDateAndEmit(from, to);
             }
 
             function startRange(fromDate, toDate) {
                 var from = moment(fromDate).startOf('day').valueOf();
-                var to = moment(toDate).endOf('day').valueOf();
+                var to = moment(toDate).add(1, 'days').startOf('day').valueOf();
                 var maxRangeFromStart = moment(from).add(scope.maxRange || 31, 'days').valueOf();
                 var maxRangeOrToday = _.min([maxRangeFromStart, moment().valueOf()]);
                 setMinMaxDates(new Date(from), new Date(maxRangeOrToday));
@@ -73,7 +73,7 @@ function doubleCalendar($timeout) {
                     scope.internalRange = range;
                     internalSetting = true;
                     setMinMaxDates('-6m', +0);
-                    jQuery(element).datepick('setDate', new Date(range.from), new Date(range.to));
+                    jQuery(element).datepick('setDate', new Date(range.from), new Date(range.to - 1));
                     jQuery(element).datepick('showMonth', moment(range.from).year(), moment(range.from).month());
                     rangeStarted = false;
                 });

@@ -113,30 +113,26 @@ describe('Date Time Picker', function () {
         expect(element.isolateScope().internalRange.timeUnit).toBe('day');
         expect(element.isolateScope().savedRange.timeUnit).toBe('day');
     });
-    // TODO: fix this test
-    xit('Selects all available ranges', function () {
+
+    it('Selects all available ranges', function () {
         var selectedDates;
         // By default it selects last 24 hours
         expect(element.isolateScope().internalRange.selectedRange.label).toBe('Last 24 Hours');
         expect(element.isolateScope().internalRange.timeUnit).toBe('hour');
         expect(angular.element(element.find(".to-value")[0]).html()).toBe(moment().hours() + ':00');
-        selectedDates = $(element.find('.single-calendar-container')).datepick('getDate');
+        selectedDates = $(element.find('.double-calendar-container')).datepick('getDate');
         expect(selectedDates[0]).toBeDefined();
         // Selecting last hour
         element.isolateScope().observer.emit('dateTimePickerSpec', TimeResolution.timeResolutionFromLocal({ label: 'Last Hour', duration: { unit: 'hour', value: 1 }}));
         $rootScope.$digest();
-        expect(element.find('.date-range-selection').hasClass('ng-hide')).toBe(true);
-        expect(element.find('.time-range-selection').hasClass('ng-hide')).toBe(false);
         expect(element.isolateScope().internalRange.selectedRange.label).toBe('Last Hour');
         expect(element.isolateScope().internalRange.timeUnit).toBe('minute');
         expect(angular.element(element.find(".to-value")[0]).html()).not.toBe('');
-        selectedDates = $(element.find('.single-calendar-container')).datepick('getDate');
+        selectedDates = $(element.find('.double-calendar-container')).datepick('getDate');
         expect(selectedDates[0]).toBeDefined();
         // selecting last 7 days
         element.isolateScope().observer.emit('dateTimePickerSpec', TimeResolution.timeResolutionFromLocal({ label: 'Last 7 Days', duration: { unit: 'week', value: 1 }}));
         $rootScope.$digest();
-        expect(element.find('.date-range-selection').hasClass('ng-hide')).toBe(false);
-        expect(element.find('.time-range-selection').hasClass('ng-hide')).toBe(true);
         expect(element.isolateScope().internalRange.selectedRange.label).toBe('Last 7 Days');
         expect(element.isolateScope().internalRange.timeUnit).toBe('hour');
         expect(element.isolateScope().internalRange.selectedRange.timeUnits.length).toBe(2);
@@ -144,25 +140,13 @@ describe('Date Time Picker', function () {
         expect(selectedDates[0]).toBeDefined();
         expect(selectedDates[1]).toBeDefined();
         // selecting time range
-        element.isolateScope().observer.emit('dateTimePickerSpec', element.isolateScope().internalRange.changeWithRangeOption({ label: 'Time Range', custom: 'time' }));
+        element.isolateScope().observer.emit('dateTimePickerSpec', element.isolateScope().internalRange.changeWithRangeOption({ label: 'Custom Range', custom: true }));
         $rootScope.$digest();
-        expect(element.find('.date-range-selection').hasClass('ng-hide')).toBe(true);
-        expect(element.find('.time-range-selection').hasClass('ng-hide')).toBe(false);
-        expect(element.isolateScope().internalRange.selectedRange.label).toBe('Time Range');
+        expect(element.isolateScope().internalRange.selectedRange.label).toBe('Custom Range');
         expect(element.isolateScope().internalRange.timeUnit).toBe('hour');
         expect(angular.element(element.find(".to-value")[0]).html()).toBe('0:00');
-        selectedDates = $(element.find('.single-calendar-container')).datepick('getDate');
-        expect(selectedDates[0]).toBeDefined();
-        expect(selectedDates[0].getDate()).toBe(new moment().subtract(7, 'day').date());
-        // selecting date range
-        element.isolateScope().observer.emit('dateTimePickerSpec', element.isolateScope().internalRange.changeWithRangeOption({ label: 'Date Range', custom: 'date' }));
-        $rootScope.$digest();
-        expect(element.find('.date-range-selection').hasClass('ng-hide')).toBe(false);
-        expect(element.find('.time-range-selection').hasClass('ng-hide')).toBe(true);
-        expect(element.isolateScope().internalRange.selectedRange.label).toBe('Date Range');
-        expect(element.isolateScope().internalRange.timeUnit).toBe('hour');
         selectedDates = $(element.find('.double-calendar-container')).datepick('getDate');
         expect(selectedDates[0]).toBeDefined();
-        expect(selectedDates[1]).toBeDefined();
+        expect(selectedDates[0].getDate()).toBe(new moment().subtract(7, 'day').date());
     });
 });

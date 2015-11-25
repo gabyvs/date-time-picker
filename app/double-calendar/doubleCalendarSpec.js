@@ -65,18 +65,18 @@ describe('Double Calendar', function () {
         });
         $(element.find(`.datepick a[title='Select ${moment().date(1).format('dddd, MMM D, YYYY')}']`)).click();
         expect(moment(rangeSet.from).date()).toBe(1);
-        expect(moment(rangeSet.to).date()).toBe(1);
+        expect(moment(rangeSet.to).date()).toBe(2);
         $(element.find(`.datepick a[title='Select ${moment().date(5).format('dddd, MMM D, YYYY')}']`)).click();
         expect(moment(rangeSet.from).date()).toBe(1);
-        expect(moment(rangeSet.to).date()).toBe(5);
+        expect(moment(rangeSet.to).date()).toBe(6);
         scope.singleDate = true;
         scope.$digest();
         $(element.find(`.datepick a[title='Select ${moment().date(1).format('dddd, MMM D, YYYY')}']`)).click();
         expect(moment(rangeSet.from).date()).toBe(1);
-        expect(moment(rangeSet.to).date()).toBe(1);
+        expect(moment(rangeSet.to).date()).toBe(2);
         $(element.find(`.datepick a[title='Select ${moment().date(5).format('dddd, MMM D, YYYY')}']`)).click();
         expect(moment(rangeSet.from).date()).toBe(5);
-        expect(moment(rangeSet.to).date()).toBe(5);
+        expect(moment(rangeSet.to).date()).toBe(6);
     });
 });
 

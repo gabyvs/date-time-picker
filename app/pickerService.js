@@ -40,8 +40,10 @@ export default class PickerService {
             { value: 3, unit: 'hours', label: '3 hours' },
             { value: 6, unit: 'hours', label: '6 hours' },
             { value: 12, unit: 'hours', label: '12 hours' },
-            { value: 24, unit: 'hours', label: '24 hours' },
-            { value: 48, unit: 'hours', label: '48 hours' }
+            { value: 1, unit: 'days', label: '1 day' },
+            { value: 2, unit: 'days', label: '2 days' },
+            { value: 3, unit: 'days', label: '3 days' },
+            { value: 7, unit: 'days', label: '7 days' }
         ];
 
         this.defaultDictionary = [
@@ -74,9 +76,15 @@ export default class PickerService {
         return tzAbbr;
     }
 
-    hourDifference(from, to) {
-        var fromHelper = new moment(from);
-        var toHelper = new moment(to);
-        return toHelper.diff(fromHelper, 'hours');
+    timeDifference(from, to) {
+        const fromHelper = new moment(from);
+        const toHelper = new moment(to);
+        const hours = toHelper.diff(fromHelper, 'hours');
+        if (hours > 23) {
+            const days = toHelper.diff(fromHelper, 'days');
+            return { unit: 'days', value: days, label: `${days} days` };
+        } else {
+            return { unit: 'hours', value: hours, label: `${hours} hours` };
+        }
     }
 }
