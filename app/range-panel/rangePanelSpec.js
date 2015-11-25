@@ -10,7 +10,7 @@ describe('Range Panel', function () {
         scope.observer = new RangeObserver();
         scope.dictionary = [{ label: 'Last 10 Minutes', duration: { unit: 'minutes', value: 10 }},
             { label: 'Last Hour', duration: { unit: 'hour', value: 1 }},
-            { label: 'Last 24 Hours', duration: { unit: 'day', value: 1 }, preselected: true},
+            { label: 'Last 24 Hours', duration: { unit: 'day', value: 1 }},
             { label: 'Last 7 Days', duration: { unit: 'week', value: 1 }},
             { label: 'Custom Range', custom: true }];
         element = $compile('<range-panel observer="observer" dictionary="dictionary" hide-time-unit="hideTimeUnit" single-date="singleDate"></range-panel>')(scope);

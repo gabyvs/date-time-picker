@@ -134,7 +134,7 @@ class TimeResolution {
      */
     changeWithDuration(duration) {
         const newTo = moment(this.from).add(duration.value, duration.unit);
-        const newTime = new TimeResolution(this.from, newTo);
+        const newTime = new TimeResolution(this.from, newTo.valueOf());
         return newTime;
     }
 

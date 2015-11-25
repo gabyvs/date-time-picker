@@ -14,9 +14,7 @@ function dtPicker($timeout, service, bootstrapService) {
             range: '=',
             options: '=',
             rangeDictionary: '=',
-            absoluteMode: '=',
-            from: '=',
-            to: '='
+            mode: '='
         },
         template: template,
         link: function (scope) {
@@ -41,11 +39,26 @@ function dtPicker($timeout, service, bootstrapService) {
             function setupDefaultRange() {
                 scope.threeLetterTimezoneLabel = service.browserTimezone();
                 var timeResolution;
-                if (scope.from && scope.to) {
-                    timeResolution = new TimeResolution(scope.from, scope.to);
+                // If it was initialized with a range, it will try to use it as a default setup
+                if (scope.range && scope.range.label) {
+                    const option = _.find(scope.dictionary, { label: scope.range.label }) || scope.dictionary[0];
+                    timeResolution = TimeResolution.timeResolutionFromLocal(option);
+                } else if (scope.range && scope.range.duration && scope.range.from) {
+                    timeResolution = new TimeResolution().changeFrom(scope.range.from).changeWithDuration(scope.range.duration);
+                } else if (scope.range && scope.range.duration) {
+                    const option = _.find(scope.dictionary, { duration: scope.range.duration });
+                    if (option) {
+                        timeResolution = TimeResolution.timeResolutionFromLocal(option);
+                    } else {
+                        timeResolution = TimeResolution.timeResolutionFromLocal({ duration: scope.range.duration });
+                        timeResolution.selectedRange = { label: 'Custom Range', custom: true };
+                    }
+                } else if (scope.range && scope.mode == 'absolute' && scope.range.from && scope.range.to) {
+                    const from = moment(scope.range.from).seconds(0).milliseconds(0).valueOf();
+                    const to = moment(scope.range.to).seconds(0).milliseconds(0).valueOf();
+                    timeResolution = new TimeResolution(from, to);
                 } else {
-                    const preselectedOption = _.find(scope.dictionary, { preselected: true }) || scope.dictionary[0];
-                    timeResolution = TimeResolution.timeResolutionFromLocal(preselectedOption);
+                    timeResolution = TimeResolution.timeResolutionFromLocal(scope.dictionary[0]);
                 }
                 scope.internalRange = timeResolution;
                 scope.range = { from: timeResolution.from, to: timeResolution.to, timeUnit: timeResolution.suggestedTimeUnit() };

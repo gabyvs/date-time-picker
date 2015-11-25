@@ -47,10 +47,10 @@ export default class PickerService {
         ];
 
         this.defaultDictionary = [
-            { label: 'Last Hour', duration: { unit: 'hour', value: 1 }},
-            { label: 'Last 24 Hours', duration: { unit: 'day', value: 1 }, preselected: true},
-            { label: 'Yesterday', duration: { unit: 'day', value: 1, offset: 1 } }, // This needs an offset
-            { label: 'Last 7 Days', duration: { unit: 'week', value: 1 }},
+            { label: 'Last Hour', duration: { unit: 'hours', value: 1 }},
+            { label: 'Last 24 Hours', duration: { unit: 'days', value: 1 }},
+            { label: 'Yesterday', duration: { unit: 'days', value: 1, offset: 1 } },
+            { label: 'Last 7 Days', duration: { unit: 'weeks', value: 1 }},
             { label: 'Custom Range', custom: true }
         ];
     }

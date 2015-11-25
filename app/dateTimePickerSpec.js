@@ -67,24 +67,24 @@ describe('Date Time Picker', function () {
         const dayEnds = moment(oneWeekBefore).endOf('day');
         const newDate = new TimeResolution(dayStart, dayEnds);
         element.isolateScope().observer.emit('dateTimePickerSpec', newDate);
-        expect(moment(originalRange.from).diff(moment(element.isolateScope().internalRange.from), 'days')).toBe(6);
+        expect(moment(originalRange.from).diff(moment(element.isolateScope().internalRange.from), 'days')).toBe(7);
     });
 
     it('Only takes saved selections when refreshing', function () {
-        expect(element.isolateScope().internalRange.selectedRange.label).toBe('Last 24 Hours');
-        expect(element.isolateScope().savedRange.selectedRange.label).toBe('Last 24 Hours');
+        expect(element.isolateScope().internalRange.selectedRange.label).toBe('Last Hour');
+        expect(element.isolateScope().savedRange.selectedRange.label).toBe('Last Hour');
         element.isolateScope().configuring = true;
-        const newDate = TimeResolution.timeResolutionFromLocal({ label: 'Last Hour', duration: { unit: 'hour', value: 1 }});
+        const newDate = TimeResolution.timeResolutionFromLocal({ label: 'Last 24 Hours', duration: { unit: 'day', value: 1 }});
         element.isolateScope().observer.emit('dateTimePickerSpec', newDate);
         $rootScope.$digest();
-        expect(element.isolateScope().internalRange.selectedRange.duration.unit).toBe('hour');
+        expect(element.isolateScope().internalRange.selectedRange.duration.unit).toBe('day');
         expect(element.isolateScope().internalRange.selectedRange.duration.value).toBe(1);
         element.isolateScope().configuring = false;
         element.isolateScope().refresh();
         $rootScope.$digest();
-        expect(element.isolateScope().internalRange.selectedRange.duration.unit).toBe('day');
+        expect(element.isolateScope().internalRange.selectedRange.duration.unit).toBe('hours');
         expect(element.isolateScope().internalRange.selectedRange.duration.value).toBe(1);
-        expect(element.isolateScope().savedRange.selectedRange.duration.unit).toBe('day');
+        expect(element.isolateScope().savedRange.selectedRange.duration.unit).toBe('hours');
         expect(element.isolateScope().savedRange.selectedRange.duration.value).toBe(1);
     });
 
@@ -114,7 +114,9 @@ describe('Date Time Picker', function () {
 
     it('Selects all available ranges', function () {
         var selectedDates;
-        // By default it selects last 24 hours
+        // Selecting last 24 hours
+        element.isolateScope().observer.emit('dateTimePickerSpec', TimeResolution.timeResolutionFromLocal({ label: 'Last 24 Hours', duration: { unit: 'day', value: 1 }}));
+        $rootScope.$digest();
         expect(element.isolateScope().internalRange.selectedRange.label).toBe('Last 24 Hours');
         expect(element.isolateScope().internalRange.timeUnit).toBe('hour');
         expect(angular.element(element.find(".to-value")[0]).html()).toBe(moment().hours() + ':00');
@@ -146,5 +148,41 @@ describe('Date Time Picker', function () {
         selectedDates = $(element.find('.double-calendar-container')).datepick('getDate');
         expect(selectedDates[0]).toBeDefined();
         expect(selectedDates[0].getDate()).toBe(new moment().subtract(7, 'day').date());
+    });
+
+    it('Setup initially selected option', function () {
+        scope.range = { label: 'Last 24 Hours' };
+        element = $compile('<dt-picker range="range" options="options" range-dictionary="rangeDictionary"></dt-picker>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        expect(element.isolateScope().savedRange.selectedRange.label).toBe('Last 24 Hours');
+
+        scope.range = { duration: { value: 6, unit: 'hours', label: '6 hours' }, from: moment().subtract(1, 'days').valueOf() };
+        element = $compile('<dt-picker range="range" options="options" range-dictionary="rangeDictionary"></dt-picker>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        expect(element.isolateScope().savedRange.selectedRange.label).toBe('Custom Range');
+        expect(moment(scope.range.to).diff(moment(scope.range.from), 'hours')).toBe(6);
+
+        scope.range = { duration: { unit: 'weeks', value: 1 }};
+        element = $compile('<dt-picker range="range" options="options" range-dictionary="rangeDictionary"></dt-picker>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        expect(element.isolateScope().savedRange.selectedRange.label).toBe('Last 7 Days');
+        expect(moment(scope.range.to).diff(moment(scope.range.from), 'days')).toBe(7);
+
+        scope.range = { from: moment().subtract(7, 'days').subtract(1, 'hours').valueOf(), to: moment().subtract(1, 'hours').valueOf() };
+        element = $compile('<dt-picker range="range" options="options" range-dictionary="rangeDictionary" mode="\'absolute\'"></dt-picker>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        expect(element.isolateScope().savedRange.selectedRange.label).toBe('Custom Range');
+        expect(moment(scope.range.to).diff(moment(scope.range.from), 'days')).toBe(7);
+
+        scope.range = undefined;
+        element = $compile('<dt-picker range="range" options="options" range-dictionary="rangeDictionary" mode="\'absolute\'"></dt-picker>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        expect(element.isolateScope().savedRange.selectedRange.label).toBe('Last Hour');
+        expect(moment(scope.range.to).diff(moment(scope.range.from), 'hours')).toBe(1);
     });
 });

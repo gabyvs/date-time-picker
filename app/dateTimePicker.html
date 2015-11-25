@@ -18,13 +18,13 @@
     <div class="date-time-configure" ng-show="configuring">
         <div class="sections">
             <absolute-panel
-                    ng-show="absoluteMode"
+                    ng-show="mode == 'absolute'"
                     observer="observer"
                     dictionary="dictionary"
                     hide-time-unit="hideTimeUnit"
                     single-date="singleDate">
             </absolute-panel>
-            <range-panel ng-hide="absoluteMode"
+            <range-panel ng-hide="mode == 'absolute'"
                     observer="observer"
                     dictionary="dictionary"
                     hide-time-unit="hideTimeUnit"
@@ -43,8 +43,8 @@
             </div>
             <div class="selected-section">
                 <span class="bold-label">Selected</span>
-                <span class="label-text" ng-hide="absoluteMode">{{ internalRange.suggestedRange().from | date: 'EEE d MMM yyyy H:mm' }} &nbsp;&ndash;&nbsp; {{ internalRange.suggestedRange().to | date: 'EEE d MMM yyyy H:mm' }} {{ threeLetterTimezoneLabel }}</span>
-                <span class="label-text" ng-show="absoluteMode">{{ internalRange.from | date: 'EEE d MMM yyyy H:mm' }} &nbsp;&ndash;&nbsp; {{ internalRange.to | date: 'EEE d MMM yyyy H:mm' }} {{ threeLetterTimezoneLabel }}</span>
+                <span class="label-text" ng-hide="mode == 'absolute'">{{ internalRange.suggestedRange().from | date: 'EEE d MMM yyyy H:mm' }} &nbsp;&ndash;&nbsp; {{ internalRange.suggestedRange().to | date: 'EEE d MMM yyyy H:mm' }} {{ threeLetterTimezoneLabel }}</span>
+                <span class="label-text" ng-show="mode == 'absolute'">{{ internalRange.from | date: 'EEE d MMM yyyy H:mm' }} &nbsp;&ndash;&nbsp; {{ internalRange.to | date: 'EEE d MMM yyyy H:mm' }} {{ threeLetterTimezoneLabel }}</span>
             </div>
             <div class="clearboth"></div>
         </div>
