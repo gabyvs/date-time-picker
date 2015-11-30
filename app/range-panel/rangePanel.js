@@ -1,6 +1,7 @@
 import template from './rangePanel.html';
 import moment from 'moment';
 import TimeResolution from '../timeResolution';
+import _ from 'lodash';
 
 function rangePanel($timeout, pickerService) {
     return {

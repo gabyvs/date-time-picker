@@ -2,6 +2,7 @@ import jQuery from 'jquery';
 import moment from 'moment';
 import datepick from 'imports?jQuery=jquery!../datepick/jquery.datepick.js';
 import TimeResolution from '../timeResolution';
+import _ from 'lodash';
 
 function doubleCalendar($timeout) {
     return {
