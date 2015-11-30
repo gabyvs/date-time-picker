@@ -61,9 +61,9 @@ export default class PickerService {
             tzAbbr = (
                 // Works for the majority of modern browsers
                 dateString.match(/\(([^\)]+)\)$/) ||
-                // IE outputs date strings in a different format:
+                    // IE outputs date strings in a different format:
                 dateString.match(/([A-Z]+) [\d]{4}$/)
-                );
+            );
         if (tzAbbr) {
             // Old Firefox uses the long timezone name (e.g., "Central
             // Daylight Time" instead of "CDT")

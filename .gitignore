@@ -7,6 +7,10 @@ node_modules
 .idea
 *.iml
 
+# Reports #
+###########
+reports/coverage
+
 # OS generated files #
 ######################
 .DS_Store

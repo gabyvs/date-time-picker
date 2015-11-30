@@ -1,4 +1,4 @@
-// karma.conf.js
+/// karma.conf.js
 var webpack = require('webpack');
 var _ = require('lodash');
 var baseConf = require('./karma.conf.base');
@@ -26,7 +26,7 @@ module.exports = function(config) {
                 postLoaders: [
                     // transpile and instrument only sources with istanbul (no test source)
                     {
-                        test: /app\/[^\.]+[^Spec]\.js$/,
+                        test: /app\/(?!(?:.+Spec)|(?:datepick\/|custom-bootstrap\/)).+\.js$/,
                         loader: 'istanbul-instrumenter'
                     }
                 ],
