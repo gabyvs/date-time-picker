@@ -7,9 +7,6 @@
     -moz-border-radius: @radius;
     border-radius: @radius;
 }
-.clearboth {
-    clear: both;
-}
 .date-time-picker * {
     box-sizing: content-box;
 }
@@ -129,26 +126,15 @@
                 width: 405px;
                 height: 100%;
             }
-            .double-calendar-container,
-            .single-calendar-container {
+            .double-calendar-container {
                 float: left;
                 height: 267px;
                 border: 1px solid #E5EBED;
                 border-radius: 5px;
+                width: 403px;
                 .datepick {
                     border: none;
                     box-shadow: none;
-                }
-            }
-            .single-calendar-container {
-                width: 205px;
-                .datepick {
-                    width: 197px!important;
-                }
-            }
-            .double-calendar-container {
-                width: 403px;
-                .datepick {
                     width: 394px!important;
                 }
             }

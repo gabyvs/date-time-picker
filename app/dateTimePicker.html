@@ -13,7 +13,7 @@
             </a>
         </div>
         <button class="btn-refresh btn btn-sm" href="" ng-click="refresh()"><i class="icon-refresh"></i></button>
-        <div class="clearboth"></div>
+        <div class="clearfix"></div>
     </div>
     <div class="date-time-configure" ng-show="configuring">
         <div class="sections">
@@ -46,7 +46,7 @@
                 <span class="label-text" ng-hide="mode == 'absolute'">{{ internalRange.suggestedRange().from | date: 'EEE d MMM yyyy H:mm' }} &nbsp;&ndash;&nbsp; {{ internalRange.suggestedRange().to | date: 'EEE d MMM yyyy H:mm' }} {{ threeLetterTimezoneLabel }}</span>
                 <span class="label-text" ng-show="mode == 'absolute'">{{ internalRange.from | date: 'EEE d MMM yyyy H:mm' }} &nbsp;&ndash;&nbsp; {{ internalRange.to | date: 'EEE d MMM yyyy H:mm' }} {{ threeLetterTimezoneLabel }}</span>
             </div>
-            <div class="clearboth"></div>
+            <div class="clearfix"></div>
         </div>
     </div>
 </div>

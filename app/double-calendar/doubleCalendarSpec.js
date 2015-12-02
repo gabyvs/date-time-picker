@@ -59,22 +59,32 @@ describe('Double Calendar', function () {
     });
 
     it('Selects only one day when single date flag is on, and a range if it is off', function () {
-        var rangeSet;
+        var rangeSet, firstClick, secondClick;
         element.isolateScope().observer.subscribe('doubleCalendarSpec', function (range) {
             rangeSet = range;
         });
-        $(element.find(`.datepick a[title='Select ${moment().date(1).format('dddd, MMM D, YYYY')}']`)).click();
+        if (moment().date() < 5) {
+            firstClick = moment().subtract(1, 'months').date(1).format('dddd, MMM D, YYYY');
+            secondClick = moment().subtract(1, 'months').date(5).format('dddd, MMM D, YYYY');
+            if (!$(element.find(`.datepick-month div:contains(\'${moment().subtract(1, 'months').format("MMMM YYYY")}\')`)).length) {
+                $(element.find('.datepick-cmd-prev')).click();
+            }
+        } else {
+            firstClick = moment().date(1).format('dddd, MMM D, YYYY');
+            secondClick = moment().date(5).format('dddd, MMM D, YYYY');
+        }
+        $(element.find(`.datepick a[title='Select ${firstClick}']`)).click();
         expect(moment(rangeSet.from).date()).toBe(1);
         expect(moment(rangeSet.to).date()).toBe(2);
-        $(element.find(`.datepick a[title='Select ${moment().date(5).format('dddd, MMM D, YYYY')}']`)).click();
+        $(element.find(`.datepick a[title='Select ${secondClick}']`)).click();
         expect(moment(rangeSet.from).date()).toBe(1);
         expect(moment(rangeSet.to).date()).toBe(6);
         scope.singleDate = true;
         scope.$digest();
-        $(element.find(`.datepick a[title='Select ${moment().date(1).format('dddd, MMM D, YYYY')}']`)).click();
+        $(element.find(`.datepick a[title='Select ${firstClick}']`)).click();
         expect(moment(rangeSet.from).date()).toBe(1);
         expect(moment(rangeSet.to).date()).toBe(2);
-        $(element.find(`.datepick a[title='Select ${moment().date(5).format('dddd, MMM D, YYYY')}']`)).click();
+        $(element.find(`.datepick a[title='Select ${secondClick}']`)).click();
         expect(moment(rangeSet.from).date()).toBe(5);
         expect(moment(rangeSet.to).date()).toBe(6);
     });

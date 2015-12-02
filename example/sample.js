@@ -43,9 +43,9 @@
 
 
             // 4. From + to > This will only work on absolute mode
-            const from = moment().subtract(7, 'days').subtract(1, 'hours').valueOf();
-            const to = moment().subtract(1, 'hours').valueOf();
-            $scope.range = { from: from, to: to };
+//            const from = moment().subtract(7, 'days').subtract(1, 'hours').valueOf();
+//            const to = moment().subtract(1, 'hours').valueOf();
+//            $scope.range = { from: from, to: to };
 
             // Default (if nothing is provided or if initial setup fails, for example, giving a label that does not match any option.
             // First option of the dictionary will be selected.
