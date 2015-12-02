@@ -15,7 +15,7 @@ This directive can be used with Webpack in modern projects or included as a regu
 
 Usage
 -----------
-<dt-picker range="range" options="options" range-dictionary="rangeDictionary" mode="::'absolute'"></dt-picker>
+`<dt-picker range="range" options="options" range-dictionary="rangeDictionary" mode="::'absolute'"></dt-picker>`
 
 range: this object will be used to communicate to the controller the selections made by the user. This includes a starting time, ending time and time unit selected
 e.g. { from: 1449096146118, to: 1449099767600, timeUnit: 'minute' }
