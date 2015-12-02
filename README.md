@@ -9,7 +9,7 @@ number of date pickers and range date pickers out there, but none of them was so
 * Set a collection of presets for time ranges to improve usability
 * Show more information about the selected range in a way it can be easily styled
 * Handle time units for window sizing
-* Use time units to set star time and end time in a way it can produce ranges for cached optimized systems.
+* Use time units to set start and end time in a way it can produce ranges for cached optimized systems.
 
 This directive can be used with Webpack in modern projects or included as a regular dependency for legacy setups.
 
@@ -39,16 +39,17 @@ Default is:
 { label: 'Last 7 Days', duration: { unit: 'weeks', value: 1 }},
 { label: 'Custom Range', custom: true }]
 
-mode: Two operating modes: absolute and by duration
+mode: there are two operating modes, which are absolute and by duration
 Duration mode is the default mode and this will round selected ranges using the selected time unit.
 For example: if the user selects Last 7 days by hour, ending time will be set to start of current hour (at minute 0) and starting time will be set 7 days before that.
 
 Absolute mode will not take this into consideration, so it will not round ranges.
-To use this mode, set mode parameter to 'absolute' in your controller.
+To use this mode, set the mode attribute to 'absolute' in your controller.
 
 Initial Setup
 -----------
 For the initial setup of date time picker, use the range attribute on your controller. You can choose between one of the following options:
+
 1. Label: to select one of the predefined options.
 $scope.range = {
  label: 'Last 24 Hours'
