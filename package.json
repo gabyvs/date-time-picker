@@ -7,9 +7,7 @@
     "test": "karma start",
     "test:cont": "karma start karma.conf.continuous.js",
     "test:coverage": "karma start karma.conf.coverage.js",
-    "ng-build": "webpack -p  --config webpack.ng.config.js",
-    "default-build": "webpack -p",
-    "build": "npm run ng-build && npm run default-build",
+    "build": "webpack -p --config webpack.base.config.js",
     "start": "node server.js"
   },
   "repository": {
