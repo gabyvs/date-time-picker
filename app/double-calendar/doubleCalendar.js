@@ -24,7 +24,7 @@ function doubleCalendar($timeout) {
                 const newDate = new TimeResolution(from, to, undefined, { label: 'Custom Range', custom: true });
                 scope.internalRange = newDate;
                 scope.observer.emit('doubleCalendar', newDate);
-                $timeout();
+                scope.$apply();
             }
 
             function finishRange(fromDate, toDate) {
