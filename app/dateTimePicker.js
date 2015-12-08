@@ -50,7 +50,7 @@ function dtPicker($timeout, service, bootstrapService) {
                     if (option) {
                         timeResolution = TimeResolution.timeResolutionFromLocal(option);
                     } else {
-                        timeResolution = TimeResolution.timeResolutionFromLocal({ duration: scope.range.duration });
+                        timeResolution = TimeResolution.timeResolutionFromLocal({ duration: scope.range.duration }, scope.range.duration.unit);
                         timeResolution.selectedRange = { label: 'Custom Range', custom: true };
                     }
                 } else if (scope.range && scope.mode == 'absolute' && scope.range.from && scope.range.to) {
