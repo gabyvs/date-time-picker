@@ -98,7 +98,7 @@ describe('Range Panel', function () {
         expect(dateTest.selectedRange.label).toBe('Last Hour');
         element.isolateScope().selectFrom({ value: -10 });
         expect(dateTest.selectedRange.label).toBe('Last 10 Minutes');
-        const twoHoursAgo = moment().hour() - 2;
+        const twoHoursAgo = moment().subtract(2, 'hours').hours();
         element.isolateScope().selectFrom({ value: twoHoursAgo, label: `{twoHoursAgo}:00` });
         expect(dateTest.selectedRange.label).toBe('Custom Range');
         expect(moment(element.isolateScope().internalRange.from).hours()).toBe(twoHoursAgo);

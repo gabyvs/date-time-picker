@@ -92,9 +92,11 @@ describe('Date Time Picker', function () {
         const newDate = element.isolateScope().internalRange.changeWithRangeOption({ label: 'Last 7 Days', duration: { unit: 'week', value: 1 }});
         element.isolateScope().observer.emit('dateTimePickerSpec', newDate);
         element.isolateScope().save();
+        scope.$digest();
         expect(element.isolateScope().configuring).toBe(false);
         expect(element.find('.date-time-configure').hasClass('ng-hide')).toBe(true);
         expect(new moment(scope.range.to).diff(scope.range.from, 'days')).toBe(7);
+        expect(scope.range.selection.label).toBe('Last 7 Days');
     });
 
     it('Honors time unit for refreshing', function () {

@@ -11,7 +11,9 @@ function rangePanel($timeout, pickerService) {
             observer: '=',
             dictionary: '=',
             hideTimeUnit: '=',
-            singleDate: '='
+            singleDate: '=',
+            selectedFrom: '=',
+            selectedDuration: '='
         },
         template: template,
         link: function (scope) {

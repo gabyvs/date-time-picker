@@ -33,6 +33,20 @@ function dtPicker($timeout, service, bootstrapService) {
                 scope.maxRange = scope.options && scope.options.maxRange || 31;
             }
 
+            function buildRangeToSave () {
+                scope.range = {
+                    from: scope.internalRange.from,
+                    to: scope.internalRange.to,
+                    timeUnit: scope.internalRange.timeUnit
+                };
+                if (scope.internalRange.selectedRange.label !== 'Custom Range') {
+                    scope.range.selection = { label: scope.internalRange.selectedRange.label };
+                } else if (scope.mode !== 'absolute') {
+                    scope.range.selection = { from: scope.selectedFrom, duration: scope.selectedDuration };
+                }
+                scope.savedRange = scope.internalRange.clone();
+            }
+
             /**
              * Sets main label initial state, and starts the range shared with main controller.
              */
@@ -44,7 +58,10 @@ function dtPicker($timeout, service, bootstrapService) {
                     const option = _.find(scope.dictionary, { label: scope.range.label }) || scope.dictionary[0];
                     timeResolution = TimeResolution.timeResolutionFromLocal(option);
                 } else if (scope.range && scope.range.duration && scope.range.from) {
-                    timeResolution = new TimeResolution().changeFrom(scope.range.from).changeWithDuration(scope.range.duration);
+                    const toHelper = moment(scope.range.from).add(scope.range.duration.value, scope.range.duration.unit);
+                    const helper = new TimeResolution(scope.range.from, toHelper.valueOf());
+                    const suggestion = helper.suggestedRange();
+                    timeResolution = new TimeResolution(suggestion.from, suggestion.to, helper.suggestedTimeUnit());
                 } else if (scope.range && scope.range.duration) {
                     const option = _.find(scope.dictionary, { duration: scope.range.duration });
                     if (option) {
@@ -61,9 +78,8 @@ function dtPicker($timeout, service, bootstrapService) {
                     timeResolution = TimeResolution.timeResolutionFromLocal(scope.dictionary[0]);
                 }
                 scope.internalRange = timeResolution;
-                scope.range = { from: timeResolution.from, to: timeResolution.to, timeUnit: timeResolution.suggestedTimeUnit() };
-                scope.savedRange = timeResolution.clone();
                 scope.observer.emit('dateTimePicker', timeResolution);
+                $timeout(buildRangeToSave);
             }
 
             scope.observer = new RangeObserver();
@@ -91,10 +107,7 @@ function dtPicker($timeout, service, bootstrapService) {
              *  Saves user selections into controller range object, closing configuring area.
              */
             scope.save = function () {
-                scope.range.from = scope.internalRange.from;
-                scope.range.to = scope.internalRange.to;
-                scope.range.timeUnit = scope.internalRange.timeUnit;
-                scope.savedRange = scope.internalRange.clone();
+                buildRangeToSave();
                 scope.configuring = false;
             };
         }
