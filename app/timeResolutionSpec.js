@@ -49,7 +49,7 @@ describe('Time Resolution', function () {
         const now = new Date();
         const timeRes = new TimeResolution(moment(now).subtract(1, 'hour').valueOf(), moment(now).valueOf());
         const newDate = timeRes.changeStartingDate(moment(now).subtract(2, 'day').valueOf());
-        expect(moment(now).diff(moment(newDate.from), 'days')).toBe(2);
+        expect(moment(newDate.from).date()).toBe(moment(now).subtract(2, 'days').date());
         expect(moment(newDate.to).hours()).toBe(moment(now).hours());
         expect(moment(newDate.to).minutes()).toBe(moment(now).minutes());
         expect(newDate.timeUnit).toBe('minute');

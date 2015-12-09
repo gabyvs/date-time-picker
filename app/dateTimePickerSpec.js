@@ -60,16 +60,6 @@ describe('Date Time Picker', function () {
         expect(element.find('.date-time-configure').hasClass('ng-hide')).toBe(true);
     });
 
-    it('Receives changes on internal range from internal directives', function () {
-        const originalRange = element.isolateScope().internalRange;
-        const oneWeekBefore = moment().subtract(7, 'days');
-        const dayStart = moment(oneWeekBefore).startOf('day');
-        const dayEnds = moment(oneWeekBefore).endOf('day');
-        const newDate = new TimeResolution(dayStart, dayEnds);
-        element.isolateScope().observer.emit('dateTimePickerSpec', newDate);
-        expect(moment(originalRange.from).diff(moment(element.isolateScope().internalRange.from), 'days')).toBe(7);
-    });
-
     it('Only takes saved selections when refreshing', function () {
         expect(element.isolateScope().internalRange.selectedRange.label).toBe('Last Hour');
         expect(element.isolateScope().savedRange.selectedRange.label).toBe('Last Hour');
