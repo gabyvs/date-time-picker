@@ -29,23 +29,23 @@
 
             // Options for initial setup of date time picker in order of precedence
             // 1. Label
-//            const label = 'Last 24 Hours';
-//            $scope.range = { label: label };
+            //const label = 'Last 24 Hours';
+            //$scope.setRange = { label: label };
 
             // 2. Duration + from
-//            const duration = { unit: 'hours', value: 4, label: '4 hours' };
-//            const from = moment().subtract(1, 'days').valueOf();
-//            $scope.range = { duration: duration, from: from };
+            //const duration = { unit: 'hours', value: 4, label: '4 hours' };
+            //const from = moment().subtract(1, 'days').valueOf();
+            //$scope.setRange = { duration: duration, from: from };
 
             // 3. Duration
-//            const duration = { unit: 'weeks', value: 2 };
-//            $scope.range = { duration: duration };
+            //const duration = { unit: 'weeks', value: 2 };
+            //$scope.setRange = { duration: duration };
 
 
             // 4. From + to > This will only work on absolute mode
 //            const from = moment().subtract(7, 'days').subtract(1, 'hours').valueOf();
 //            const to = moment().subtract(1, 'hours').valueOf();
-//            $scope.range = { from: from, to: to };
+//            $scope.setRange = { from: from, to: to };
 
             // Default (if nothing is provided or if initial setup fails, for example, giving a label that does not match any option.
             // First option of the dictionary will be selected.

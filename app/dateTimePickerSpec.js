@@ -9,7 +9,7 @@ describe('Date Time Picker', function () {
     var $ = jQuery;
 
     function compileDirective () {
-        element = $compile('<dt-picker range="range" options="options" range-dictionary="rangeDictionary"></dt-picker>')(scope);
+        element = $compile('<dt-picker range="range" set-range="setRange"  options="options" range-dictionary="rangeDictionary" mode="mode"></dt-picker>')(scope);
         $rootScope.$digest();
         $timeout.flush();
     }
@@ -143,37 +143,28 @@ describe('Date Time Picker', function () {
     });
 
     it('Setup initially selected option', function () {
-        scope.range = { label: 'Last 24 Hours' };
-        element = $compile('<dt-picker range="range" options="options" range-dictionary="rangeDictionary"></dt-picker>')(scope);
+        scope.setRange = { label: 'Last 24 Hours' };
         scope.$digest();
-        $timeout.flush();
         expect(element.isolateScope().savedRange.selectedRange.label).toBe('Last 24 Hours');
 
-        scope.range = { duration: { value: 6, unit: 'hours', label: '6 hours' }, from: moment().subtract(1, 'days').valueOf() };
-        element = $compile('<dt-picker range="range" options="options" range-dictionary="rangeDictionary"></dt-picker>')(scope);
+        scope.setRange = { duration: { value: 6, unit: 'hours', label: '6 hours' }, from: moment().subtract(1, 'days').valueOf() };
         scope.$digest();
-        $timeout.flush();
         expect(element.isolateScope().savedRange.selectedRange.label).toBe('Custom Range');
         expect(moment(scope.range.to).diff(moment(scope.range.from), 'hours')).toBe(6);
 
-        scope.range = { duration: { unit: 'weeks', value: 1 }};
-        element = $compile('<dt-picker range="range" options="options" range-dictionary="rangeDictionary"></dt-picker>')(scope);
+        scope.setRange = { duration: { unit: 'weeks', value: 1 }};
         scope.$digest();
-        $timeout.flush();
         expect(element.isolateScope().savedRange.selectedRange.label).toBe('Last 7 Days');
         expect(moment(scope.range.to).diff(moment(scope.range.from), 'days')).toBe(7);
 
-        scope.range = { from: moment().subtract(7, 'days').subtract(1, 'hours').valueOf(), to: moment().subtract(1, 'hours').valueOf() };
-        element = $compile('<dt-picker range="range" options="options" range-dictionary="rangeDictionary" mode="\'absolute\'"></dt-picker>')(scope);
+        scope.mode = 'absolute';
+        scope.setRange = { from: moment().subtract(7, 'days').subtract(1, 'hours').valueOf(), to: moment().subtract(1, 'hours').valueOf() };
         scope.$digest();
-        $timeout.flush();
         expect(element.isolateScope().savedRange.selectedRange.label).toBe('Custom Range');
         expect(moment(scope.range.to).diff(moment(scope.range.from), 'days')).toBe(7);
 
-        scope.range = undefined;
-        element = $compile('<dt-picker range="range" options="options" range-dictionary="rangeDictionary" mode="\'absolute\'"></dt-picker>')(scope);
+        scope.setRange = undefined;
         scope.$digest();
-        $timeout.flush();
         expect(element.isolateScope().savedRange.selectedRange.label).toBe('Last Hour');
         expect(moment(scope.range.to).diff(moment(scope.range.from), 'hours')).toBe(1);
     });

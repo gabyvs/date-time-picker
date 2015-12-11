@@ -12,6 +12,7 @@ function dtPicker($timeout, service, bootstrapService) {
         replace: true,
         scope: {
             range: '=',
+            setRange: '=',
             options: '=',
             rangeDictionary: '=',
             mode: '='
@@ -54,32 +55,32 @@ function dtPicker($timeout, service, bootstrapService) {
                 scope.threeLetterTimezoneLabel = service.browserTimezone();
                 var timeResolution;
                 // If it was initialized with a range, it will try to use it as a default setup
-                if (scope.range && scope.range.label) {
-                    const option = _.find(scope.dictionary, { label: scope.range.label }) || scope.dictionary[0];
+                if (scope.setRange && scope.setRange.label) {
+                    const option = _.find(scope.dictionary, { label: scope.setRange.label }) || scope.dictionary[0];
                     timeResolution = TimeResolution.timeResolutionFromLocal(option);
-                } else if (scope.range && scope.range.duration && scope.range.from) {
-                    const toHelper = moment(scope.range.from).add(scope.range.duration.value, scope.range.duration.unit);
-                    const helper = new TimeResolution(scope.range.from, toHelper.valueOf());
+                } else if (scope.setRange && scope.setRange.duration && scope.setRange.from) {
+                    const toHelper = moment(scope.setRange.from).add(scope.setRange.duration.value, scope.setRange.duration.unit);
+                    const helper = new TimeResolution(scope.setRange.from, toHelper.valueOf());
                     const suggestion = helper.suggestedRange();
                     timeResolution = new TimeResolution(suggestion.from, suggestion.to, helper.suggestedTimeUnit());
-                } else if (scope.range && scope.range.duration) {
-                    const option = _.find(scope.dictionary, { duration: scope.range.duration });
+                } else if (scope.setRange && scope.setRange.duration) {
+                    const option = _.find(scope.dictionary, { duration: scope.setRange.duration });
                     if (option) {
                         timeResolution = TimeResolution.timeResolutionFromLocal(option);
                     } else {
-                        timeResolution = TimeResolution.timeResolutionFromLocal({ duration: scope.range.duration }, scope.range.duration.unit);
+                        timeResolution = TimeResolution.timeResolutionFromLocal({ duration: scope.setRange.duration }, scope.setRange.duration.unit);
                         timeResolution.selectedRange = { label: 'Custom Range', custom: true };
                     }
-                } else if (scope.range && scope.mode == 'absolute' && scope.range.from && scope.range.to) {
-                    const from = moment(scope.range.from).seconds(0).milliseconds(0).valueOf();
-                    const to = moment(scope.range.to).seconds(0).milliseconds(0).valueOf();
+                } else if (scope.setRange && scope.mode == 'absolute' && scope.setRange.from && scope.setRange.to) {
+                    const from = moment(scope.setRange.from).seconds(0).milliseconds(0).valueOf();
+                    const to = moment(scope.setRange.to).seconds(0).milliseconds(0).valueOf();
                     timeResolution = new TimeResolution(from, to);
                 } else {
                     timeResolution = TimeResolution.timeResolutionFromLocal(scope.dictionary[0]);
                 }
                 scope.internalRange = timeResolution;
                 scope.observer.emit('dateTimePicker', timeResolution);
-                $timeout(buildRangeToSave);
+                buildRangeToSave();
             }
 
             scope.observer = new RangeObserver();
@@ -90,7 +91,10 @@ function dtPicker($timeout, service, bootstrapService) {
             setupRangeDictionary();
             setupCustomSettings();
             $timeout(function () {
-                setupDefaultRange();
+                scope.$watch('setRange', () => {
+                    setupDefaultRange();
+                });
+
             });
 
             /**
