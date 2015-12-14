@@ -14,6 +14,13 @@ class RangeObserver {
         });
     }
 
+    emitTo(id, range) {
+        if (!range) { return; }
+        if (this.subscribers[id]) {
+            this.subscribers[id](range);
+        }
+    }
+
     subscribe(id, callback) {
         this.subscribers[id] = callback;
     }

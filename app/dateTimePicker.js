@@ -112,6 +112,7 @@ function dtPicker($timeout, service, bootstrapService) {
              */
             scope.save = function () {
                 buildRangeToSave();
+                scope.observer.emitTo('doubleCalendar', scope.internalRange);
                 scope.configuring = false;
             };
         }
