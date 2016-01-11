@@ -136,7 +136,7 @@ describe('Date Time Picker', function () {
         $rootScope.$digest();
         expect(element.isolateScope().internalRange.selectedRange.label).toBe('Custom Range');
         expect(element.isolateScope().internalRange.timeUnit).toBe('hour');
-        expect(angular.element(element.find(".to-value")[0]).html()).toBe('0:00');
+        expect(angular.element(element.find(".to-value")[0]).html()).toBe('00:00');
         selectedDates = $(element.find('.double-calendar-container')).datepick('getDate');
         expect(selectedDates[0]).toBeDefined();
         expect(selectedDates[0].getDate()).toBe(new moment().subtract(7, 'day').date());

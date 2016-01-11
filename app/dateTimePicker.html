@@ -4,11 +4,11 @@
             <a class="main-date-time-label" ng-class="configuring ? 'configuring' : 'closed'" ng-click="configuring = !configuring">
                 <span class="dt-lighter">{{ range.from | date: 'EEE' }}</span>
                 <span class="dt-bolder">{{ range.from | date: 'd MMM yyyy' }}</span>
-                <span class="dt-lighter">{{ range.from | date: 'H:mm' }}</span>
+                <span class="dt-lighter">{{ range.from | date: 'HH:mm' }}</span>
                 <span class="dt-bolder">&nbsp;&ndash;&nbsp;</span>
                 <span class="dt-lighter">{{ range.to | date: 'EEE' }}</span>
                 <span class="dt-bolder">{{ range.to | date: 'd MMM yyyy' }}</span>
-                <span class="dt-lighter">{{ range.to | date: 'H:mm' }}</span>
+                <span class="dt-lighter">{{ range.to | date: 'HH:mm' }}</span>
                 <span class="dt-lighter">{{ threeLetterTimezoneLabel }}</span>
             </a>
         </div>
@@ -45,8 +45,8 @@
             </div>
             <div class="selected-section">
                 <span class="bold-label">Selected</span>
-                <span class="label-text" ng-hide="mode == 'absolute'">{{ internalRange.suggestedRange().from | date: 'EEE d MMM yyyy H:mm' }} &nbsp;&ndash;&nbsp; {{ internalRange.suggestedRange().to | date: 'EEE d MMM yyyy H:mm' }} {{ threeLetterTimezoneLabel }}</span>
-                <span class="label-text" ng-show="mode == 'absolute'">{{ internalRange.from | date: 'EEE d MMM yyyy H:mm' }} &nbsp;&ndash;&nbsp; {{ internalRange.to | date: 'EEE d MMM yyyy H:mm' }} {{ threeLetterTimezoneLabel }}</span>
+                <span class="label-text" ng-hide="mode == 'absolute'">{{ internalRange.suggestedRange().from | date: 'EEE d MMM yyyy HH:mm' }} &nbsp;&ndash;&nbsp; {{ internalRange.suggestedRange().to | date: 'EEE d MMM yyyy HH:mm' }} {{ threeLetterTimezoneLabel }}</span>
+                <span class="label-text" ng-show="mode == 'absolute'">{{ internalRange.from | date: 'EEE d MMM yyyy HH:mm' }} &nbsp;&ndash;&nbsp; {{ internalRange.to | date: 'EEE d MMM yyyy HH:mm' }} {{ threeLetterTimezoneLabel }}</span>
             </div>
             <div class="clearfix"></div>
         </div>
