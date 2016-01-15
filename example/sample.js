@@ -26,6 +26,14 @@
         '$scope',
         function ($scope) {
 //            $scope.options = { hideTimeUnit: true };
+            $scope.rangeDictionary = [
+                { label: 'Last 10 Minutes', duration: { unit: 'minutes', value: 10 }},
+                { label: 'Last Hour', duration: { unit: 'hour', value: 1 }},
+                { label: 'Last 24 Hours', duration: { unit: 'day', value: 1 }},
+                { label: 'Yesterday', duration: { unit: 'day', value: 1, offset: 1 }},
+                { label: 'Last 7 Days', duration: { unit: 'week', value: 1 }},
+                { label: 'Custom Range', custom: 'true' }
+            ];
 
             // Options for initial setup of date time picker in order of precedence
             // 1. Label

@@ -2,7 +2,7 @@
     <div class="key-value-section">
         <span class="bold-label">Range</span>
         <div class="btn-group">
-            <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dt_dropdown">{{ internalRange.selectedRange.label }}<span class="caret"></span></button>
+            <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dt_dropdown"><span class="button-label">{{ internalRange.selectedRange.label }}</span><span class="caret"></span></button>
             <ul class="dropdown-menu">
                 <li ng-repeat="range in dictionary"><a ng-click="selectRangeOption(range)">{{ range.label }}</a></li>
             </ul>
@@ -11,7 +11,7 @@
     <div class="key-value-section">
         <span class="bold-label">From</span>
         <div class="btn-group">
-            <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dt_dropdown">{{ selectedFrom.label }}<span class="caret"></span></button>
+            <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dt_dropdown"><span class="button-label">{{ selectedFrom.label }}</span><span class="caret"></span></button>
             <ul class="dropdown-menu">
                 <li ng-repeat="hour in hours" ng-click="selectFrom(hour)"><a>{{ hour.label }}</a></li>
             </ul>
@@ -20,7 +20,7 @@
     <div class="key-value-section">
         <span class="bold-label">Duration</span>
         <div class="btn-group">
-            <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dt_dropdown">{{ selectedDuration.label }}<span class="caret"></span></button>
+            <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dt_dropdown"><span class="button-label">{{ selectedDuration.label }}</span><span class="caret"></span></button>
             <ul class="dropdown-menu">
                 <li ng-repeat="duration in durations" ng-click="selectDuration(duration)"><a>{{ duration.label }}</a></li>
             </ul>
@@ -31,10 +31,10 @@
         <span class="label-text to-value">{{ internalRange.suggestedRange().to | date: 'HH:mm' }}</span>
     </div>
     <div class="key-value-section" ng-hide="hideTimeUnit">
-        <span class="bold-label">Time Unit</span>
+        <span class="bold-label">Unit</span>
         <span class="label-text" ng-hide="internalRange.selectedRange.timeUnits.length > 1">{{ internalRange.timeUnit }}</span>
         <div class="btn-group" ng-show="internalRange.selectedRange.timeUnits.length > 1">
-            <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dt_dropdown">{{ internalRange.timeUnit }}<span class="caret"></span>
+            <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dt_dropdown"><span class="button-label">{{ internalRange.timeUnit }}</span><span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
                 <li ng-repeat="unit in internalRange.selectedRange.timeUnits" ng-click="selectTimeUnit(unit)"><a>{{ unit }}</a></li>
